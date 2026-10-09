@@ -1,0 +1,25 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# A static site, not a web service: the app is one self-contained HTML file and there is no
+# server to run. (Creating this as a web service is what makes Render look for package.json.)
+#
+# The build command does not build anything — it copies the app to public/index.html, which is
+# the name Render serves at the site root, and keeps the rest of the repository (specs,
+# validation, sources) off the public site.
+#
+# Note: a Render static site has no access control. Anyone with the URL can open it.
+
+services:
+  - type: web
+    name: kinentrix-simulator-090
+    runtime: static
+    buildCommand: mkdir -p public && cp app/keytruda_simulator.html public/index.html
+    staticPublishPath: ./public
+    buildFilter:
+      paths:
+        - app/keytruda_simulator.html
+        - render.yaml
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
