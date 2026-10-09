@@ -1,0 +1,489 @@
+{
+  "drug": "nivolumab",
+  "brand": "Opdivo Qvantig",
+  "label": "Nivolumab SC (Opdivo Qvantig) — Zhao 2025 pooled IV+SC model · 2-compartment · time-varying CL",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "Pre-specified pooled model: 18 IV studies plus the 66 SC patients (with rHuPH20) of CheckMate-8KX, many tumour types. Converted from hours to days.",
+  "_source": {
+    "document": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396)",
+    "table": "Table S2 (parameters), File S1 (NONMEM code), Table 1 (population); exposures from the FDA review Table 6",
+    "subjects": "3554 patients (3488 IV in 18 studies, 66 SC in CheckMate-8KX)"
+  },
+  "limitations": [
+    "Between-subject variability on Emax (ω² 0.0519) is omitted because the engine does not support it.",
+    "The CL and Q unit label (mL/hr) in the paper's Table S2 is an error; following the code and the FDA table, they were read as L/h. The reference weight likewise uses the code's 80 kg instead of the table footnote's 75 kg.",
+    "With only 66 SC patients, the absorption-related values (ka, F) are highly uncertain (RSE 7% for F, 26% for its between-subject variability).",
+    "The validation values are observed geometric means from small 8KX cohorts (a few dozen patients per part) and are compared against a single representative patient. Values reported without variability use ±10% as the criterion, which is strict.",
+    "Time units were converted from hours (h) to days."
+  ],
+  "baseline": {
+    "CL": 0.2616,
+    "Vc": 4.25,
+    "Vp": 2.63,
+    "Q": 0.7848,
+    "ka": 0.307,
+    "F": 0.752
+  },
+  "baselineUnits": {
+    "CL": "L/day (0.0109 L/h x 24)",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day (0.0327 L/h x 24)",
+    "ka": "1/day (reported in 1/day)",
+    "F": "fraction (logit IIV)"
+  },
+  "baselineSource": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — CL0 0.0109, Vc 4.25 L, Q 0.0327, Vp 2.63 L, Ka 0.307 /day, F 0.752. CL and Q are printed as 'mL/hr' but are L/h (code: 'CL [L/h]'; the paper's own Table S3 re-estimate gives 10.6 mL/h).",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.114,
+      "cv": 34.8,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — omega^2 CL 0.114 (SD 0.338)."
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "omega2": 0.126,
+      "cv": 36.6,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — omega^2 Vc 0.126 (0.355)."
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "omega2": 0.235,
+      "cv": 51.4,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — omega^2 Vp 0.235 (0.485)."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.0955,
+      "cv": 31.7,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — omega^2 Ka 0.0955 (0.309)."
+    },
+    {
+      "params": [
+        "F"
+      ],
+      "omega2": 0.862,
+      "transform": "logit",
+      "cv": null,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — omega^2 F 0.862 (0.928), logit scale."
+    }
+  ],
+  "iivCorr": [
+    {
+      "a": 0,
+      "b": 1,
+      "rho": 0.314,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — cov CL:Vc 0.0377 (corr 0.314)."
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "rho": 0.742,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — cov Ka:F 0.213 (corr 0.742)."
+    }
+  ],
+  "iivType": "omega^2 (variance); F on the logit scale",
+  "iivNote": "Emax IIV (additive, omega^2 0.0519) is not applied. Q and T50 carry no IIV in the source.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional",
+    "form": "proportional",
+    "prop": 0.204,
+    "cv": 20.4,
+    "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'Proportional [-] 0.204'."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 80,
+      "coef": 0.622,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLWTB 0.622' (RSE 4.83%); reference 80 kg in the code ('BBWT_R = 80'; the table footnote's 75 kg conflicts with it)."
+    },
+    {
+      "id": "CL_GFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 90,
+      "coef": 0.139,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLeGFR 0.139' (RSE 16.2%); reference eGFR 90."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.158,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLSEX -0.158', exp(theta) if female."
+    },
+    {
+      "id": "CL_PS",
+      "param": "CL",
+      "cov": "PS",
+      "type": "categorical",
+      "level": "1+",
+      "coef": 0.174,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLPS 0.174', exp(theta) if PS >= 1."
+    },
+    {
+      "id": "CL_GC",
+      "param": "CL",
+      "cov": "TUMOR",
+      "type": "categorical",
+      "level": "gastric",
+      "coef": 0.18,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLGC 0.180' (RSE 25.9%), gastric cancer vs NSCLC 2L."
+    },
+    {
+      "id": "CL_CHL",
+      "param": "CL",
+      "cov": "TUMOR",
+      "type": "categorical",
+      "level": "cHL",
+      "coef": -0.33,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'CLCHL -0.330', classical Hodgkin lymphoma vs NSCLC 2L."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 80,
+      "coef": 0.63,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'VcWTB 0.630'."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.134,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'VcSEX -0.134'."
+    },
+    {
+      "id": "F_SEX",
+      "param": "F",
+      "cov": "SEX",
+      "type": "multiplier",
+      "level": "F",
+      "coef": 0.859,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'FSEX 0.859', a multiplicative factor on typical F ('TVF1 = TVF1 *(F1_FEMALE)')."
+    },
+    {
+      "id": "F_PS",
+      "param": "F",
+      "cov": "PS",
+      "type": "multiplier",
+      "level": "1+",
+      "coef": 1.07,
+      "enabled": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — 'FPS 1.07', multiplicative on typical F if PS >= 1."
+    }
+  ],
+  "timeVarying": {
+    "enabled": true,
+    "param": "CL",
+    "type": "exp_sigmoid_emax",
+    "Emax": -0.303,
+    "T50": 58.33,
+    "gamma": 2.82,
+    "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table S2 (pre-specified IV+SC model) and File S1 (NONMEM code) — EmaxREF -0.303 (RSE 9.15%), T50 1.40E+03 h = 58.33 days, HILL 2.82; File S1: 'CL_TIME = EXP(EMAX*TIME**HILL/(T50**HILL+TIME**HILL))'.",
+    "desc": [
+      "CL(t) = CL0 * exp(-0.303 * t^2.82 / (58.33^2.82 + t^2.82)): maximum decrease 26%."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the SC patients of CheckMate-8KX (mixed tumours).",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 77.8,
+        "cv": 24.0,
+        "min": 42,
+        "max": 133,
+        "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table 1, CheckMate-8KX SC arm (n=66) — weight mean 78.4 (SD 18.8), median 77.8, range 42-133 kg."
+      },
+      "GFR": {
+        "dist": "normal",
+        "mean": 77.7,
+        "sd": 21.7,
+        "min": 32.4,
+        "max": 143,
+        "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table 1, CheckMate-8KX SC arm (n=66) — eGFR mean 77.7 (SD 21.7), median 77.0, range 32.4-143."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.424,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table 1, CheckMate-8KX SC arm (n=66) — 28 of 66 female (42.4%)."
+      },
+      "PS": {
+        "dist": "bernoulli",
+        "p": 0.636,
+        "levels": [
+          "0",
+          "1+"
+        ],
+        "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) Table 1, CheckMate-8KX SC arm (n=66) — ECOG 0 36.4%, 1 63.6%."
+      },
+      "TUMOR": {
+        "dist": "fixed",
+        "value": "NSCLC/other",
+        "levels": [
+          "NSCLC/other",
+          "gastric",
+          "cHL"
+        ],
+        "source": "Held at the reference tumour group. The model keeps separate terms only for gastric cancer and classical Hodgkin lymphoma; every other tumour (NSCLC, melanoma, RCC, CRC...) takes the reference value."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 0.5,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) — 18 IV studies (n=3488) in the pooled fit."
+    },
+    "sc": {
+      "supported": true,
+      "source": "Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) — SC with rHuPH20 (CheckMate-8KX, n=66), first-order absorption, no lag."
+    }
+  },
+  "regimen": {
+    "dose": 1200,
+    "tinf_h": 0,
+    "tau": 28,
+    "ndose": 13,
+    "tend": 364,
+    "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 1200 mg (with hyaluronidase 20,000 units) every 4 weeks; the CheckMate-67T regimen."
+  },
+  "regimenPresets": [
+    {
+      "label": "Advanced solid tumours · adult patients — SC 1200 mg every 4 weeks (Opdivo Qvantig)",
+      "dose": 1200,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 13,
+      "tend": 364,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 1200 mg (with hyaluronidase 20,000 units) every 4 weeks; the CheckMate-67T regimen."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — SC 600 mg every 2 weeks (Opdivo Qvantig)",
+      "dose": 600,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 26,
+      "tend": 364,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 600 mg every 2 weeks."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients, with chemotherapy — SC 900 mg every 3 weeks (Opdivo Qvantig)",
+      "dose": 900,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 17,
+      "tend": 357,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 2 — 900 mg every 3 weeks in combination; approved through simulation bridging (FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.54)."
+    },
+    {
+      "label": "Advanced renal cell carcinoma · adult patients — IV 3 mg/kg every 2 weeks (CheckMate-67T comparator arm)",
+      "dose": 3,
+      "unit": "mg/kg",
+      "tau": 14,
+      "ndose": 26,
+      "tend": 364,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.185 — the IV arm of CheckMate-67T, 3 mg/kg every 2 weeks."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 480 mg every 4 weeks (approved IV regimen)",
+      "dose": 480,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 13,
+      "tend": 364,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.72 — the IV comparator for 1200 mg SC Q4W in the simulated tumour-type comparisons."
+    }
+  ],
+  "covariateChecksNote": "Observed first-cycle exposures of CheckMate-8KX (FDA review Table 6), each compared with one typical 8KX SC patient.",
+  "covariateChecks": [
+    {
+      "group": "8KX Part D — 1200 mg Q4W (n=34)",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 1200,
+      "tau": 28,
+      "value": 106,
+      "ci": [
+        68.4,
+        164.3
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part D 1200 mg + rHuPH20 Q4W, Cmax 106 (46%). Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "8KX Part D — 1200 mg Q4W (n=34)",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 1200,
+      "tau": 28,
+      "value": 54.4,
+      "ci": [43.5, 65.3],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part D, Ctau 54.4. Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. No spread reported for this value; +-20% assumed."
+    },
+    {
+      "group": "8KX Part D — 1200 mg Q4W (n=34)",
+      "metric": "Cavg_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 1200,
+      "tau": 28,
+      "value": 79.7,
+      "ci": [63.8, 95.6],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part D, AUCtau 53561 h*ug/mL = 79.7 ug/mL averaged over 28 days. Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. No spread reported for this value; +-20% assumed."
+    },
+    {
+      "group": "8KX Part E — 600 mg Q2W",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 600,
+      "tau": 14,
+      "value": 57.8,
+      "ci": [
+        42.7,
+        78.2
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part E 600 mg co-formulated Q2W, Cmax 57.8 (31%). Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "8KX Part E — 600 mg Q2W",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 600,
+      "tau": 14,
+      "value": 43.6,
+      "ci": [34.9, 52.3],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part E, Ctau 43.6. Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. No spread reported for this value; +-20% assumed."
+    },
+    {
+      "group": "8KX Part E — 600 mg Q2W",
+      "metric": "Cavg_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 600,
+      "tau": 14,
+      "value": 47.2,
+      "ci": [37.8, 56.6],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part E, AUCtau 15857 h*ug/mL = 47.2 ug/mL averaged over 14 days. Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. No spread reported for this value; +-20% assumed."
+    },
+    {
+      "group": "8KX Part B3 — 960 mg single dose",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 960,
+      "tau": 28,
+      "value": 81.4,
+      "ci": [
+        54.9,
+        120.7
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part B3 960 mg + rHuPH20, Cmax 81.4 (41%). Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "8KX Part A — 720 mg single dose",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 77.8,
+        "GFR": 77,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "dose": 720,
+      "tau": 28,
+      "value": 54.8,
+      "ci": [
+        33.9,
+        88.6
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 6 (p.42): observed cycle-1 NCA in CheckMate-8KX, geometric mean: Part A 720 mg + rHuPH20, Cmax 54.8 (51%). Compared with a typical 8KX SC patient: median weight 77.8 kg, eGFR 77, PS 1 or worse (63.6%), male (57.6%) (Table 1 of the paper). Observed geometric means of small groups. Interval = GM x exp(+-SD_log) from the CV."
+    }
+  ]
+}

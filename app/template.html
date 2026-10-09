@@ -1,0 +1,1251 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+__FONTS__
+  :root{
+    --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --line:#e2e8f0; --card:#f8fafc;
+    --accent:#0284c7; --accent2:#0ea5e9; --warn:#b45309; --good:#15803d; --bad:#b91c1c;
+    --code:#f1f5f9; --field:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0b1220; --fg:#e2e8f0; --muted:#94a3b8; --line:#1e293b; --card:#111c30;
+      --accent:#38bdf8; --accent2:#0ea5e9; --warn:#fbbf24; --good:#4ade80; --bad:#f87171;
+      --code:#16233b; --field:#0b1729;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b1220; --fg:#e2e8f0; --muted:#94a3b8; --line:#1e293b; --card:#111c30;
+    --accent:#38bdf8; --accent2:#0ea5e9; --warn:#fbbf24; --good:#4ade80; --bad:#f87171;
+    --code:#16233b; --field:#0b1729;
+  }
+  *{box-sizing:border-box}
+  /* default screen scale: the whole page, text and charts alike, at 115% (browser zoom still works on top) */
+  body{zoom:1.15}
+  body{background:var(--bg);color:var(--fg);margin:0;
+       font:14px/1.6 'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;}
+  header{padding:12px 22px;border-bottom:1px solid var(--line);background:var(--card);
+         display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  /* KINENTRIX logo, redrawn as SVG: transparent, brand blue (#2f6dff), letters in --fg */
+  header .brand{display:block;height:58px;width:auto;flex:none;overflow:visible}
+  /* Geist is the display face: page title, section headings and the logo wordmark */
+  header h1{margin:0;font-size:18px;letter-spacing:-.01em;font-family:'Geist','Inter',sans-serif;font-weight:600}
+  /* theme switch: sits at the right end of the header, shows the mode it will switch to */
+  header .theme{margin-left:auto;flex:none;width:auto;padding:7px 13px;font-size:12.5px;
+    background:transparent;color:var(--fg);border:1px solid var(--line);border-radius:7px;
+    cursor:pointer;margin-top:0}
+  header .theme:hover{border-color:var(--accent);color:var(--accent)}
+  header p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+  .layout{display:flex;gap:16px;padding:16px;align-items:flex-start;flex-wrap:wrap}
+  .side{flex:0 0 420px;min-width:340px}
+  .main{flex:1 1 560px;min-width:460px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+  h2{font-size:14px;margin:0 0 10px;letter-spacing:-.01em;font-family:'Geist','Inter',sans-serif;font-weight:600}
+  h2 .n{color:var(--muted);font-weight:400;font-size:12px;margin-left:4px}
+  label{display:block;font-size:11.5px;color:var(--muted);margin:9px 0 3px}
+  input,select{width:100%;padding:6px 8px;background:var(--field);color:var(--fg);
+    border:1px solid var(--line);border-radius:6px;font-size:13.5px;font-family:inherit}
+  .row{display:flex;gap:9px}.row>div{flex:1}
+  [hidden]{display:none!important}
+  button{width:100%;padding:9px;background:var(--accent);color:#fff;border:none;border-radius:7px;
+    font-weight:600;font-size:13.5px;cursor:pointer;margin-top:12px;font-family:inherit}
+  button.sec{background:transparent;color:var(--accent);border:1px solid var(--accent);margin-top:8px}
+  button:hover{filter:brightness(1.08)}
+  .inl{display:flex;gap:4px}.inl input{flex:1;min-width:0}.inl select{width:auto;flex:0 0 auto}
+  .seg{display:flex;gap:6px;margin-top:3px}
+  .seg button{margin:0;padding:7px 0;background:transparent;color:var(--muted);
+    border:1px solid var(--line);font-weight:600;font-size:12.5px}
+  .seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .seg button .sub{display:block;font-weight:400;font-size:10.5px;opacity:.85}
+  .chk{display:flex;align-items:center;gap:7px;margin-top:9px}
+  .chk input{width:auto;margin:0}.chk label{margin:0;color:var(--fg);font-size:13px}
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th,td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:11.5px}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:12px}
+  .src{color:var(--muted);font-size:11.5px}
+  .good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+  .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10.5px;font-weight:600;
+    border:1px solid var(--line);background:var(--code);color:var(--muted);margin-left:5px}
+  .pill.on{color:var(--good);border-color:var(--good)}
+  .pill.off{color:var(--warn);border-color:var(--warn)}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .m{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .m .l{font-size:10.5px;color:var(--muted)}
+  .m .v{font-size:16px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums}
+  .m .v span{font-size:10.5px;color:var(--muted);font-weight:400}
+  svg.chart{width:100%;height:auto;display:block}
+  .grid{stroke:var(--line);stroke-width:1}
+  .axis{stroke:var(--muted);stroke-width:1}
+  .tick{fill:var(--muted);font-size:10.5px}
+  .leg{fill:var(--fg);font-size:11px}
+  .axlabel{fill:var(--muted);font-size:11.5px}
+  .note{border-left:3px solid var(--accent);padding:2px 0 2px 11px;color:var(--muted);font-size:12px;margin:10px 0}
+  details{margin-top:10px}summary{cursor:pointer;color:var(--accent);font-size:12.5px}
+  .scroll{overflow-x:auto}
+  /* folded source boxes */
+  details.srcbox{margin-top:5px}
+  details.srcbox > summary{list-style:none;color:var(--muted);font-size:11.5px;cursor:pointer;display:inline-block}
+  details.srcbox > summary::-webkit-details-marker{display:none}
+  details.srcbox > summary::before{content:'\25B8  '}
+  details.srcbox[open] > summary::before{content:'\25BE  '}
+  details.srcbox > summary:hover{color:var(--accent)}
+  details.srcbox > .src{margin-top:4px;padding-left:10px;border-left:2px solid var(--line)}
+  #paramTable.nosrc .srccol{display:none}
+  h3.sub{font-size:12.5px;margin:12px 0 4px;color:var(--fg)}
+  h3.sub:first-child{margin-top:0}
+  td.grp{font-weight:600;color:var(--fg);padding-top:10px;border-bottom:none}
+  #paramTable td:first-child, #paramTable th:first-child{white-space:nowrap}
+  #status{font-size:12px;color:var(--muted);min-height:18px;margin-top:8px}
+</style>
+
+<header>
+  <svg class="brand" viewBox="0 0 390 262" role="img" aria-label="KINENTRIX" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="kxDome" cx="195" cy="122" r="190" gradientTransform="translate(0 86) scale(1 .3)" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#dbe8ff" stop-opacity="1"/>
+        <stop offset=".18" stop-color="#2f6dff" stop-opacity=".95"/>
+        <stop offset=".62" stop-color="#1340a8" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#08224f" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="kxFade" x1="0" y1="118" x2="0" y2="180" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <mask id="kxDomeMask"><rect width="390" height="262" fill="url(#kxFade)"/></mask>
+      <linearGradient id="kxRim" x1="12" y1="0" x2="378" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
+        <stop offset=".3" stop-color="#2f6dff"/>
+        <stop offset=".5" stop-color="#eaf2ff"/>
+        <stop offset=".7" stop-color="#2f6dff"/>
+        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="kxSpike" x1="0" y1="4" x2="0" y2="118" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
+        <stop offset=".55" stop-color="#6f9dff"/>
+        <stop offset="1" stop-color="#f2f7ff"/>
+      </linearGradient>
+      <linearGradient id="kxSpikeDown" x1="0" y1="118" x2="0" y2="176" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#f2f7ff"/>
+        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="kxFlare" x1="140" y1="0" x2="250" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
+        <stop offset=".5" stop-color="#f2f7ff"/>
+        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="kxCore" cx="195" cy="118" r="22" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".35" stop-color="#9fc0ff" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- lit dome under the horizon, fading downwards -->
+    <path d="M12 170 Q195 66 378 170 L378 182 L12 182 Z" fill="url(#kxDome)" mask="url(#kxDomeMask)"/>
+    <!-- horizon rim and a faint outer line -->
+    <path d="M12 170 Q195 66 378 170" fill="none" stroke="url(#kxRim)" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M40 160 Q195 72 350 160" fill="none" stroke="#eaf2ff" stroke-opacity=".35" stroke-width=".9"/>
+    <!-- star: long vertical ray, short ray below, horizontal flare, glowing core -->
+    <path d="M195 4 L197.4 110 L195 120 L192.6 110 Z" fill="url(#kxSpike)"/>
+    <path d="M193.6 118 L195 176 L196.4 118 Z" fill="url(#kxSpikeDown)"/>
+    <path d="M140 118 L195 116.6 L250 118 L195 119.4 Z" fill="url(#kxFlare)"/>
+    <circle cx="195" cy="118" r="22" fill="url(#kxCore)"/>
+    <!-- wordmark: letters follow the page text colour, the X is emerald -->
+    <text x="14" y="250" textLength="362" lengthAdjust="spacing" font-size="42" font-weight="500"
+          font-family="'Geist','Inter',sans-serif" fill="var(--fg)">KINENTRI<tspan fill="#2f6dff">X</tspan></text>
+  </svg>
+  <div>
+    <h1>__TITLE__</h1>
+    <p>HUMAN PK SIMULATION FOR ANTIBODY THERAPEUTICS</p>
+  </div>
+  <button id="theme" class="theme" type="button" title="Switch between light and dark"></button>
+</header>
+
+<div class="layout">
+  <div class="side">
+    <div class="card">
+      <h2>1. Drug &ndash; Model</h2>
+      <label>Drug</label><select id="drug"></select>
+      <label>Model (source)</label><select id="model"></select>
+      <div id="modelSrc" class="src" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
+      <h2>2. Dosing Regimen</h2>
+      <label>Indication <span style="color:var(--muted)">&middot; Patient group &mdash; Route, Dose, Interval</span></label>
+      <select id="preset"></select>
+      <div id="presetNote" class="src" style="margin-top:4px"></div>
+      <label>Route</label>
+      <div class="seg">
+        <button type="button" id="routeIV">IV (intravenous)</button>
+        <button type="button" id="routeSC">SC (subcutaneous)<span class="sub">Absorption Depot</span></button>
+      </div>
+      <div id="routeNote" class="src" style="margin-top:6px"></div>
+      <div class="row">
+        <div><label>Dose</label><div class="inl"><input type="number" id="dose" step="any">
+          <select id="doseUnit"><option value="mg">mg</option><option value="mgkg">mg/kg</option></select></div></div>
+        <div id="tinfBox"><label>Infusion time (h)</label><input type="number" id="tinf" step="any"></div>
+      </div>
+      <div class="row">
+        <div><label>Loading dose <span style="color:var(--muted)">(first dose only)</span></label><input type="number" id="loadDose" step="any" placeholder="none"></div>
+        <div id="maxBox"><label>Maximum dose (mg)</label><input type="number" id="maxDose" step="any" placeholder="none"></div>
+      </div>
+      <div class="row" id="scRow" hidden>
+        <div><label>Absorption rate k<sub>a</sub> (1/day)</label><input type="number" id="ka" step="any"></div>
+        <div><label>Bioavailability F (0–1)</label><input type="number" id="fbio" step="any" min="0" max="1"></div>
+      </div>
+      <div class="row">
+        <div><label id="tauLab">Dosing interval (day)</label><input type="number" id="tau" step="any"></div>
+        <div><label>Number of doses</label><input type="number" id="ndose" step="1" min="1"></div>
+      </div>
+      <label id="tendLab">Simulation end (day)</label><input type="number" id="tend" step="any">
+    </div>
+
+    <div class="card">
+      <h2>3. Covariates <span class="n">Generated from the source</span></h2>
+      <div id="covBox"></div>
+      <div id="covNote" class="src" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card">
+      <h2>4. Run</h2>
+      <div class="chk"><input type="checkbox" id="mc" checked><label for="mc">Monte Carlo Prediction Interval (5–95%)</label></div>
+      <div class="chk"><input type="checkbox" id="resid"><label for="resid">Include residual error</label></div>
+      <div id="residNote" class="src" style="margin-left:22px"></div>
+      <div class="chk"><input type="checkbox" id="sampleCov"><label for="sampleCov">Sample covariates per subject</label></div>
+      <div id="popBox" style="margin-left:22px">
+        <label>Virtual Population</label>
+        <select id="popSel"></select>
+        <div id="popNote" class="src" style="margin-top:4px"></div>
+      </div>
+      <div class="chk"><input type="checkbox" id="tiers"><label for="tiers">Overlay no-covariate curve</label></div>
+      <div class="chk"><input type="checkbox" id="logy"><label for="logy">Semi-log (log Y axis)</label></div>
+      <label>Number of Virtual Subjects (N)</label><input type="number" id="npat" value="500" min="1" step="1">
+      <button id="run">Run Simulation &#9654;</button>
+      <button id="dl" class="sec">Download Virtual Subjects Parameter CSV &#8595;</button>
+      <button id="dl2" class="sec">Download Virtual Subjects Profile CSV &#8595;</button>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <h2>Concentration&ndash;Time Profile</h2>
+      <div id="plot"></div>
+      <div id="metrics" class="metrics"></div>
+      <div id="plotNote" class="src" style="margin-top:10px"></div>
+    </div>
+
+    <div class="card">
+      <h2>Model validation <span class="n">against values the source reports separately from its parameter table</span></h2>
+      <div id="selfCheck"></div>
+    </div>
+
+    <div class="card">
+      <h2>Parameters</h2>
+      <div class="chk" style="margin:0 0 6px"><input type="checkbox" id="showSrcCol"><label for="showSrcCol">Show source column</label></div>
+      <div class="scroll"><table id="paramTable" class="nosrc"></table></div>
+      <details>
+        <summary>Implemented but disabled &mdash; no sourced coefficient</summary>
+        <div class="scroll"><table id="disabledTable"></table></div>
+      </details>
+      <details>
+        <summary>Assumptions (not observed)</summary>
+        <div class="scroll"><table id="assumeTable"></table></div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script>__MODULES__</script>
+<script>
+'use strict';
+// ============================================================================
+// SPECS is injected here at build time (build.js). To add a drug: add specs/*.json and rebuild.
+// ============================================================================
+const SPECS = __SPECS__;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const f = (v,d=2) => (v==null||isNaN(v)) ? '–' : Number(v).toFixed(d);
+const pc = (v,d=1) => (v==null||isNaN(v)) ? '–' : (v*100).toFixed(d)+'%';
+const COLORS = ['#0ea5e9','#94a3b8','#f59e0b','#22c55e','#ef4444'];
+
+// ---------------------------------------------------------------- light / dark
+// No stored choice means 'follow the operating system', which is what the CSS does on its own.
+// A choice stamps data-theme on <html> and is remembered per browser; storage can be blocked
+// (private window, cleared site data), so every access is guarded and the page still works.
+const THEME_KEY = 'kinentrix-theme';
+function storedTheme(){
+  try{ return localStorage.getItem(THEME_KEY); }catch(e){ return null; }
+}
+function systemTheme(){
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+function currentTheme(){ return storedTheme() || systemTheme(); }
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  const btn = $('theme');
+  if(btn) btn.textContent = t === 'dark' ? 'Light mode' : 'Dark mode';   // names the mode it switches to
+}
+function toggleTheme(){
+  const t = currentTheme() === 'dark' ? 'light' : 'dark';
+  try{ localStorage.setItem(THEME_KEY, t); }catch(e){}
+  applyTheme(t);
+}
+applyTheme(currentTheme());
+// Follow the system while the reader has not chosen one themselves.
+if(window.matchMedia){
+  window.matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => { if(!storedTheme()) applyTheme(systemTheme()); });
+}
+// the spec's time unit (day / hour) as shown on screen; tuS is the compact form used after 'q' (q21d, q12h)
+const tu = (u) => u === 'day' ? 'day' : (u === 'hour' ? 'h' : u);
+const tuS = (u) => u === 'day' ? 'd' : (u === 'hour' ? 'h' : u);
+
+let CUR = null;          // currently selected spec
+let LAST = null;         // last run result (for CSV download)
+
+// ---------------------------------------------------------------- spec list
+// When one drug has several specs, the model dropdown picks between them.
+function drugList(){
+  const m = {};
+  Object.keys(SPECS).forEach(k => {
+    const s = SPECS[k];
+    (m[s.drug] = m[s.drug] || []).push({ key:k, spec:s });
+  });
+  return m;
+}
+
+// Every antibody in the popPK library (names and model counts only). Drugs without a sourced spec in
+// this app are listed but cannot be selected - the list shows the scope, the app only simulates what
+// has been transcribed and validated.
+const CATALOG = __CATALOG__;
+
+function boot(){
+  const drugs = drugList();
+  const names = Object.keys(drugs).sort();
+  const opts = names.map(n => {
+    const label = drugs[n][0].spec.brand ? `${n} (${drugs[n][0].spec.brand.split(' ')[0]})` : n;
+    return { name:n, sort:n, html:`<option value="${esc(n)}">${esc(label)} &middot; ${drugs[n].length} model${drugs[n].length > 1 ? 's' : ''}</option>` };
+  });
+  (CATALOG.drugs || []).filter(d => !drugs[d.drug]).forEach(d => {
+    opts.push({ name:d.drug, sort:d.drug,
+      html:`<option value="${esc(d.drug)}" disabled>${esc(d.drug)} &middot; library only (${d.models} published model${d.models > 1 ? 's' : ''}, ${esc(d.routes)})</option>` });
+  });
+  opts.sort((a, b) => a.sort.localeCompare(b.sort));
+  $('drug').innerHTML = opts.map(o => o.html).join('');
+  $('drug').value = names[0];
+  $('drug').onchange = onDrug;
+  $('model').onchange = onModel;
+  $('popSel').onchange = applyPop;
+  $('preset').onchange = () => { if($('preset').value !== 'custom') applyPreset(+$('preset').value); else renderPresetNote(); };
+  // Touching any regimen input makes the regimen a custom one.
+  ['dose','doseUnit','loadDose','maxDose','tinf','tau','ndose','tend'].forEach(id => {
+    $(id).addEventListener('change', () => {
+      $('preset').value = 'custom';
+      if(id === 'tau' || id === 'ndose') syncTend();
+      rememberReg();
+      run();
+    });
+  });
+  const byHand = (r) => {
+    const sel = $('preset').value;
+    const p = sel === 'custom' ? null : presetsOf(CUR)[+sel];
+    if(p && (p.route || nativeRoute(CUR)) !== r) $('preset').value = 'custom';
+    setRoute(r);
+  };
+  $('routeIV').onclick = () => byHand('IV');
+  $('routeSC').onclick = () => byHand('SC');
+  ['ka','fbio'].forEach(id => $(id).onchange = () => { if(ROUTE === 'SC') run(); });
+  $('showSrcCol').onchange = (e) => $('paramTable').classList.toggle('nosrc', !e.target.checked);
+  $('theme').onclick = toggleTheme;
+  $('run').onclick = run;
+  $('dl').onclick = download;
+  $('dl2').onclick = downloadProfile;
+  ['mc','resid','sampleCov','tiers','logy'].forEach(id => $(id).onchange = () => { if(id === 'sampleCov') renderPopNote(); if(LAST) run(); });
+  onDrug();
+}
+
+function onDrug(){
+  const list = drugList()[$('drug').value];
+  $('model').innerHTML = list.map((o,i) => `<option value="${esc(o.key)}">${esc(o.spec.label || o.key)}</option>`).join('');
+  onModel();
+}
+
+function onModel(){
+  CUR = SPECS[$('model').value];
+  renderSource(); renderCovUI(); renderPopUI(); renderRegimen(); renderParams(); renderSelfCheck(); renderResidUI();
+  renderDisabled(); renderAssumptions();
+  $('plot').innerHTML = ''; $('metrics').innerHTML = ''; $('plotNote').textContent = '';
+  LAST = null; $('status').textContent = '';
+  applyPreset(0);   // fills the regimen and sets the route, which runs the simulation
+}
+
+// ---------------------------------------------------------------- folded source text
+// Provenance stays one click away instead of filling the screen. Each box remembers whether it
+// was opened, so re-rendering (a route switch, a new run) does not snap it shut again.
+const SRC_OPEN = {};
+function srcBox(key, summary, html){
+  if(!html) return '';
+  return `<details class="srcbox" data-key="${key}"${SRC_OPEN[key] ? ' open' : ''}>`
+       + `<summary>${summary}</summary><div class="src">${html}</div></details>`;
+}
+document.addEventListener('toggle', (e) => {
+  const d = e.target;
+  if(d && d.classList && d.classList.contains('srcbox')) SRC_OPEN[d.dataset.key] = d.open;
+}, true);   // 'toggle' does not bubble, so listen in the capture phase
+
+// ---------------------------------------------------------------- route (IV / SC)
+// The model's own route is whatever its source was fitted on (structure.absorption). The button
+// simulates the other one, which changes only how the dose enters the body:
+//   IV -> straight into the central compartment over the infusion time
+//   SC -> into a depot, absorbed at rate ka, of which the fraction F arrives
+// Disposition (CL, Vc, Vp, Q) is untouched, so the switch is only honest when the source
+// actually observed that route; routeSupport() says which ones a spec can back up.
+let ROUTE = 'IV';
+let SC_REF = { ka: null, F: null };   // the model's own ka / F, against which the inputs are read
+
+function nativeRoute(spec){ return spec.structure.absorption ? 'SC' : 'IV'; }
+
+function routeSupport(spec){
+  const r = spec.routes || {};
+  const hasAbs = spec.baseline.ka != null && spec.baseline.F != null;
+  return {
+    IV: { ok: r.iv ? r.iv.supported !== false : true, note: (r.iv || {}).source || '' },
+    SC: { ok: (r.sc ? r.sc.supported !== false : true) && hasAbs, note: (r.sc || {}).source || '' }
+  };
+}
+
+function setRoute(r, keepInputs, tinfOverride){
+  const s = CUR, sup = routeSupport(s), native = nativeRoute(s);
+  ROUTE = r;
+  $('routeIV').classList.toggle('on', r === 'IV');
+  $('routeSC').classList.toggle('on', r === 'SC');
+  $('tinfBox').hidden = (r === 'SC');
+  $('scRow').hidden = (r !== 'SC');
+
+  if(r === 'SC' && !keepInputs){
+    const t0 = CovModel.build(s, refCov(), {});
+    SC_REF = { ka: (t0.ka != null ? t0.ka : null), F: (t0.F != null ? t0.F : null) };
+    $('ka').value   = SC_REF.ka != null ? +SC_REF.ka.toPrecision(4) : '';
+    $('fbio').value = SC_REF.F  != null ? +SC_REF.F.toPrecision(4)  : '';
+  }
+  if(r === 'IV' && !keepInputs){
+    // The regimen belongs to the model's own route, so an SC-native spec carries no infusion
+    // time; routes.iv.tinf_h supplies the one its source actually used intravenously.
+    const ivt = tinfOverride != null ? tinfOverride
+      : (s.routes && s.routes.iv && s.routes.iv.tinf_h != null) ? s.routes.iv.tinf_h : s.regimen.tinf_h;
+    $('tinf').value = ivt;
+  }
+
+  // Visible: the verdict and anything you must act on. Folded: the quotation behind it.
+  let n, why = sup[r].note ? esc(sup[r].note) : '';
+  if(r === native){
+    n = '';   // the model's own route needs no remark (removed on request)
+  } else if(sup[r].ok){
+    n = '<span class="good">This route is supported by the source.</span>';
+    if(!why) why = 'The source analysis includes data from this route, so only the way the drug enters the body changes.';
+  } else if(r === 'SC'){
+    n = '<span class="warn">&#9888; No measured absorption parameters.</span>'
+      + ' Entering k<sub>a</sub> and F yourself draws a curve, but it is exploration, not a source-backed prediction.'
+      + ' The validation panel is not affected.';
+    if(!why) why = esc(`This repository has no absorption rate or bioavailability for ${s.drug}.`);
+  } else {
+    n = '<span class="warn">&#9888; Check whether the source actually observed this route.</span>';
+  }
+  if(r === 'IV' && !(parseFloat($('tinf').value) > 0))
+    n += ' <span class="warn">No infusion time on record, so a bolus is assumed</span> &mdash; enter the infusion time if you know it.';
+  if(r === 'SC' && SC_REF.ka > 0)
+    why += (why ? '<br><br>' : '') + 'A change to k<sub>a</sub> or F is applied as the same ratio to every virtual subject, so covariate effects and between-subject variability (IIV) on top of it are preserved.';
+  $('routeNote').innerHTML = n + srcBox('route', 'Show source', why);
+  run();
+}
+
+// The structure handed to the engine follows the button, not the spec.
+function structureNow(){ return { cmt: CUR.structure.cmt, absorption: ROUTE === 'SC' }; }
+
+// ka / F as entered, read as a ratio to the model's own value so a subject's covariate effect and
+// eta on ka survive; with no model value (a route the source never had) they are used directly.
+function withRoute(p){
+  if(ROUTE !== 'SC') return p;
+  const ka = parseFloat($('ka').value), F = parseFloat($('fbio').value);
+  const out = Object.assign({}, p);
+  if(isFinite(ka)) out.ka = (SC_REF.ka > 0 && p.ka > 0) ? p.ka * (ka / SC_REF.ka) : ka;
+  if(isFinite(F))  out.F  = (SC_REF.F  > 0 && p.F  > 0) ? p.F  * (F  / SC_REF.F)  : F;
+  return out;
+}
+
+// ---------------------------------------------------------------- source
+function renderSource(){
+  const s = CUR, src = s._source || {};
+  let h = `<b>${esc(s.label || s.drug)}</b><br>`;
+  h += `Structure: ${s.structure.cmt}-compartment &middot; ${s.structure.absorption ? 'fitted to SC (first-order absorption) data' : 'fitted to IV data'}`;
+  if(s.Km != null || s.baseline.Km != null) h += ' &middot; parallel Michaelis&ndash;Menten elimination';
+  if(s.timeVarying && s.timeVarying.enabled) h += ' &middot; time-varying CL';
+  h += ` &middot; units ${s.concUnit}`;
+  // The spec's `limitations` are not shown here: they are collected into a separate report.
+  let sh = '';
+  if(src.document) sh += esc(src.document) + '<br>';
+  if(src.table) sh += '&rarr; ' + esc(src.table) + '<br>';
+  if(src.subjects) sh += 'Subjects: ' + esc(src.subjects);
+  if(!src.document) sh += esc(s.baselineSource || '');
+  h += srcBox('model', 'Show model source', sh);
+  $('modelSrc').innerHTML = h;
+}
+
+// ---------------------------------------------------------------- regimen presets
+// Each spec lists the regimens its label gives (regimenPresets); without a list the spec's own
+// regimen is the only choice. A preset only fills the inputs - anything can still be edited, and
+// an edit turns the choice into "Custom". The validation panel never reads any of this.
+function presetsOf(spec){
+  if(spec.regimenPresets && spec.regimenPresets.length) return spec.regimenPresets;
+  const R = spec.regimen;
+  return [{ label: 'Spec default regimen', dose: R.dose, unit: 'mg', tau: R.tau, ndose: R.ndose, tend: R.tend,
+            tinf_h: R.tinf_h, loadDose: R.loadDose, source: R.source }];
+}
+
+// The simulation window follows the course: changing the interval or the number of doses moves the
+// end of the plot with it and leaves the washout tail (end minus course) as long as it is now.
+let REG = null;
+function rememberReg(){
+  REG = { tau: +$('tau').value, ndose: +$('ndose').value, tend: +$('tend').value };
+}
+function syncTend(){
+  const tau = +$('tau').value, ndose = +$('ndose').value;
+  if(!REG || !(tau > 0) || !(ndose > 0)) return;
+  const tail = Math.max(REG.tend - REG.tau * REG.ndose, 2 * tau);
+  $('tend').value = +(tau * ndose + tail).toFixed(3);
+}
+
+function applyPreset(i){
+  const p = presetsOf(CUR)[i];
+  $('dose').value = p.dose;
+  $('doseUnit').value = p.unit === 'mg/kg' ? 'mgkg' : 'mg';
+  $('loadDose').value = p.loadDose != null ? p.loadDose : '';
+  $('maxDose').value = p.maxDose != null ? p.maxDose : '';
+  $('tau').value = p.tau; $('ndose').value = p.ndose; $('tend').value = p.tend;
+  rememberReg();
+  if(p.cov) Object.keys(p.cov).forEach(k => { const el = $('cov_' + k); if(el) el.value = p.cov[k]; });
+  // The infusion time belongs to the preset when it says so; otherwise the route decides.
+  setRoute(p.route || nativeRoute(CUR), false, p.tinf_h);
+}
+
+function wtText(r){
+  if(!r) return '';
+  const lo = r.min != null ? `${r.minIncl ? '≥' : '>'}${r.min} kg` : '';
+  const hi = r.max != null ? `${r.maxIncl ? '≤' : '<'}${r.max} kg` : '';
+  return [lo, hi].filter(Boolean).join(' and ');
+}
+function wtInRange(r, w){
+  if(!r || w == null || isNaN(w)) return true;
+  if(r.min != null && (r.minIncl ? w < r.min : w <= r.min)) return false;
+  if(r.max != null && (r.maxIncl ? w > r.max : w >= r.max)) return false;
+  return true;
+}
+
+// Dose in mg for a subject of weight wt: mg/kg is multiplied out and capped at the per-dose maximum.
+function doseFor(wt){
+  const unit = $('doseUnit').value, cap = $('maxDose').value === '' ? Infinity : +$('maxDose').value;
+  const toMg = (x) => unit === 'mgkg' ? Math.min(x * wt, cap) : x;
+  const load = $('loadDose').value === '' ? null : +$('loadDose').value;
+  return { dose: toMg(+$('dose').value), loadDose: load == null ? null : toMg(load) };
+}
+
+function renderPresetNote(){
+  const sel = $('preset').value;
+  const unit = $('doseUnit').value;
+  $('maxBox').hidden = unit !== 'mgkg';
+  const wtIn = $('cov_WT') ? parseFloat($('cov_WT').value) : null;
+  let n = '';
+  if(sel === 'custom'){
+    n = 'Custom regimen.';
+  } else {
+    const p = presetsOf(CUR)[+sel];
+    const bits = [];
+    if(p.wtRange){
+      const ok = wtInRange(p.wtRange, wtIn);
+      bits.push(ok ? `Body weight ${wtText(p.wtRange)}`
+        : `<span class="warn">&#9888; This regimen is for body weight ${wtText(p.wtRange)}, but the weight entered is ${wtIn} kg.</span>`);
+    }
+    if(p.note) bits.push(esc(p.note));
+    n = bits.join(' &middot; ') + srcBox('regimen', 'Show regimen source', esc(p.source || ''));
+  }
+  if(unit === 'mgkg'){
+    if(wtIn == null || isNaN(wtIn)){
+      n = '<span class="warn">&#9888; This model has no body-weight input, so mg/kg dosing is unavailable.</span> ' + n;
+    } else {
+      const d = doseFor(wtIn);
+      n = `Weight ${wtIn} kg &rarr; <b>${+d.dose.toFixed(1)} mg</b> per dose`
+        + (d.loadDose != null ? `, loading <b>${+d.loadDose.toFixed(1)} mg</b>` : '')
+        + `. Each virtual subject is dosed on their own weight.<br>` + n;
+    }
+  }
+  $('presetNote').innerHTML = n;
+}
+
+// ---------------------------------------------------------------- observed profiles
+
+function renderRegimen(){
+  const list = presetsOf(CUR);
+  $('preset').innerHTML = list.map((p, i) => `<option value="${i}">${esc(p.label)}</option>`).join('')
+    + '<option value="custom">Custom</option>';
+  $('preset').value = '0';
+  $('tauLab').textContent = `Dosing interval (${tu(CUR.timeUnit)})`;
+  $('tendLab').textContent = `Simulation end (${tu(CUR.timeUnit)})`;
+}
+
+// -------------------------------------------------- population presets
+// A spec may describe several patient groups from the same source table. A group replaces some of the
+// population distributions and may move the on-screen inputs (tumour type, and for adolescents the
+// typical weight/age). The first entry is the spec's own population.
+function popPresetsOf(spec){ return spec.populationPresets || []; }
+function popOf(spec){
+  const g = popPresetsOf(spec)[+($('popSel').value || 0)];
+  if(!g || !g.covariates) return spec.population;
+  return Object.assign({}, spec.population,
+    { covariates: Object.assign({}, spec.population.covariates, g.covariates) });
+}
+function renderPopUI(){
+  const list = popPresetsOf(CUR);
+  $('popBox').hidden = !list.length;
+  $('popSel').innerHTML = list.map((g, i) => `<option value="${i}">${esc(g.label)}</option>`).join('');
+  renderPopNote();
+}
+function renderPopNote(){
+  const g = popPresetsOf(CUR)[+($('popSel').value || 0)];
+  if(!g){ $('popNote').innerHTML = ''; return; }
+  const moved = g.cov ? Object.keys(g.cov).map(k => `${k} ${g.cov[k]}`).join(', ') : '';
+  $('popNote').innerHTML = esc(g.note || '')
+    + (moved ? `<br>Covariate inputs changed: <b>${esc(moved)}</b>` : '')
+    + ($('sampleCov').checked ? '' : `<br><span class="warn">The distributions are used only when 'Sample covariates per subject' is on.</span>`)
+    + srcBox('pop', 'Show population source', esc(g.source || ''));
+}
+function applyPop(){
+  const g = popPresetsOf(CUR)[+$('popSel').value];
+  // back to the reference subject, then this group's inputs
+  const vals = Object.assign(refCov(), (g && g.cov) || {});
+  Object.keys(vals).forEach(k => { const el = $('cov_' + k); if(el) el.value = vals[k]; });
+  if(+$('popSel').value > 0) $('sampleCov').checked = true;   // a group only matters when sampled
+  renderPopNote(); renderAssumptions();
+  if(LAST) run();
+}
+
+// -------------------------------------------------- covariate UI (built from spec)
+// Only covariates actually used by an enabled effect get an input.
+// Continuous (power/exponential) -> number field; categorical -> select.
+const CATEGORICAL = { proportional:1, categorical:1, multiplier:1 };
+
+function covsOfSpec(spec){
+  const out = [];
+  const seen = {};
+  spec.effects.filter(e => e.enabled && e.coef != null).forEach(e => {
+    if(seen[e.cov]) { seen[e.cov].effects.push(e.id); return; }
+    const isCat = !!CATEGORICAL[e.type];
+    const popDef = (spec.population.covariates || {})[e.cov] || null;
+    const levels = isCat ? (popDef && popDef.levels ? popDef.levels : [String(e.level), 'other']) : null;
+    // Reference level = the level where the coefficient does NOT apply (effect 0). Used as default.
+    const refLevel = isCat && levels ? (levels.find(L => String(L) !== String(e.level)) || levels[0]) : null;
+    const o = { cov:e.cov, isCat, ref:e.ref, refStatus:e.refStatus, levels, refLevel, effects:[e.id], unit:'' };
+    seen[e.cov] = o; out.push(o);
+  });
+  return out;
+}
+
+function renderCovUI(){
+  const covs = covsOfSpec(CUR);
+  const cells = covs.map(c => {
+    if(c.isCat){
+      return `<div><label>${esc(c.cov)}</label>
+        <select id="cov_${esc(c.cov)}">${c.levels.map(L =>
+          `<option value="${esc(L)}"${String(L)===String(c.refLevel)?' selected':''}>${esc(L)}</option>`).join('')}</select></div>`;
+    }
+    const flag = c.refStatus === 'SUBSTITUTED' ? ' <span class="warn">ref substituted</span>'
+               : c.refStatus === 'VERIFIED'    ? ' <span class="good">ref verified</span>' : '';
+    return `<div><label>${esc(c.cov)} · ref ${c.ref}${flag}</label>
+      <input type="number" id="cov_${esc(c.cov)}" value="${c.ref}" step="any"></div>`;
+  });
+  let html = '';
+  for(let i=0;i<cells.length;i+=2) html += '<div class="row">' + cells.slice(i,i+2).join('') + '</div>';
+  $('covBox').innerHTML = html;
+
+  // no summary under the covariate inputs (removed on request); a substituted ref is still flagged on its own field
+  $('covNote').innerHTML = '';
+}
+
+function readCov(){
+  const o = {};
+  covsOfSpec(CUR).forEach(c => {
+    const el = $('cov_' + c.cov); if(!el) return;
+    o[c.cov] = c.isCat ? el.value : parseFloat(el.value);
+  });
+  return o;
+}
+function refCov(){
+  const o = {};
+  covsOfSpec(CUR).forEach(c => { o[c.cov] = c.isCat ? c.refLevel : c.ref; });
+  return o;
+}
+
+// ------------------------------------------------- parameters at the end of treatment
+// A declining clearance makes the terminal half-life depend on when it is measured. Sources quote
+// it at steady state, so the half-life shown on screen and in the CSV uses the clearance reached
+// by the last dose. Without time dependence this returns the parameters untouched.
+function atEndOfCourse(spec, p, tEnd){
+  const tv = spec.timeVarying;
+  if(!tv || !tv.enabled || p.CL == null) return p;
+  return Object.assign({}, p, { CL: p.CL * CovModel.timeFactor(tv, tEnd) });
+}
+
+// ------------------------------------------------- time-varying clearance for one subject
+// The engine takes CL(t) as a function. covmodel holds the shape (sigmoid Emax / exponential);
+// this multiplies it onto the subject's own CL, so an individual's eta carries through.
+// Returns null when the spec declares no time dependence, which keeps the constant-CL path.
+function clFnOf(spec, p){
+  const tv = spec.timeVarying;
+  if(!tv || !tv.enabled || p.CL == null) return null;
+  return (t) => p.CL * CovModel.timeFactor(tv, t);
+}
+
+// ------------------------------------------------- residual error
+// What a single measured sample would look like around a subject's true concentration.
+// Only forms a source actually states are offered; a spec without one has the option disabled.
+function residualOf(spec){
+  const r = spec.residualError;
+  if(!r || !r.form) return null;
+  if(r.form === 'exponential' && r.sdLog > 0)
+    return (c, rng) => c > 0 ? c * Math.exp(r.sdLog * rng.normal()) : 0;
+  if(r.form === 'proportional' && r.prop > 0)
+    return (c, rng) => c > 0 ? Math.max(0, c * (1 + r.prop * rng.normal())) : 0;
+  if(r.form === 'combined' && (r.prop > 0 || r.add > 0))
+    return (c, rng) => c > 0 ? Math.max(0, c * (1 + (r.prop || 0) * rng.normal()) + (r.add || 0) * rng.normal()) : 0;
+  return null;
+}
+function residDesc(spec){
+  const r = spec.residualError || {};
+  if(r.form === 'exponential') return `exponential, log-scale SD ${r.sdLog}`;
+  if(r.form === 'proportional') return `proportional ${+(r.prop * 100).toFixed(1)}%`;
+  if(r.form === 'combined') return `proportional ${+(r.prop * 100).toFixed(1)}% + additive ${r.add} ${spec.concUnit}`;
+  return 'not reported by the source';
+}
+function renderResidUI(){
+  const ok = !!residualOf(CUR);
+  $('resid').disabled = !ok;
+  if(!ok) $('resid').checked = false;
+  $('residNote').innerHTML = ok ? esc(residDesc(CUR))
+    : '<span class="warn">Unavailable: the source reports no residual error for this model.</span>';
+}
+
+// ------------------------------------------------- engine model object for one subject
+// Michaelis-Menten parameters live in baseline so they are shown in the parameter table and can
+// carry covariates. Some models report Vmax per unit volume (mg/L/day, i.e. the target turnover
+// is assumed proportional to the central volume) instead of as an amount rate (mg/day); the
+// engine works in amounts, so that form is multiplied by this subject's own Vc.
+function modelOf(spec, p, structure){
+  const Vm = (p.VmPerVol != null) ? p.VmPerVol * p.Vc : (p.Vm != null ? p.Vm : (spec.Vm != null ? spec.Vm : null));
+  const Km = (p.Km != null) ? p.Km : (spec.Km != null ? spec.Km : null);
+  return { structure: structure || spec.structure, Km: Km, Vm: Vm };
+}
+
+// ---------------------------------------------------------------- parameter table
+function renderParams(){
+  const s = CUR;
+  let r = '<tr><th>Type</th><th>Parameter</th><th class="num">Value</th><th>Unit / form</th><th class="srccol">Source</th></tr>';
+  Object.keys(s.baseline).forEach(k => {
+    r += `<tr><td>&theta; structural</td><td><code>${esc(k)}</code></td><td class="num">${s.baseline[k]}</td>
+      <td>${esc((s.baselineUnits||{})[k]||'')}</td><td class="src srccol">${esc(s.baselineSource||'')}</td></tr>`;
+  });
+  s.effects.filter(e => e.enabled && e.coef != null).forEach(e => {
+    const form = e.type === 'power' ? `(${e.cov}/${e.ref})^θ`
+      : e.type === 'proportional' ? `×(1+θ) if ${e.cov}=${e.level}`
+      : e.type === 'categorical' ? `×exp(θ) if ${e.cov}=${e.level}`
+      : e.type === 'multiplier' ? `×θ if ${e.cov}=${e.level}` : e.type;
+    r += `<tr><td>Covariate</td><td><code>${esc(e.id)}</code> &rarr; ${esc(e.param)}</td>
+      <td class="num">${e.coef}</td><td>${esc(form)}</td><td class="src srccol">${esc(e.source)}</td></tr>`;
+  });
+  if(s.iivGroups){
+    s.iivGroups.forEach(g => {
+      r += `<tr><td>&eta; IIV</td><td>${esc(g.params.join(' + '))}${g.params.length>1?' <span class="pill">shared eta</span>':''}</td>
+        <td class="num">${g.transform === 'logit' ? 'logit' : g.cv + '%CV'}</td><td>ω²=${g.omega2}${g.transform === 'logit' ? ' (logit scale)' : ''}</td><td class="src srccol">${esc(g.source || s.iivSource || '')}</td></tr>`;
+    });
+    (s.iivCorr || []).forEach(c => {
+      const A = s.iivGroups[c.a], B = s.iivGroups[c.b];
+      if(!A || !B) return;
+      r += `<tr><td>&eta; correlation</td><td>${esc(A.params.join('+'))} &harr; ${esc(B.params.join('+'))}</td>
+        <td class="num">${c.rho}</td><td>correlation coefficient</td><td class="src srccol">${esc(c.source || '')}</td></tr>`;
+    });
+  } else if(s.iiv){
+    Object.keys(s.iiv).forEach(k => {
+      r += `<tr><td>&eta; IIV</td><td>${esc(k)}</td><td class="num">${s.iiv[k]}%CV</td>
+        <td>independent eta</td><td class="src srccol">${esc(s.iivSource||'')}</td></tr>`;
+    });
+  }
+  if(s.residualError){
+    const re = s.residualError;
+    r += `<tr><td>Residual error</td><td>${esc(re.type || '')}</td><td class="num">${re.cv != null ? re.cv + '%' : '–'}</td>
+      <td>${esc(residDesc(s))}${residualOf(s) ? ' · optionally included in the interval' : ''}</td><td class="src srccol">${esc(re.source || '')}</td></tr>`;
+  }
+  $('paramTable').innerHTML = r;
+}
+
+function renderDisabled(){
+  const off = CUR.effects.filter(e => !e.enabled);
+  let r = '<tr><th>Parameter</th><th>Covariate</th><th>Why disabled</th></tr>';
+  off.forEach(e => r += `<tr><td><code>${esc(e.id)}</code></td><td>${esc(e.cov)}</td><td class="src warn">${esc(e.source)}</td></tr>`);
+  if(CUR.timeVarying && !CUR.timeVarying.enabled){
+    const d = CUR.timeVarying;
+    r += `<tr><td><code>timeVarying</code></td><td>TIME</td><td class="src warn">${esc(d.source)}<br>${esc(Array.isArray(d.desc)?d.desc.join(' '):d.desc||'')}</td></tr>`;
+  }
+  if(!off.length && !(CUR.timeVarying && !CUR.timeVarying.enabled)) r += '<tr><td colspan="3" class="src">None</td></tr>';
+  $('disabledTable').innerHTML = r;
+}
+
+function renderAssumptions(){
+  const p = popOf(CUR).covariates || {};
+  let r = '<tr><th>Covariate</th><th>Population distribution</th><th>Basis</th></tr>';
+  Object.keys(p).forEach(k => {
+    const d = p[k];
+    const desc = d.dist === 'lognormal' ? `lognormal, median ${d.median}, CV ${d.cv}%`
+      : d.dist === 'normal' ? `normal, mean ${d.mean}, SD ${d.sd}`
+      : d.dist === 'bernoulli' ? `${d.levels[1]} proportion ${d.p}`
+      : d.dist === 'fixed' ? `fixed ${d.value}`
+      : d.dist === 'categorical' ? `categorical ${(d.levels||[]).join(' / ')} = ${(d.probs||[]).join(' / ')}`
+      : JSON.stringify(d);
+    const isAssume = String(d.source||'').startsWith('ASSUMPTION');
+    r += `<tr><td><code>${esc(k)}</code></td><td>${esc(desc)}</td>
+      <td class="src ${isAssume?'warn':''}">${esc(d.source)}</td></tr>`;
+  });
+  $('assumeTable').innerHTML = r;
+}
+
+// ------------------------------------------------- self-check against source-reported values
+// One check = one subject and one regimen, both fixed by the spec. Nothing here reads the screen:
+// validation must answer "does this model reproduce the source?", so exploring a different patient
+// or regimen can neither break it nor be used to manufacture a pass.
+//
+//   c.cov              covariates moved away from the reference subject (absent = reference subject)
+//   c.dose / doseMgkg  flat dose, or mg/kg times that subject's own weight
+//   c.tau / c.tinf_h   regimen for this row only (default: the spec's regimen)
+//   c.at               'steady' reads CL at the end of treatment (time-varying CL)
+function evalCheck(s, c){
+  const subj = Object.assign({}, refCov(), c.cov || {});
+  const tvOn = !!(s.timeVarying && s.timeVarying.enabled);
+  const typ = CovModel.build(s, subj, {});
+  const route = c.route || null;               // 'IV' or 'SC'; absent = the spec's own structure
+  const struct = route ? { cmt: s.structure.cmt, absorption: route === 'SC' } : undefined;
+  const model = modelOf(s, typ, struct);
+  const tau = c.tau != null ? c.tau : s.regimen.tau;
+  const tinfH = c.tinf_h != null ? c.tinf_h : s.regimen.tinf_h;
+  const tinfD = s.timeUnit === 'day' ? tinfH / 24 : tinfH;
+  const refWT = (s.effects.find(e => e.id === 'CL_WT' || e.id === 'VC_WT') || {}).ref;
+  const wt = subj.WT != null ? subj.WT : refWT;
+  // A declining clearance makes some quantities depend on when you look; sources quote them at
+  // steady state, so those use the late-treatment parameters.
+  const late = () => tvOn ? CovModel.build(s, subj, { t: 20 * tau }) : typ;
+  const u = tu(s.timeUnit), uS = tuS(s.timeUnit);
+  // NOTE: cond is passed through esc(), so use literal characters here, not HTML entities.
+  const who = c.cov ? Object.keys(c.cov).map(k => `${k} ${c.cov[k]}`).join(', ') : 'reference subject';
+  let got = null, cond = who + (route ? ` · ${route === 'SC' ? 'SC' : 'IV'}` : '');
+
+  if(c.metric === 'Vss'){
+    got = (typ.Vc || 0) + (typ.Vp || 0);
+  } else if(c.metric === 'CL'){
+    const steady = c.at === 'steady';
+    got = steady ? late().CL : typ.CL;
+    if(tvOn) cond += steady ? ' · steady state' : ' · first dose';
+  } else if(c.metric === 'CLratio'){
+    got = late().CL / typ.CL;
+    cond += ' · steady state / first dose';
+  } else if(c.metric === 'thalf'){
+    got = PKSim.terminalHalfLifeAnalytic(late(), s.structure);
+    if(tvOn) cond += ' · steady state';
+  } else if(c.metric === 'Cmax_first' || c.metric === 'Ctrough_first' || c.metric === 'Cavg_first' || c.metric === 'AUC_first'){
+    // the first dosing interval: peak (tests ka and F), trough at its end, or mean over it
+    const one = { dose: c.doseMg != null ? c.doseMg : c.dose != null ? c.dose
+                        : c.doseMgkg != null ? c.doseMgkg * wt : s.regimen.dose,
+                  tinf: tinfD, tau: tau, ndose: 1, tend: tau };
+    // c.window: a first-cycle window longer than one interval (e.g. day 0-28 with dosing every 14 days):
+    // every dose inside the window is given and the metric is read over the whole window.
+    if(c.window){ one.ndose = Math.ceil(c.window / tau - 1e-9); one.tend = c.window; }
+    const r1 = PKSim.simulate(model, typ, one, PKSim.buildTimeGrid(one), { clFn: clFnOf(s, typ) });
+    const m1 = PKSim.metrics(r1.times, r1.conc, one);
+    const span = one.tend;
+    got = c.metric === 'Cmax_first' ? m1.cmax
+        : c.metric === 'Ctrough_first' ? r1.conc[r1.conc.length - 1]
+        : c.metric === 'AUC_first' ? m1.auc          // over the whole interval; a long tau gives AUCinf
+        : m1.auc / span;
+    cond += c.window ? ` · ${+one.dose.toFixed(1)} mg q${tau} ${u}, day 0-${c.window}`
+                     : ` · ${+one.dose.toFixed(1)} mg first dose` + (c.metric === 'Cmax_first' ? '' : ` (${tau} ${u} interval)`);
+  } else if(c.doseMgkg != null || c.dose != null){   // steady-state exposure
+    const doseMg = c.dose != null ? c.dose : c.doseMgkg * wt;
+    const x = PKSim.steadyStateExposure(model, typ,
+      { doseMg: doseMg, tau: tau, tinf: tinfD, nWarm: 20, clFn: clFnOf(s, typ) });
+    // steadyStateExposure sums two dosing intervals, so one interval is half of AUC6wk_ss.
+    // thalf_eff is the "effective" half-life that reproduces the accumulation ratio:
+    //   R = 1 / (1 - exp(-k tau))  ->  t1/2 = ln2 * tau / ln(R / (R - 1))
+    // AUCratio_ss: this subject's steady-state AUC over the reference subject's, same dose and interval
+    const refX = c.metric === 'AUCratio_ss' ? (() => {
+      const r0 = CovModel.build(s, refCov(), {});
+      return PKSim.steadyStateExposure(modelOf(s, r0, struct), r0,
+        { doseMg: doseMg, tau: tau, tinf: tinfD, nWarm: 20, clFn: clFnOf(s, r0) });
+    })() : null;
+    got = c.metric === 'AUCratio_ss' ? x.AUC6wk_ss / refX.AUC6wk_ss
+        : c.metric === 'AUCtau_ss' ? x.AUC6wk_ss / 2
+        : c.metric === 'Cavg_ss'   ? x.AUC6wk_ss / 2 / tau
+        : c.metric === 'thalf_eff' ? (x.Accum > 1 ? Math.LN2 * tau / Math.log(x.Accum / (x.Accum - 1)) : null)
+        : x[c.metric];
+    const dtxt = c.dose != null ? `${c.dose} mg` : `${c.doseMgkg} mg/kg`;
+    cond += c.metric === 'Accum' ? ` · ${dtxt} q${tau}${uS} · steady state / first dose`
+          : c.metric === 'AUCratio_ss' ? ` · ${dtxt} q${tau}${uS} · steady-state AUC / reference subject`
+                                 : ` · ${dtxt} q${tau}${uS} · steady state`;
+  }
+  const ok = (c.ci && got != null) ? (got >= c.ci[0] && got <= c.ci[1]) : null;
+  return { got, cond, ok };
+}
+
+// Rows for one list of checks. Rows sharing a `group` get one heading line.
+function checkRows(s, list){
+  let nOK = 0, nTot = 0, lastGroup = null;
+  let rows = '<tr><th>Metric</th><th>Condition</th><th class="num">Reported</th><th>Interval</th><th class="num">Model</th><th class="num">Diff.</th><th>Result</th></tr>';
+  list.forEach(c => {
+    if(c.group && c.group !== lastGroup){
+      rows += `<tr><td colspan="7" class="grp">${esc(c.group)}</td></tr>`;
+      lastGroup = c.group;
+    }
+    const { got, cond, ok } = evalCheck(s, c);
+    if(ok != null){ nTot++; if(ok) nOK++; }
+    const d = got != null ? (got/c.value - 1) : null;
+    const dig = got == null ? 2 : (Math.abs(got) >= 100 ? 0 : (Math.abs(got) < 1 ? 3 : 2));
+    rows += `<tr><td><code>${esc(c.metric)}</code> <span class="src">${esc(c.unit||'')}</span></td>
+      <td class="src">${esc(cond)}</td>
+      <td class="num">${c.value}</td><td class="src">${c.ci ? c.ci[0]+'–'+c.ci[1] : '–'}</td>
+      <td class="num"><b>${f(got, dig)}</b></td>
+      <td class="num ${d!=null&&Math.abs(d)<0.05?'good':''}">${d==null?'–':(d>=0?'+':'')+pc(d)}</td>
+      <td class="${ok?'good':'bad'}">${ok==null?'–':(ok?'✓':'✗')}</td></tr>`;
+  });
+  return { html: `<div class="scroll"><table>${rows}</table></div>`, nOK, nTot };
+}
+
+// Source lines, with a run of identical sources shown once.
+function sourceLines(list){
+  const out = [];
+  list.forEach(c => {
+    const tag = `<b>${esc(c.metric)}</b>`
+      + (c.cov ? ' (' + esc(Object.keys(c.cov).map(k => k + ' ' + c.cov[k]).join(', ')) + ')' : '')
+      + (c.doseMgkg != null ? ' @' + c.doseMgkg + 'mg/kg' : '')
+      + (c.doseMg != null ? ' @' + c.doseMg + 'mg' : '');
+    const last = out[out.length - 1];
+    if(last && last.src === c.source) last.tags.push(tag);
+    else out.push({ src: c.source, tags: [tag] });
+  });
+  return out.map(o => `${o.tags.join(', ')}: ${esc(o.src || '')}`).join('<br><br>');
+}
+
+function renderSelfCheck(){
+  const s = CUR;
+  const ref = s.reportedChecks || [], cov = s.covariateChecks || [];
+  if(!ref.length && !cov.length){
+    $('selfCheck').innerHTML = '<div class="src">This spec has no source-reported values to check against yet (<code>reportedChecks</code>).</div>';
+    return;
+  }
+  let h = '';
+  if(ref.length){
+    const r = checkRows(s, ref);
+    h += `<h3 class="sub">Reference subject</h3>` + r.html
+      + `<div class="src" style="margin-top:6px">`   // pass count and explanation removed on request; sources stay
+      + srcBox('checks', 'Show method and sources of reference values',
+          `These values are reported by the source <b>separately</b> from its parameter table, so agreement means the
+          parameters, the simulation engine and the regimen handling are all correct.
+          Steady-state rows are read over the last two dosing intervals (${2*s.regimen.tau} ${tu(s.timeUnit)}) after 20 doses,
+          because the ${s.regimen.ndose} doses on screen do not reach steady state.<br><br>` + sourceLines(ref))
+      + `</div>`;
+  }
+  if(cov.length){
+    const r = checkRows(s, cov);
+    h += `<h3 class="sub">Covariate and time effects</h3>` + r.html
+      + `<div class="src" style="margin-top:6px">`
+      + srcBox('covchecks', 'Show method and sources of reference values',
+          (s.covariateChecksNote ? esc(s.covariateChecksNote) + '<br><br>' : '')
+          + `Each row is a single subject with only the covariates in the Condition column changed and all others at their reference values.<br><br>` + sourceLines(cov))
+      + `</div>`;
+  }
+  $('selfCheck').innerHTML = h;
+}
+
+// ---------------------------------------------------------------- run
+// The schedule (shared by every subject, so one time grid serves them all) plus the amounts for
+// a subject of weight wt. With a flat dose wt does not matter.
+function readDosing(wt){
+  const t = (v) => CUR.timeUnit === 'day' ? v/24 : v;
+  return Object.assign({ tinf: ROUTE === 'SC' ? 0 : t(+$('tinf').value),
+           tau:+$('tau').value, ndose:+$('ndose').value, tend:+$('tend').value }, doseFor(wt));
+}
+
+function run(){
+  const s = CUR;
+  const cov = readCov();
+  renderPresetNote();
+  const wtOf = (c) => (c && c.WT != null && !isNaN(c.WT)) ? c.WT : null;
+  if($('doseUnit').value === 'mgkg' && wtOf(cov) == null){
+    $('status').textContent = 'This model has no body-weight input, so a mg/kg dose cannot be calculated.'; return;
+  }
+  const dosing = readDosing(wtOf(cov));
+  if(!(dosing.tend > 0) || !(dosing.ndose >= 1) || !(dosing.dose > 0) || (dosing.loadDose != null && !(dosing.loadDose > 0))){
+    $('status').textContent = 'Check the dosing inputs.'; return;
+  }
+  const grid = PKSim.buildTimeGrid(dosing);
+  const useMC = $('mc').checked, sampleCov = $('sampleCov').checked, showTiers = $('tiers').checked;
+  // Residual error widens the band only; the typical curve and each subject's metrics stay error-free.
+  // It has its own seeded stream so switching it on does not change which subjects are drawn.
+  const resid = (useMC && $('resid').checked) ? residualOf(s) : null;
+  const errRng = resid ? new Vpop.RNG(((s.population.seed || 1) + 7919) >>> 0) : null;
+  const N = useMC ? Math.max(1, parseInt($('npat').value)||1) : 1;
+
+  const st = structureNow();
+  if(ROUTE === 'SC'){
+    const ka = parseFloat($('ka').value), F = parseFloat($('fbio').value);
+    if(!(ka > 0) || !(F > 0) || F > 1){
+      $('status').textContent = 'SC route: enter an absorption rate ka (> 0) and a bioavailability F (0–1).';
+      $('plot').innerHTML = ''; $('metrics').innerHTML = ''; $('plotNote').textContent = '';
+      LAST = null; return;
+    }
+  }
+  const typ = withRoute(CovModel.build(s, cov, {}));
+  const model = modelOf(s, typ, st);
+  const base = PKSim.simulate(model, typ, dosing, grid, { clFn: clFnOf(s, typ) });
+  const series = [];
+  let subjects = null, band = null;
+
+  if(useMC){
+    const rng = new Vpop.RNG(s.population.seed || 1);
+    // The population distribution is used only when sampling covariates per subject;
+    // otherwise every subject keeps the values entered on screen.
+    const popDef = popOf(s);
+    const pop = sampleCov ? Vpop.sample(popDef, N) : null;
+    // 'fixed' covariates (tumour type, product, age group) are switches, not a spread: take them from the screen
+    const fixedKeys = Object.keys(popDef.covariates || {}).filter(k => popDef.covariates[k].dist === 'fixed' && cov[k] != null);
+    const nt = grid.length, all = Array.from({length:nt}, () => []);
+    subjects = [];
+    for(let i=0;i<N;i++){
+      const c = sampleCov ? Object.assign({}, pop[i], ...fixedKeys.map(k => ({ [k]: cov[k] }))) : cov;
+      const t2 = CovModel.build(s, c, {});
+      const ind = withRoute(CovModel.sampleIndiv(s, t2, rng));
+      const im = modelOf(s, ind, st);
+      const dz = readDosing(wtOf(c));   // mg/kg follows each subject's own weight
+      const r = PKSim.simulate(im, ind, dz, grid, { clFn: clFnOf(s, ind) });
+      for(let k=0;k<nt;k++) all[k].push(resid ? resid(r.conc[k], errRng) : r.conc[k]);
+      subjects.push({ id:i+1, cov:c, indiv:ind, typ:t2, doseMg: dz.dose, loadMg: dz.loadDose,
+        m:PKSim.metricsFor(im, atEndOfCourse(s, ind, dz.ndose*dz.tau), r.times, r.conc, dz) });
+    }
+    const p5=[],p95=[];
+    for(let k=0;k<nt;k++){
+      const col = all[k].slice().sort((a,b)=>a-b);
+      p5.push(Vpop.quantile(col,0.05)); p95.push(Vpop.quantile(col,0.95));
+    }
+    band = {p5,p95};
+  }
+
+  series.push({ name:'Typical Population Profile', y:base.conc, color:COLORS[0], width:2.4 });
+  let tiersCoincide = false;
+  if(showTiers){
+    const none = withRoute(CovModel.build(s, {}, { only:[] }));   // no covariates applied at all
+    const nc = PKSim.simulate(modelOf(s, none, st), none, dosing, grid, { clFn: clFnOf(s, none) }).conc;
+    // If every input equals its ref, all covariate factors are 1 and the two curves coincide exactly - not a bug.
+    tiersCoincide = Math.abs(nc[nc.length-1] - base.conc[base.conc.length-1]) < 1e-9;
+    series.push({ name:'No covariates', y:nc, color:COLORS[1], width:2, dash:'6 4' });
+  }
+
+  $('plot').innerHTML = chart({ x:grid, series, band, logy:$('logy').checked,
+    bandLabel: resid ? '5–95% Prediction Interval (IIV + residual)' : '5–95% Prediction Interval (IIV)',
+    xlabel:`Time (${tu(CUR.timeUnit)})`, ylabel:`Concentration (${CUR.concUnit})` });
+
+  const m = PKSim.metricsFor(model, atEndOfCourse(s, typ, dosing.ndose*dosing.tau), base.times, base.conc, dosing);
+  // metricsFor reads the structure from `model`, which now follows the button, so a flip-flop
+  // half-life on the subcutaneous route is picked up automatically.
+  const M = (l,v,u) => `<div class="m"><div class="l">${l}</div><div class="v">${f(v, v>=100?0:2)} <span>${u}</span></div></div>`;
+  $('metrics').innerHTML =
+    M('Cmax', m.cmax, CUR.concUnit) + M('Cmax,ss', m.cmaxSS, CUR.concUnit) + M('Ctrough', m.ctrough, CUR.concUnit) +
+    M('AUC,τ,single dose', m.aucFirst, CUR.concUnit+'·'+tu(CUR.timeUnit)) + M('AUC,τ,ss', m.aucTau, CUR.concUnit+'·'+tu(CUR.timeUnit)) +
+    M('Terminal half-life', m.thalf,
+      tu(CUR.timeUnit) + (model.Vm != null
+          ? (m.thalf == null ? ' · not estimable from the tail (nonlinear elimination)' : ' · tail regression; concentration-dependent (nonlinear)')
+        : ''));
+
+  // Below the chart only what needs attention: a route the source never had, and the observed-data
+  // comparison when one is chosen. (The explanatory band/covariate text was removed on request.)
+  const routeOK = routeSupport(s)[ROUTE].ok;
+  const note = routeOK ? '' : `<span class="warn">&#9888; ${ROUTE === 'SC' ? 'SC (subcutaneous)' : 'IV (intravenous)'} is a route this model's source does not cover &mdash; results rest on the values you entered.</span>`;
+  $('plotNote').innerHTML = note;
+
+  LAST = { subjects, dosing, grid, spec:s, st:st, typ:typ, baseConc:base.conc };
+  $('status').textContent = '';   // no success message (removed on request); errors and CSV messages still use this line
+}
+
+// ---------------------------------------------------------------- CSV
+// Hands the saved file to the viewer: inside a claude.ai Artifact the page is sandboxed, so
+// <a download> is inert and the file has to go through the downloads capability.
+async function saveCsv(csv, filename, okMessage){
+  const dl = DOWNLOADS ? await DOWNLOADS : null;
+  if(dl){
+    try{
+      await dl.save({ filename, data: csv });
+      $('status').textContent = okMessage;
+    }catch(err){
+      const code = err && err.code;
+      $('status').textContent =
+          code === 'declined'     ? 'Download cancelled.'
+        : code === 'rate_limited' ? 'A download dialog is already open — please handle it first.'
+        :                           'Downloads are not available in this view.';
+    }
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = filename;
+  a.click(); URL.revokeObjectURL(a.href);
+  $('status').textContent = okMessage;
+}
+
+// Concentration-time profile of every virtual subject, on an hourly grid.
+// Wide layout (one column per subject) - hours run into the thousands, subjects rarely past a
+// few hundred, and a spreadsheet takes 16384 columns but only about a million rows.
+// The dose instants and the ends of infusions are integrated through even when they fall between
+// hours; only the hourly points are written out. No residual error: these are model predictions,
+// the same curves the chart draws.
+async function downloadProfile(){
+  if(!LAST || !LAST.subjects){ $('status').textContent = 'Run with Monte Carlo switched on first.'; return; }
+  const s = LAST.spec, subs = LAST.subjects, dosing = LAST.dosing;
+  const step = s.timeUnit === 'day' ? 1/24 : 1;          // one hour in the model's time unit
+  const hours = Math.floor(dosing.tend / step + 1e-9);
+  const hourly = [];
+  for(let h = 0; h <= hours; h++) hourly.push(h * step);
+  const grid = Array.from(new Set(hourly.concat(PKSim.buildTimeGrid(dosing)))).sort((a, b) => a - b);
+  const keep = [];                                        // grid positions that are whole hours
+  for(let i = 0, j = 0; i < grid.length && j < hourly.length; i++){
+    if(grid[i] === hourly[j]){ keep.push(i); j++; }
+  }
+
+  $('status').textContent = `Simulating ${subs.length} subjects at ${hourly.length} hourly points…`;
+  await new Promise(r => setTimeout(r, 0));               // let the message paint first
+
+  const cols = subs.map(sub => {
+    const d = Object.assign({}, dosing, { dose: sub.doseMg, loadDose: sub.loadMg });
+    const r = PKSim.simulate(modelOf(s, sub.indiv, LAST.st), sub.indiv, d, grid, { clFn: clFnOf(s, sub.indiv) });
+    return keep.map(i => r.conc[i]);
+  });
+  const typical = (() => {
+    const r = PKSim.simulate(modelOf(s, LAST.typ, LAST.st), LAST.typ, dosing, grid, { clFn: clFnOf(s, LAST.typ) });
+    return keep.map(i => r.conc[i]);
+  })();
+
+  const unit = s.concUnit || 'mg/L';
+  const u = unit.replace(/[^A-Za-z0-9]+/g, '_');          // mg/L -> mg_L, so each column names its unit
+  const head = ['time_h', 'time_' + (s.timeUnit || 'day'), 'typical_' + u]
+    .concat(subs.map(sub => 'S' + sub.id + '_' + u)).join(',');
+  const fmt = (v) => v == null ? '' : (Math.abs(v) >= 100 ? v.toFixed(2) : v.toPrecision(6));
+  const rows = hourly.map((t, k) =>
+    [k, +(t).toFixed(6), fmt(typical[k])].concat(cols.map(c => fmt(c[k]))).join(','));
+  const csv = "\ufeff" + [head].concat(rows).join("\n");
+  const filename = `${s.drug}_${ROUTE}_profiles_${subs.length}x${hourly.length}h.csv`;
+  await saveCsv(csv, filename,
+    `Saved hourly profiles: ${subs.length} subjects × ${hourly.length} hourly points (${(csv.length / 1e6).toFixed(1)} MB).`);
+}
+
+async function download(){
+  if(!LAST || !LAST.subjects){ $('status').textContent = 'Run with Monte Carlo switched on first.'; return; }
+  const subs = LAST.subjects;
+  const covKeys = Object.keys(subs[0].cov);
+  const head = ['ID'].concat(covKeys, ['dose_mg','load_mg','CL','Vc','Vp','Q','CL_typical','Cmax','Cmax_ss','Ctrough','AUC_tau_single','AUC_tau_ss','thalf']);
+  const num = (v) => typeof v === 'number' ? (Math.abs(v)>=100 ? v.toFixed(1) : v.toPrecision(5)) : v;
+  const rows = subs.map(s => [s.id].concat(
+    covKeys.map(k => s.cov[k]),
+    [s.doseMg, s.loadMg == null ? '' : s.loadMg, s.indiv.CL, s.indiv.Vc, s.indiv.Vp, s.indiv.Q, s.typ.CL,
+     s.m.cmax, s.m.cmaxSS, s.m.ctrough, s.m.aucFirst, s.m.aucTau, s.m.thalf]).map(num).join(','));
+  const csv = '﻿' + [head.join(',')].concat(rows).join('\n');
+  const filename = `${CUR.drug}_${ROUTE}_vpatients_${subs.length}.csv`;
+
+  await saveCsv(csv, filename, `Saved CSV for ${subs.length} virtual subjects.`);
+}
+
+// Resolve the downloads capability once, up front, so a click does not wait on it.
+// null when there is no viewer (local file) or the view cannot run it.
+const DOWNLOADS = (window.claude && typeof window.claude.use === 'function')
+  ? window.claude.use('downloads').catch(() => null)
+  : null;
+
+// ---------------------------------------------------------------- chart
+function chart(o){
+  const W=760, H=340, m={l:56,r:14,t:14,b:38};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xs=o.x, xmax=Math.max(...xs);
+  let vals=[]; o.series.forEach(s=>vals=vals.concat(s.y));
+  if(o.band) vals=vals.concat(o.band.p95);
+  if(o.points) vals=vals.concat(o.points.map(p=>p.y));
+  let ymax=Math.max(...vals)*1.08;
+  const logy=o.logy;
+  let ymin = logy ? Math.max(1e-3, Math.min(...vals.filter(v=>v>0))*0.8) : 0;
+  const Y=(v)=>{
+    if(logy){ const lv=Math.log10(Math.max(v,ymin)), a=Math.log10(ymin), b=Math.log10(ymax);
+      return m.t+ih-(lv-a)/(b-a)*ih; }
+    return m.t+ih-(v/ymax)*ih;
+  };
+  const X=(v)=>m.l+(v/xmax)*iw;
+  let g='';
+  const yticks = logy
+    ? (()=>{const t=[];for(let e=Math.floor(Math.log10(ymin));e<=Math.ceil(Math.log10(ymax));e++)t.push(Math.pow(10,e));return t;})()
+    : Array.from({length:6},(_,i)=>ymax*i/5);
+  yticks.forEach(v=>{
+    if(v<ymin||v>ymax) return;
+    const y=Y(v);
+    g+=`<line x1="${m.l}" y1="${y.toFixed(1)}" x2="${m.l+iw}" y2="${y.toFixed(1)}" class="grid"/>`
+     + `<text x="${m.l-7}" y="${(y+4).toFixed(1)}" class="tick" text-anchor="end">${v>=1?v.toFixed(0):v.toPrecision(2)}</text>`;
+  });
+  for(let i=0;i<=8;i++){
+    const v=xmax*i/8, x=X(v);
+    g+=`<line x1="${x.toFixed(1)}" y1="${m.t}" x2="${x.toFixed(1)}" y2="${m.t+ih}" class="grid"/>`
+     + `<text x="${x.toFixed(1)}" y="${m.t+ih+19}" class="tick" text-anchor="middle">${v.toFixed(0)}</text>`;
+  }
+  let body='';
+  if(o.band){
+    let d='';
+    for(let i=0;i<xs.length;i++) d+=(i?'L':'M')+X(xs[i]).toFixed(1)+' '+Y(o.band.p95[i]).toFixed(1);
+    for(let i=xs.length-1;i>=0;i--) d+='L'+X(xs[i]).toFixed(1)+' '+Y(o.band.p5[i]).toFixed(1);
+    body+=`<path d="${d}Z" fill="${COLORS[0]}" fill-opacity="0.16" stroke="none"/>`;
+  }
+  o.series.forEach(s=>{
+    let d='';
+    for(let i=0;i<xs.length;i++) d+=(i?'L':'M')+X(xs[i]).toFixed(1)+' '+Y(s.y[i]).toFixed(1);
+    body+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.width||2}"${s.dash?` stroke-dasharray="${s.dash}"`:''}/>`;
+  });
+  if(o.points){
+    o.points.forEach(p=>{
+      body+=`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="4.2" fill="${COLORS[2]}" stroke="var(--bg)" stroke-width="1.2"/>`;
+    });
+  }
+  let leg='', li=0;
+  if(o.band){ leg+=legendItem(m.l+iw-230, m.t+18+li*16, COLORS[0], o.bandLabel || '5–95% Prediction Interval (IIV)', true); li++; }
+  if(o.points){
+    const lx=m.l+iw-230, ly=m.t+18+li*16;
+    leg+=`<circle cx="${lx+8}" cy="${ly-2}" r="4" fill="${COLORS[2]}"/><text x="${lx+21}" y="${ly+2}" class="leg">${esc(o.pointsLabel||'Observed')}</text>`;
+    li++;
+  }
+  o.series.forEach(s=>{ leg+=legendItem(m.l+iw-230, m.t+18+li*16, s.color, s.name, false, s.dash); li++; });
+  return `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img">${g}
+    <line x1="${m.l}" y1="${m.t+ih}" x2="${m.l+iw}" y2="${m.t+ih}" class="axis"/>
+    <line x1="${m.l}" y1="${m.t}" x2="${m.l}" y2="${m.t+ih}" class="axis"/>
+    ${body}${leg}
+    <text x="${m.l+iw/2}" y="${H-3}" class="axlabel" text-anchor="middle">${esc(o.xlabel)}</text>
+    <text x="12" y="${m.t+ih/2}" class="axlabel" text-anchor="middle" transform="rotate(-90 12 ${m.t+ih/2})">${esc(o.ylabel)}</text>
+  </svg>`;
+}
+function legendItem(x,y,color,label,isBand,dash){
+  const mark = isBand
+    ? `<rect x="${x}" y="${y-6}" width="16" height="9" fill="${color}" fill-opacity="0.25" stroke="${color}" stroke-width="1"/>`
+    : `<line x1="${x}" y1="${y-2}" x2="${x+16}" y2="${y-2}" stroke="${color}" stroke-width="2.4"${dash?` stroke-dasharray="${dash}"`:''}/>`;
+  return mark + `<text x="${x+21}" y="${y+2}" class="leg">${esc(label)}</text>`;
+}
+
+boot();
+</script>

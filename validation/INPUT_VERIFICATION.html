@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Input verification — KINENTRIX Simulator</title>
+<style>
+ :root{--bg:#ffffff;--fg:#0f172a;--muted:#64748b;--line:#e2e8f0;--card:#f8fafc;--accent:#1d4ed8}
+ @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+   --bg:#0b1220;--fg:#e2e8f0;--muted:#94a3b8;--line:#1e293b;--card:#111c31;--accent:#7aa5ff}}
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--bg);color:var(--fg);padding:32px 16px 64px;
+   font:15px/1.65 "Segoe UI","Malgun Gothic",system-ui,sans-serif}
+ main{max-width:1060px;margin:0 auto}
+ h1{font-size:30px;margin:0 0 4px;letter-spacing:-.4px}
+ h2{font-size:21px;margin:38px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+ h3{font-size:17px;margin:26px 0 8px}
+ p{margin:10px 0}
+ a{color:var(--accent)}
+ code{background:var(--card);border:1px solid var(--line);border-radius:4px;
+   padding:1px 5px;font:13px/1.4 Consolas,monospace}
+ blockquote{margin:14px 0;padding:10px 14px;border-left:3px solid var(--accent);
+   background:var(--card);color:var(--muted);border-radius:0 6px 6px 0}
+ hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+ .tw{overflow-x:auto;margin:14px 0}
+ table{border-collapse:collapse;width:100%;font-size:13.5px}
+ th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+ th{background:var(--card);font-weight:600;white-space:nowrap}
+ tr:hover td{background:var(--card)}
+ ol,ul{margin:10px 0 10px 22px}li{margin:4px 0}
+</style></head><body><main>
+<h1>Input verification — infusion time and dosing regimen</h1>
+<p>Does what the user types actually reach the simulation? This note records the checks that answer that for the two inputs most easily taken on trust: <strong>infusion time</strong> and the <strong>dosing regimen</strong> (dose, interval, loading dose, mg/kg, dose cap, number of doses).</p>
+<p>Checked against the working build of 2026-10-09, model <strong>Avelumab (Bavencio) — 2-compartment IV</strong>, reference subject (WT 71 kg, ALB 40 g/L), unless stated otherwise.</p>
+<blockquote><strong>Metric names.</strong> The two AUC tiles were renamed the same day: <code>AUC (0–end)</code> was replaced by <strong><code>AUC,τ,single dose</code></strong> (AUC over the first dosing interval) and <code>AUC,τ</code> became <strong><code>AUC,τ,ss</code></strong>. The whole-window AUC used in §2.3 is therefore computed from the engine directly, not read off the screen.</blockquote>
+<hr>
+<h2>1. Infusion time</h2>
+<h3>1.1 Engine level — concentration rises during the infusion</h3>
+<p>The same 800 mg given over different infusion times, computed by calling the engine directly (CL 0.5 L/day, Vc 3.4 L, Vp 1.0 L, Q 0.6 L/day, single dose). Concentrations in mg/L.</p>
+<div class="tw"><table><thead><tr><th>Time</th><th>0 h (bolus)</th><th>1 h infusion</th><th>12 h infusion</th></tr></thead><tbody><tr><td>0 h</td><td>235.3</td><td>0</td><td>0</td></tr><tr><td>3 h</td><td>226.2</td><td>227.6</td><td>57.7</td></tr><tr><td>6 h</td><td>217.7</td><td>219.1</td><td>113.1</td></tr><tr><td>9 h</td><td>209.9</td><td>211.2</td><td>166.6</td></tr><tr><td><strong>12 h</strong></td><td>202.7</td><td>203.9</td><td><strong>218.1 ← peak</strong></td></tr><tr><td>15 h</td><td>196.0</td><td>197.1</td><td>210.3</td></tr></tbody></table></div>
+<p>The 12-hour infusion starts at zero, climbs steadily, and peaks <strong>exactly when the infusion ends</strong>. The dose is delivered as a zero-order rate, and the time grid carries the infusion window and its end point, so the peak is never stepped over.</p>
+<h3>1.2 App level — avelumab 800 mg every 2 weeks</h3>
+<div class="tw"><table><thead><tr><th>Infusion time</th><th>Cmax</th><th>Ctrough</th><th>AUC,τ,single dose</th><th>AUC,τ,ss</th></tr></thead><tbody><tr><td>0.5 h</td><td>274</td><td>40.98</td><td>1234</td><td>1515</td></tr><tr><td>1 h</td><td>273</td><td>41.03</td><td>1233</td><td>1515</td></tr><tr><td>4 h</td><td>267</td><td>41.33</td><td>1231</td><td>1515</td></tr><tr><td>12 h</td><td>255</td><td>42.15</td><td>1226</td><td>1515</td></tr></tbody></table></div>
+<p>A longer infusion <strong>lowers the peak and raises the trough, and leaves AUC untouched</strong>. That is the correct behaviour: AUC at steady state is dose ÷ clearance and does not depend on how fast the dose goes in. Had this table moved the other way, the input would be wired wrongly.</p>
+<h3>1.3 Why it is hard to see on screen</h3>
+<p>The default window is 224 days, so a 1-hour infusion spans <strong>0.02 % of the x axis</strong> — less than one pixel. The rise is in the numbers but not in the picture. To see it, set <strong>Number of doses = 1</strong> and <strong>Simulation end = 2</strong> days; the axis shortens and the ramp becomes visible.</p>
+<p>Choosing the <strong>SC route hides the infusion-time box</strong>: subcutaneous dosing enters through the absorption rate k&lt;sub&gt;a&lt;/sub&gt;, not an infusion, and the infusion time is held at zero.</p>
+<hr>
+<h2>2. Dosing regimen</h2>
+<h3>2.1 Dose, interval, loading dose</h3>
+<div class="tw"><table><thead><tr><th>Setting</th><th>Cmax</th><th>Cmax,ss</th><th>Ctrough</th><th>AUC,τ,single dose</th><th>AUC,τ,ss</th></tr></thead><tbody><tr><td>800 mg q2w</td><td>273</td><td>273</td><td>41.03</td><td>1233</td><td>1515</td></tr><tr><td><strong>400 mg</strong> q2w</td><td>136</td><td>136</td><td>20.51</td><td>617</td><td>758</td></tr><tr><td>800 mg <strong>q4w</strong></td><td>239</td><td>239</td><td><strong>6.68</strong></td><td>1461</td><td>1515</td></tr><tr><td><strong>1600 mg loading</strong> → 800 mg q2w</td><td><strong>464</strong></td><td>273</td><td>41.03</td><td><strong>2467</strong></td><td>1515</td></tr></tbody></table></div>
+<ul><li><strong>Half the dose halves every value.</strong> The model is linear, so this is the expected result.</li><li><strong>Interval 2 → 4 weeks drops the trough from 41 to 6.7.</strong> The patient goes longer with no drug.</li></ul>
+<p>  The peak falls too (273 → 239) because less accumulates, while AUC,τ,ss stays at dose ÷ CL.</p>
+<ul><li><strong>A loading dose raises only the first peak</strong> (464) and leaves steady state at 273 — exactly what</li></ul>
+<p>  a loading dose is for. The first-interval AUC doubles (1233 → 2467) because the first dose is   doubled.</p>
+<h3>2.2 mg/kg dosing and the dose cap</h3>
+<div class="tw"><table><thead><tr><th>Setting</th><th>Dose actually given</th><th>Cmax</th></tr></thead><tbody><tr><td>10 mg/kg (body weight 71 kg)</td><td><strong>710 mg</strong></td><td>242</td></tr><tr><td>10 mg/kg with a 500 mg cap</td><td><strong>500 mg</strong></td><td>171</td></tr></tbody></table></div>
+<p>Body weight is multiplied in and the cap truncates the result. <strong>Each of the 500 virtual subjects is dosed on their own weight</strong>, not on one representative value — the mechanism behind the paediatric pembrolizumab regimen (2 mg/kg, maximum 200 mg).</p>
+<h3>2.3 Number of doses</h3>
+<p>Total AUC over the whole simulated window, computed from the engine (800 mg q2w, 1 h infusion):</p>
+<div class="tw"><table><thead><tr><th>Doses</th><th>Total AUC (mg/L·day)</th></tr></thead><tbody><tr><td>4</td><td>6061</td></tr><tr><td>12</td><td>18181</td></tr></tbody></table></div>
+<p>Exactly three times as much, as it must be for a linear model.</p>
+<hr>
+<h2>Conclusion</h2>
+<p>Both inputs are reflected in the simulation. Infusion time shapes the peak without touching exposure; dose, interval, loading dose, mg/kg scaling, the dose cap and the number of doses all feed through with the arithmetic they should. The one caveat is visual, not numerical: a short infusion is invisible on a long time axis.</p>
+</main></body></html>

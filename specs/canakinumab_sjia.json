@@ -1,0 +1,356 @@
+{
+  "drug": "canakinumab",
+  "brand": "Ilaris",
+  "label": "Canakinumab (Ilaris) — SJIA · Sun 2016 / EMA II/0026 · 2-compartment SC",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "The pooled canakinumab PK-binding model re-estimated for the SJIA indication (28 studies; 201 SJIA patients). The drug PK part is used; the IL-1beta binding part is not simulated. Headline values match the Sun 2016 abstract exactly, so the EMA table is taken as the same model (inference).",
+  "_source": {
+    "document": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013)",
+    "table": "Table 9 (parameters), Table 7 (population), Table 2 and p.23 (exposures); cross-checked with Sun et al. 2016, J Clin Pharmacol (doi:10.1002/jcph.754), abstract",
+    "subjects": "Pooled 28 studies (CAPS, gout, RA, healthy volunteers, psoriasis, SJIA); SJIA subset N=201, age 1-19 y"
+  },
+  "limitations": [
+    "The age effect on the absorption rate (exponent −0.292) is disabled because the report gives no reference age, and the tabulated absorption rate (0.295/day) is used at all ages. The younger the patient, the more absorption may be computed as slower than it really is.",
+    "The form of the residual error (25.7%) is not specified, so it is assumed proportional. Between-subject variability in bioavailability was not reported.",
+    "IL-1β binding (Kd 1.5 nM) is not simulated; only the drug part is used.",
+    "Only the mean weight of 32.8 (SD 21.0) is available, so the distribution is approximated as log-normal with median 33 kg and CV 64% (the resulting mean is higher than the actual one).",
+    "This source is not the paper (Sun 2016) itself but the EMA assessment report presenting the same analysis. The paper is paywalled, so only its abstract was checked."
+  ],
+  "reportedChecks": [],
+  "baseline": {
+    "CL": 0.196,
+    "Vc": 3.63,
+    "Vp": 2.64,
+    "Q": 0.463,
+    "ka": 0.295,
+    "F": 0.689
+  },
+  "baselineUnits": {
+    "CL": "L/day (70 kg, albumin 43 g/L)",
+    "Vc": "L (70 kg)",
+    "Vp": "L (70 kg)",
+    "Q": "L/day",
+    "ka": "1/day (marketed product D)",
+    "F": "fraction (product D)"
+  },
+  "baselineSource": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — CLD 0.196 +- 0.0148 L/day at 70 kg and 43 g/L albumin, VD 3.63 L, VP 2.64 L, PSD 0.463 L/day; EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 13 (p.24) — product type D (marketed): ka 0.295 +- 0.015 /day, F 68.9 +- 3.65%.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.131,
+      "cv": 36.2,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — omega^2 CLD 0.131 (CV 36.2%)."
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "omega2": 0.204,
+      "cv": 45.2,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — omega^2 VD 0.204 (45.2%)."
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "omega2": 0.0734,
+      "cv": 27.1,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — omega^2 VP 0.0734 (27.1%)."
+    },
+    {
+      "params": [
+        "Q"
+      ],
+      "omega2": 0.272,
+      "cv": 52.2,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — omega^2 PSD 0.272 (52.2%)."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.195,
+      "cv": 44.2,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — omega^2 ka 0.195 (44.2%)."
+    }
+  ],
+  "iivCorr": [
+    {
+      "a": 0,
+      "b": 1,
+      "rho": 0.771,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — covariance CLD:VD 0.126 -> r = 0.126/sqrt(0.131*0.204)."
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "rho": 0.39,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — covariance VP:PSD 0.0551 -> r = 0.0551/sqrt(0.0734*0.272)."
+    }
+  ],
+  "iivType": "omega^2 (variance on the log scale)",
+  "iivNote": "Correlations converted from the reported covariances.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional (form assumed)",
+    "form": "proportional",
+    "prop": 0.257,
+    "cv": 25.7,
+    "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — canakinumab residual variance 0.0662 (CV 25.7%). The form is not stated; proportional is assumed (sqrt(0.0662) = 0.257)."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.823,
+      "enabled": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — body weight on CLD 0.823 +- 0.0367; p.21 'CLD = 0.106 x (BW/33 kg)^0.823'. Reference 70 kg in Table 9."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 1.13,
+      "enabled": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — body weight on VD 1.13 +- 0.0499."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.616,
+      "enabled": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — body weight on VP 0.616 +- 0.0525."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 43,
+      "coef": -0.986,
+      "enabled": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — serum albumin on CLD -0.986 +- 0.0904, reference 43 g/L ('ACZ Clearance - 70 kg (CLD, L/day at 43 g/L albumin)')."
+    },
+    {
+      "id": "KA_AGE",
+      "param": "ka",
+      "cov": "AGE",
+      "type": "power",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) gives age on ka -0.292 +- 0.0593, but not the reference age. (EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) calls the earlier model's ka the value 'for 34 year old', unconfirmed for this run.)"
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance in the model",
+    "desc": [
+      "This model has no term for change in clearance over time."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the SJIA pool (Table 7).",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 33,
+        "cv": 64.0,
+        "min": 9.3,
+        "max": 102.6,
+        "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 7 (p.15), SJIA pool (N=201) — weight 32.8 +- 21.0 (9.3-102.6) kg; the model's typical SJIA weight is the 33 kg median (Sun et al. 2016, J Clin Pharmacol (doi:10.1002/jcph.754), abstract). CV = SD/mean."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 33.3,
+        "sd": 4.7,
+        "min": 21,
+        "max": 46,
+        "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 7 (p.15), SJIA pool (N=201) — albumin 33.3 +- 4.7 (21-46) g/L."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 2,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.14 — the 28 pooled studies include intravenous ones, which make F estimable."
+    },
+    "sc": {
+      "supported": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) — first-order SC absorption, F on the logit scale."
+    }
+  },
+  "regimen": {
+    "dose": 4,
+    "tinf_h": 0,
+    "tau": 28,
+    "ndose": 12,
+    "tend": 336,
+    "source": "Regulatory/13_FDA_L.pdf (ILARIS US label) 2.4 — 4 mg/kg (maximum 300 mg) every 4 weeks."
+  },
+  "regimenPresets": [
+    {
+      "label": "Still's disease (AOSD, SJIA) · patients ≥7.5 kg — SC 4 mg/kg (max 300 mg) every 4 weeks",
+      "dose": 4,
+      "unit": "mg/kg",
+      "maxDose": 300,
+      "tau": 28,
+      "ndose": 12,
+      "tend": 336,
+      "route": "SC",
+      "wtRange": {
+        "min": 7.5,
+        "minIncl": true
+      },
+      "cov": {
+        "WT": 33
+      },
+      "source": "Regulatory/13_FDA_L.pdf (ILARIS US label) 2.4 — 'The recommended weight-based dosage ... weighing >= 7.5 kg is 4 mg/kg (maximum dose of 300 mg) administered subcutaneously every 4 weeks'."
+    }
+  ],
+  "covariateChecksNote": "Values at the typical 33 kg SJIA patient (EMA II/0026) and the 201-patient simulation.",
+  "covariateChecks": [
+    {
+      "group": "Typical SJIA patient, 33 kg",
+      "metric": "CL",
+      "cov": {
+        "WT": 33
+      },
+      "value": 0.106,
+      "ci": [
+        0.092,
+        0.12
+      ],
+      "unit": "L/day",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 9 'Final Estimates of Model Parameters for SJIA Patients' (p.18) — CLD at 33 kg 0.106 +- 0.00689 L/day, 95% CI 0.092-0.120; the same value is in Sun et al. 2016, J Clin Pharmacol (doi:10.1002/jcph.754), abstract ('0.106 +- 0.00689 L/day'). The typical 33 kg SJIA patient of the model (median SJIA weight), albumin at the 43 g/L reference. Checks the weight exponent and the 70 kg reference."
+    },
+    {
+      "group": "Typical SJIA patient, 33 kg",
+      "metric": "Vss",
+      "cov": {
+        "WT": 33
+      },
+      "value": 3.21,
+      "ci": [
+        3.05,
+        3.37
+      ],
+      "unit": "L",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.21 — 'The corresponding volume of distribution at steady state was 3.21 L' at 33 kg. +-5% assumed."
+    },
+    {
+      "group": "Typical SJIA patient, 33 kg",
+      "metric": "thalf",
+      "cov": {
+        "WT": 33
+      },
+      "value": 22,
+      "ci": [17.6, 26.4],
+      "unit": "day",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.19 — 'The estimated terminal half-life was 22 days'; also Sun et al. 2016, J Clin Pharmacol (doi:10.1002/jcph.754), abstract. +-20% assumed."
+    },
+    {
+      "group": "Typical SJIA patient, 33 kg",
+      "metric": "Accum",
+      "cov": {
+        "WT": 33
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 1.6,
+      "ci": [1.28, 1.92],
+      "unit": "fold",
+      "source": "Regulatory/13_FDA_L.pdf (ILARIS US label) 12.3 — accumulation '1.6-fold for SJIA patients' after 6 months of 4 mg/kg Q4W. Computed at the typical 33 kg SJIA patient; +-20% assumed."
+    },
+    {
+      "group": "Mean of 201 SJIA patients (weight 33 kg, albumin 33.3 g/L)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 33,
+        "ALB": 33.3
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 14.68,
+      "ci": [
+        5.88,
+        23.48
+      ],
+      "unit": "ug/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.23 — post hoc simulation of all 201 SJIA patients at 4 mg/kg Q4W: 'overall average (+-SD) for CMINss, CMAXss and AUCss were 14.68+-8.80' ug/mL. Interval = mean +- 1 SD; compared with a patient at the pool's median weight and mean albumin (33.3 g/L, Table 7)."
+    },
+    {
+      "group": "Mean of 201 SJIA patients (weight 33 kg, albumin 33.3 g/L)",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 33,
+        "ALB": 33.3
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 36.5,
+      "ci": [
+        21.58,
+        51.42
+      ],
+      "unit": "ug/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.23 — same simulation, CMAXss 36.50 +- 14.92 ug/mL. Interval = mean +- 1 SD."
+    },
+    {
+      "group": "Mean of 201 SJIA patients (weight 33 kg, albumin 33.3 g/L)",
+      "metric": "AUCtau_ss",
+      "cov": {
+        "WT": 33,
+        "ALB": 33.3
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 696.1,
+      "ci": [
+        369.5,
+        1022.6
+      ],
+      "unit": "ug*day/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) p.23 — same simulation, AUCss 696.09 +- 326.55 ug*day/mL. Interval = mean +- 1 SD."
+    },
+    {
+      "group": "Mean of 201 SJIA patients (weight 33 kg, albumin 33.3 g/L)",
+      "metric": "Cavg_ss",
+      "cov": {
+        "WT": 33,
+        "ALB": 33.3
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 24.9,
+      "ci": [
+        13.2,
+        36.5
+      ],
+      "unit": "ug/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0026 (Ilaris SJIA variation, 2013) Table 2 (p.8) — 4 mg/kg s.c. q4 weeks: Cavg,ss 24.9 ug/mL (= the 201-patient mean AUCss 696.09 / 28 days; its Cmax,ss 36.5 equals the 201-patient mean on p.23, so this row is the same population mean, not a 33 kg typical patient). Interval from the AUC SD: (696.09 +- 326.55)/28."
+    }
+  ]
+}

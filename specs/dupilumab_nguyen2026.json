@@ -1,0 +1,514 @@
+{
+  "drug": "dupilumab",
+  "brand": "Dupixent",
+  "label": "Dupilumab (Dupixent) — eosinophilic esophagitis · Nguyen 2026 · 2-compartment SC · linear + Michaelis-Menten",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "Third dupilumab model: eosinophilic esophagitis, ages 1 and up, pooled with healthy volunteers. The healthy-volunteer structure is fixed; EoE patients differ through three multipliers.",
+  "_source": {
+    "document": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347)",
+    "table": "Table 2 (parameters), Data S1 (NONMEM code, used to settle table typos), Table S3 (population), Tables S6 and 3 (simulated exposures), Discussion (typical EoE CL and Vss)",
+    "subjects": "632 subjects: 202 healthy volunteers (IV and SC single doses) and 430 EoE patients (98 aged 1-<12, 97 aged 12-<18, 235 adults); 4459 samples"
+  },
+  "limitations": [
+    "The 3-stage transit delay before absorption (MTT 0.0726 day ≈ 1.7 hours) is omitted and only first-order absorption is used. It is short relative to the absorption rate (ka 0.284/day), so the impact is small.",
+    "The volume-of-distribution coefficient for EoE patients uses the model-code value (1.298), not the paper's table value (1.26); it is the one that reproduces the Vss of 5.01 L in the text.",
+    "The weight exponent on volume of distribution uses the table value 0.710 (the code has 0.704).",
+    "The original analysis varied weight over time for patients under 18 years (growth), but this app holds weight fixed.",
+    "The validation values (Table S6) are medians from simulating the whole weight band, so they are compared against a single patient at a representative weight (band midpoint or mean weight).",
+    "Only the mean and SD of patient weight are available, so the log-normal median was back-calculated."
+  ],
+  "baseline": {
+    "CL": 0.145,
+    "Vc": 2.39,
+    "Vp": 1.47,
+    "Q": 0.511,
+    "ka": 0.284,
+    "F": 0.659,
+    "Km": 0.134,
+    "VmPerVol": 1.07
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day",
+    "ka": "1/day",
+    "F": "fraction (logit in the source, no IIV)",
+    "Km": "mg/L",
+    "VmPerVol": "mg/L/day x Vc -> mg/day"
+  },
+  "baselineSource": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — healthy-volunteer reference (70 kg, albumin 45 g/L), all fixed from the HV model: CL 0.145 L/day, Vc 2.39 L, Q 0.511 L/day, Vp 1.47 L, Vmax 1.07 mg/L/day, KM 0.134 mg/L, Ka 0.284 1/day, F1 0.659, MTT 0.0726 day. Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Data S1 (final NONMEM control stream): the MM term is '- A(2) * VMAX/(KM + C1)', i.e. Vmax is a concentration rate.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.097,
+      "cv": 31.9,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'IIV on CL' 0.0970 (31.9% CV), shrinkage 8.62%."
+    },
+    {
+      "params": [
+        "Vc",
+        "Vp"
+      ],
+      "omega2": 0.026,
+      "cv": 16.2,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — IIV on Vss 0.0260 (16.2% CV), one eta shared by Vc and Vp; shrinkage 64.9%."
+    }
+  ],
+  "iivType": "omega^2 (variance on the log scale)",
+  "iivNote": "Diagonal omega; no IIV on Q, Vmax, KM, Ka, F or MTT in the final model.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional + additive",
+    "form": "combined",
+    "prop": 0.252,
+    "add": 11.6,
+    "cv": 25.2,
+    "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — EoE patients: proportional 0.252, additive 11.6 mg/L (W = sqrt(prop^2*IPRED^2 + add^2))."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 1.08,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Time-varying weight on CL (REF: 70 kg)' 1.08 (95% CI 1.07-1.08); code 1.07751.",
+      "desc": "CL rises faster than volume with weight (1.08 vs 0.710), so the elimination rate constant itself grows with weight - unlike the atopic dermatitis model."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.71,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Time-varying weight on Vss (REF: 70 kg)' 0.710; shared by Vc and Vp. (The code lists 0.704059; the table is followed.)"
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.71,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — same row; Vc and Vp share the Vss exponent."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.75,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Time-varying weight on Q (REF: 70 kg)' 0.75 (fixed)."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 45,
+      "coef": -1.16,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Baseline albumin on CL (REF: 45 g/L)' -1.16 (95% CI -1.17 to -1.15)."
+    },
+    {
+      "id": "CL_EOE",
+      "param": "CL",
+      "cov": "POP",
+      "type": "categorical",
+      "level": "EoE",
+      "coef": -0.0575813,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Patient with EoE on CL (REF: healthy volunteer)' 0.944; Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Data S1 (final NONMEM control stream) theta -0.0575813, exp = 0.944."
+    },
+    {
+      "id": "VM_EOE",
+      "param": "VmPerVol",
+      "cov": "POP",
+      "type": "categorical",
+      "level": "EoE",
+      "coef": -0.245722,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table 2 — 'Patient with EoE on Vmax' 0.782; Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Data S1 (final NONMEM control stream) theta -0.245722, exp = 0.782."
+    },
+    {
+      "id": "VC_EOE",
+      "param": "Vc",
+      "cov": "POP",
+      "type": "categorical",
+      "level": "EoE",
+      "coef": 0.260672,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Data S1 (final NONMEM control stream) theta 0.260672, exp = 1.298, applied to Vc and Vp. Table 2 prints 1.26, but only 1.298 reproduces the Discussion's typical EoE Vss of 5.01 L at 70 kg (3.859 x 1.298); 1.26 looks like 1 + theta."
+    },
+    {
+      "id": "VP_EOE",
+      "param": "Vp",
+      "cov": "POP",
+      "type": "categorical",
+      "level": "EoE",
+      "coef": 0.260672,
+      "enabled": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Data S1 (final NONMEM control stream) — same theta on Vp ('with covariate and random effects shared')."
+    },
+    {
+      "id": "CL_AGE",
+      "param": "CL",
+      "cov": "AGE",
+      "type": "power",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347): Age was not retained: 'age was not a significant covariate' (Results); children differ through weight only."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "categorical",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347): Tested on CL and not retained (Table S4, run 4204 failed minimisation)."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance in the model",
+    "desc": [
+      "Nonlinear elimination accounts for the concentration dependence."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the adult EoE patients of the analysis dataset (Table S3). Adolescents and children are population presets.",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 80.3,
+        "cv": 24.3,
+        "min": 5,
+        "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, adults >=18 y (n=235) — weight mean 82.6 (SD 20.1) kg. Only mean and SD are reported, so the log-normal median is derived as mean/sqrt(1+CV^2) = 80.3 kg; 5 kg floor = the lowest tier studied."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 46.5,
+        "sd": 3.07,
+        "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, adults — albumin mean 46.5 (SD 3.07) g/L."
+      },
+      "POP": {
+        "dist": "fixed",
+        "value": "EoE",
+        "levels": [
+          "HV",
+          "EoE"
+        ],
+        "source": "Held at EoE patient. 'HV' reproduces the healthy-volunteer reference of the model."
+      }
+    },
+    "correlations": []
+  },
+  "populationPresets": [
+    {
+      "label": "EoE adults ≥18 years (N=235)",
+      "n": 235,
+      "cov": {
+        "POP": "EoE",
+        "WT": 80.3
+      },
+      "note": "Reference population. Sets the typical-patient inputs to EoE patient, 80 kg.",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3 — adults."
+    },
+    {
+      "label": "EoE adolescents 12–<18 years (N=97)",
+      "n": 97,
+      "cov": {
+        "POP": "EoE",
+        "WT": 61.8,
+        "ALB": 46.8
+      },
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 61.8,
+          "cv": 25.9,
+          "min": 5,
+          "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, adolescents (n=97) — weight mean 63.8 (SD 16.5) kg. Only mean and SD are reported, so the log-normal median is derived as mean/sqrt(1+CV^2) = 61.8 kg; 5 kg floor = the lowest tier studied."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 46.8,
+          "sd": 3.04,
+          "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, adolescents — albumin 46.8 (SD 3.04) g/L."
+        }
+      },
+      "note": "Only weight differs; there is no age effect (the model has no age term).",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3 — adolescents."
+    },
+    {
+      "label": "EoE children 1–<12 years (N=98)",
+      "n": 98,
+      "cov": {
+        "POP": "EoE",
+        "WT": 25.2,
+        "ALB": 45.9
+      },
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 25.2,
+          "cv": 41.2,
+          "min": 5,
+          "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, children 1-<12 y (n=98) — weight mean 27.2 (SD 11.2) kg. Only mean and SD are reported, so the log-normal median is derived as mean/sqrt(1+CV^2) = 25.2 kg; 5 kg floor = the lowest tier studied."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 45.9,
+          "sd": 2.4,
+          "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3, children — albumin 45.9 (SD 2.40) g/L."
+        }
+      },
+      "note": "The original analysis let weight change with growth (time-varying), but this app holds weight fixed. Choose the regimen that matches the weight band.",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S3 — children. Weight was time-varying in the source for patients under 18."
+    }
+  ],
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) — the healthy-volunteer studies include IV dosing, which makes F estimable."
+    },
+    "sc": {
+      "supported": true,
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) — SC absorption through 3 transit compartments and Ka; this app keeps Ka and F and drops the short transit delay."
+    }
+  },
+  "regimen": {
+    "dose": 300,
+    "tinf_h": 0,
+    "tau": 7,
+    "ndose": 26,
+    "tend": 182,
+    "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — US approval for EoE (>=1 y, >=15 kg): '200 mg q2w, 300 mg q2w, and 300 mg qw' by weight tier — adults and adolescents >=40 kg."
+  },
+  "regimenPresets": [
+    {
+      "label": "Eosinophilic esophagitis (EoE) · patients ≥40 kg — SC 300 mg every week",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 7,
+      "ndose": 26,
+      "tend": 182,
+      "route": "SC",
+      "wtRange": {
+        "min": 40,
+        "minIncl": true
+      },
+      "cov": {
+        "POP": "EoE"
+      },
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — US approval for EoE (>=1 y, >=15 kg): '200 mg q2w, 300 mg q2w, and 300 mg qw' by weight tier"
+    },
+    {
+      "label": "Eosinophilic esophagitis (EoE) · patients 30–<40 kg — SC 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 13,
+      "tend": 182,
+      "route": "SC",
+      "wtRange": {
+        "min": 30,
+        "minIncl": true,
+        "max": 40
+      },
+      "cov": {
+        "POP": "EoE"
+      },
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — US approval for EoE (>=1 y, >=15 kg): '200 mg q2w, 300 mg q2w, and 300 mg qw' by weight tier"
+    },
+    {
+      "label": "Eosinophilic esophagitis (EoE) · patients 15–<30 kg — SC 200 mg every 2 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 13,
+      "tend": 182,
+      "route": "SC",
+      "wtRange": {
+        "min": 15,
+        "minIncl": true,
+        "max": 30
+      },
+      "cov": {
+        "POP": "EoE"
+      },
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — US approval for EoE (>=1 y, >=15 kg): '200 mg q2w, 300 mg q2w, and 300 mg qw' by weight tier"
+    }
+  ],
+  "covariateChecksNote": "All rows are EoE patients. Table S6 simulated each weight tier as a population; each row here is one representative weight, with the source's 5th-95th percentile as the pass range.",
+  "covariateChecks": [
+    {
+      "group": "Typical EoE patient, 70 kg",
+      "metric": "Vss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 70
+      },
+      "value": 5.01,
+      "ci": [
+        4.76,
+        5.26
+      ],
+      "unit": "L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — 'typical Vss and linear CL ... were 5.01 L and 0.135 L/day' for a 70 kg EoE patient. +-5% assumed; this is what fixes the EoE volume factor at 1.298 rather than the table's 1.26."
+    },
+    {
+      "group": "Typical EoE patient, 70 kg",
+      "metric": "CL",
+      "cov": {
+        "POP": "EoE",
+        "WT": 70
+      },
+      "value": 0.135,
+      "ci": [0.108, 0.162],
+      "unit": "L/day",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Discussion — same sentence, linear CL 0.135 L/day. +-20% assumed (the code gives 0.137 at albumin 45 g/L)."
+    },
+    {
+      "group": "Adults and adolescents ≥40 kg (77 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 77
+      },
+      "dose": 300,
+      "tau": 7,
+      "value": 207,
+      "ci": [
+        113,
+        383
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): adults/adolescents >=40 kg, 300 mg qw, Ctrough,ss 207 (113, 383). The source simulated a weight distribution within the tier; the check uses one representative weight: 77 kg, the pooled mean of adults (82.6, n=235) and adolescents (63.8, n=97) in Table S3."
+    },
+    {
+      "group": "Adults and adolescents ≥40 kg (77 kg)",
+      "metric": "AUCtau_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 77
+      },
+      "dose": 300,
+      "tau": 7,
+      "value": 1518,
+      "ci": [
+        851,
+        2738
+      ],
+      "unit": "mg*day/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): same stratum, AUCtau,ss 1518 (851, 2738). The source simulated a weight distribution within the tier; the check uses one representative weight (77 kg)."
+    },
+    {
+      "group": "Adults and adolescents ≥40 kg (77 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 77
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 87,
+      "ci": [
+        39,
+        174
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): adults/adolescents >=40 kg, 300 mg q2w, Ctrough,ss 87 (39, 174). The source simulated a weight distribution within the tier; the check uses one representative weight (77 kg)."
+    },
+    {
+      "group": "Children 30–<60 kg (45 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 45
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 134,
+      "ci": [
+        64,
+        261
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): children, higher-exposure arm 30-<60 kg, 300 mg q2w, Ctrough,ss 134 (64, 261). The source simulated a weight distribution within the tier; the check uses one representative weight: the tier midpoint, 45 kg."
+    },
+    {
+      "group": "Children 15–<30 kg (22.5 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 22.5
+      },
+      "dose": 200,
+      "tau": 14,
+      "value": 156,
+      "ci": [
+        73,
+        314
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): children 15-<30 kg, 200 mg q2w, Ctrough,ss 156 (73, 314). The source simulated a weight distribution within the tier; the check uses one representative weight: the tier midpoint, 22.5 kg."
+    },
+    {
+      "group": "Children 15–<30 kg (22.5 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 22.5
+      },
+      "dose": 300,
+      "tau": 28,
+      "value": 89,
+      "ci": [
+        37,
+        201
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): children, lower-exposure arm 15-<30 kg, 300 mg q4w, Ctrough,ss 89 (37, 201). The source simulated a weight distribution within the tier; the check uses one representative weight (22.5 kg). Tests the long interval."
+    },
+    {
+      "group": "Children 5–<15 kg (10 kg)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "POP": "EoE",
+        "WT": 10
+      },
+      "dose": 100,
+      "tau": 14,
+      "value": 149,
+      "ci": [
+        75,
+        278
+      ],
+      "unit": "mg/L",
+      "source": "Nguyen et al. 2026, Clin Pharmacol Ther (doi:10.1002/cpt.70233, PMC13156347) Table S6 — model-simulated steady state (N=1000 per stratum, IIV and residual error included); median (5th, 95th percentile): children 5-<15 kg, 100 mg q2w, Ctrough,ss 149 (75, 278). The source simulated a weight distribution within the tier; the check uses one representative weight: the tier midpoint, 10 kg."
+    }
+  ]
+}

@@ -1,0 +1,737 @@
+{
+  "drug": "pembrolizumab",
+  "brand": "Keytruda Qlex",
+  "label": "Pembrolizumab SC (Keytruda Qlex) — Song 2025 IV+SC model · 2-compartment · time-varying CL",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "The popPK model behind the SC approval: Ka, F and sex on Ka estimated on D77 + C18 data, with the whole IV part fixed from the label time-dependent model. The fixed IV part is taken from EMA II/0042, whose values match Song Table 1 exactly; the time-dependence equation is from the Li 2017 NONMEM code.",
+  "_source": {
+    "document": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711); EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018); Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code",
+    "table": "Song Table 1 (= FDA Table 52): SC parameters and the fixed IV values; EMA II/0042 Table 10 footnote: covariate equations and references; Li 2017 ESM: equation forms; Song Table 2 and the label: exposures",
+    "subjects": "469 patients (MK-3475A-D77: 247 SC 790 mg Q6W and 126 IV 400 mg Q6W; C18 arms 1-3: 96), 6116 samples. The fixed IV model: 2993 patients (KN001/002/006/010/024)"
+  },
+  "limitations": [
+    "Relative to the validation values, trough concentrations come out 22~28% lower and AUC 9~18% lower (for both SC and IV; peak concentrations are within ±11%). The representative patient used for comparison (male, ECOG ≥1) is not in any CL-lowering category, whereas the actual population includes 30% women (CL ×0.838) and 35% ECOG 0 (×0.93), giving a geometric-mean CL about 8% lower; the distributions of albumin and other covariates are unknown. The label's geometric-mean CL is also 12~16% lower than the reference subject's. The Q3W accumulation ratio (label 2.5) is off by −10.6% and fails.",
+    "The covariance between the between-subject variabilities of CL and Vc is not given anywhere for the final model, so it is set to 0 (the earlier model code has a correlation of about 0.4).",
+    "The residual errors of 0.192 (SC) and 0.174 (IV) were inferred to be log-scale standard deviations, as in the parent IV model; no document states this explicitly. The engine cannot take separate values per route, so the SC value 0.192 is used.",
+    "Between-subject variability on the magnitude of CL decrease over time (IMAX) (ω² 0.0300, additive) is omitted because the engine does not support it. The FDA reviewer noted that fixing IMAX causes late concentrations after the last dose to be underpredicted.",
+    "The equation for the sex effect on the absorption rate is not printed, so it was inferred as (1−0.192) from '19% lower in women'.",
+    "The distributions of albumin, bilirubin, tumour size and eGFR in the analysis population are not published, so virtual patients hold these four covariates at their reference values.",
+    "The EMA table footnote gives Vc as 3.48, but the body of the same table, Song and the FDA table all give 3.53, so 3.53 is used (3.48 is the earlier model's value).",
+    "The source's 'steady state' is cycle 3 (Q6W) or cycle 6 (Q3W), which differs slightly from the app's steady state, where the decrease in CL over time is fully complete."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "CL",
+      "value": 0.252,
+      "ci": [
+        0.176,
+        0.361
+      ],
+      "unit": "L/day",
+      "source": "KEYTRUDA QLEX US label 12.3 / FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) p.77 — clearance after the first dose GM 252 mL/day (CV 37%). The label value is a population GM; the model value is the reference subject (74.9 kg, albumin 39 g/L, ECOG >=1, male). Interval from the CV."
+    },
+    {
+      "metric": "CL",
+      "at": "steady",
+      "value": 0.195,
+      "ci": [
+        0.133,
+        0.287
+      ],
+      "unit": "L/day",
+      "source": "KEYTRUDA QLEX US label 12.3 — steady-state clearance 'approximately 23% lower (GM, 195 mL/day [CV: 40%])'. Interval from the CV."
+    },
+    {
+      "metric": "Vss",
+      "value": 6.0,
+      "ci": [
+        4.9,
+        7.3
+      ],
+      "unit": "L",
+      "source": "KEYTRUDA QLEX US label 12.3 / FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) p.77 — Vss 6.0 L (CV 20%). Interval from the CV."
+    },
+    {
+      "metric": "thalf",
+      "value": 22,
+      "ci": [
+        16.1,
+        30.1
+      ],
+      "unit": "day",
+      "source": "KEYTRUDA QLEX US label 12.3 — terminal half-life 22 days (CV 32%) at steady state. Interval from the CV."
+    },
+    {
+      "metric": "Accum",
+      "dose": 790,
+      "tau": 42,
+      "value": 1.61,
+      "ci": [
+        1.05,
+        2.24
+      ],
+      "unit": "fold",
+      "source": "EMA assessment report Keytruda X/0000248795 (SC line extension) p.61 — model-predicted accumulation ratio for 790 mg Q6W 1.61 (1.05-2.24); label '1.6-fold'."
+    },
+    {
+      "metric": "Accum",
+      "dose": 395,
+      "tau": 21,
+      "value": 2.5,
+      "ci": [2.0, 3.0],
+      "unit": "fold",
+      "source": "KEYTRUDA QLEX US label 12.3 — accumulation 2.5-fold for 395 mg Q3W. No interval; +-20% assumed."
+    }
+  ],
+  "baseline": {
+    "CL": 0.281,
+    "Vc": 3.53,
+    "Vp": 2.75,
+    "Q": 0.889,
+    "ka": 0.322,
+    "F": 0.599
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day",
+    "ka": "1/day",
+    "F": "fraction (logit IIV)"
+  },
+  "baselineSource": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations — CL 0.281 L/day, Vc 3.53 L, Q 0.889 L/day, Vp 2.75 L (Song Table 1 prints the same, rounded: 0.28 / 3.53 / 0.89 / 2.75, 'Fixed'); Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) — Ka 0.322 /day (RSE 3.25%), F 0.599 (RSE 1.65%), estimated. Reference subject from the footnote: 74.872 kg, albumin 39.0 g/L, bilirubin 8.90 umol/L, BSLD 90.10 mm, eGFR 88.71, male, ECOG >=1, non-NSCLC.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL",
+        "Q"
+      ],
+      "omega2": 0.0939,
+      "cv": 30.6,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations — 'IIV on CL or Q' 0.0939; Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'CL=TVCL*EXP(ETA(1))', 'Q = TVQ*EXP(ETA(1))'. Song Table 1: 30.6%, fixed."
+    },
+    {
+      "params": [
+        "Vc",
+        "Vp"
+      ],
+      "omega2": 0.0364,
+      "cv": 19.1,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations — 'IIV on Vc or Vp' 0.0364; Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'V1=TVV1*EXP(ETA(2))', 'V2 = TVV2*EXP(ETA(2))'. Song Table 1: 19.1%, fixed."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.199,
+      "cv": 46.9,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) — Ka IIV 46.9% CV. omega^2 = ln(1+0.469^2) = 0.199 by the table's own conversion rule (footnote b, for omega^2 >= 0.15)."
+    },
+    {
+      "params": [
+        "F"
+      ],
+      "omega2": 0.349,
+      "transform": "logit",
+      "cv": null,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) — F IIV 14.2% on the logit scale; footnote b: CV = sqrt(omega^2)*F*(1-F)*100, so omega^2 = (0.142/(0.599*0.401))^2 = 0.349."
+    }
+  ],
+  "iivCorr": [
+    {
+      "a": 2,
+      "b": 3,
+      "rho": 0.337,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) — 'Correlation (omega2Ka, omega2F) 0.089 (R=33.7)': covariance 0.089, correlation 0.337 (consistent with the derived variances)."
+    }
+  ],
+  "iivType": "omega^2 (variance); F on the logit scale",
+  "iivNote": "CL-Vc covariance not published for the final model (set to 0). IMAX IIV (additive, omega^2 0.0300) not applied.",
+  "corr": null,
+  "residualError": {
+    "type": "exponential (log scale, inferred)",
+    "form": "exponential",
+    "sdLog": 0.192,
+    "cv": 19.2,
+    "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) — residual error SC 0.192 (IV 0.174), additive on log-transformed concentrations. Read as an SD on the log scale, as in the parent model (Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'Y = IPRED+ERR(1)*W', '$SIGMA 1 FIX'; EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations residual -0.249) — an inference, not stated for Song."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 74.872,
+      "coef": 0.534,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52)."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 74.872,
+      "coef": 0.534,
+      "enabled": true,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) 'Allometric scaling factor for CL and Q 0.534'; Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'TVQ = THETA(3)*(WGT/MWT)**TVEXCLQ'."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 74.872,
+      "coef": 0.514,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'Vc = ... x (WGT/74.872)^0.514 x (ALB/39.0)^(-0.233) x [(1-0.131) if female] x [(1-0.0590) if NSCLC]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52)."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 74.872,
+      "coef": 0.514,
+      "enabled": true,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) 'Allometric scaling factor for Vc and Vp 0.514'; Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'TVV2 = THETA(4)*(WGT/MWT)**TVEXV1V2'."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.0,
+      "coef": -0.849,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) Albumin in g/L (unit from the Merck dataset tables)."
+    },
+    {
+      "id": "VC_ALB",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.0,
+      "coef": -0.233,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'Vc = ... x (WGT/74.872)^0.514 x (ALB/39.0)^(-0.233) x [(1-0.131) if female] x [(1-0.0590) if NSCLC]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52)."
+    },
+    {
+      "id": "CL_BIL",
+      "param": "CL",
+      "cov": "BIL",
+      "type": "power",
+      "ref": 8.9,
+      "coef": -0.0488,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) Bilirubin in umol/L."
+    },
+    {
+      "id": "CL_BSLD",
+      "param": "CL",
+      "cov": "BSLD",
+      "type": "power",
+      "ref": 90.1,
+      "coef": 0.0933,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) BSLD = baseline sum of longest tumour diameters, mm."
+    },
+    {
+      "id": "CL_GFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 88.71,
+      "coef": 0.123,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) eGFR in mL/min/1.73 m2."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.162,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52)."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.131,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'Vc = ... x (WGT/74.872)^0.514 x (ALB/39.0)^(-0.233) x [(1-0.131) if female] x [(1-0.0590) if NSCLC]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52)."
+    },
+    {
+      "id": "CL_ECOG0",
+      "param": "CL",
+      "cov": "ECOG",
+      "type": "proportional",
+      "level": "0",
+      "coef": -0.0697,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'CL = 0.281 x (WGT/74.872)^0.534 x (ALB/39.0)^(-0.849) x (BIL/8.90)^(-0.0488) x (BSLD/90.10)^0.0933 x (eGFR/88.71)^0.123 x [(1-0.162) if female] x [(1-0.0697) if BECOGN=0]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) ECOG 1 or worse is the reference; ECOG 0 lowers CL by 7%."
+    },
+    {
+      "id": "VC_NSCLC",
+      "param": "Vc",
+      "cov": "TUMOR",
+      "type": "proportional",
+      "level": "NSCLC",
+      "coef": -0.059,
+      "enabled": true,
+      "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations footnote: 'Vc = ... x (WGT/74.872)^0.514 x (ALB/39.0)^(-0.233) x [(1-0.131) if female] x [(1-0.0590) if NSCLC]'; fixed in Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) Melanoma and other tumours are the reference."
+    },
+    {
+      "id": "KA_SEX",
+      "param": "ka",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.192,
+      "enabled": true,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 1 (= FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) Table 52) sex effect on Ka -0.192 (RSE 25.9%); Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) §3.2 '19 % lower Ka observed in females versus males'; EMA assessment report Keytruda X/0000248795 (SC line extension) p.62 '19.2% lower Ka in female subjects'. The (1+theta) form is inferred from that wording and the model family's convention."
+    }
+  ],
+  "timeVarying": {
+    "enabled": true,
+    "param": "CL",
+    "type": "exp_sigmoid_emax",
+    "Emax": -0.218,
+    "T50": 65.5,
+    "gamma": 2.99,
+    "source": "EMA assessment report Keytruda EMEA/H/C/003820/II/0042 (2018) Table 10 (p.24) 'Proposed Updated Label Time-Dependent Model' (N=2993) and its footnote equations — IMAX -0.218 (95% CI -0.254 to -0.157), TI50 65.5 d, Hill 2.99 (all fixed in Song Table 1). Form from Li et al. 2017, J Pharmacokinet Pharmacodyn (doi:10.1007/s10928-017-9528-y), electronic supplementary NONMEM code: 'TDPK = EXP((...IMAX)*(TIME**HILL)/(TI50**HILL+TIME**HILL))', TVCL = TDPK*...; Li abstract: 'approximately Imax or exactly e^Imax - 1'.",
+    "desc": [
+      "CL(t) = CL0 * exp(-0.218 * t^2.99 / (65.5^2.99 + t^2.99)): maximum decrease 19.6%, half reached at about day 66. Not applied to Q."
+    ]
+  },
+  "population": {
+    "_note": "Observed where published (Song Table S1); albumin, bilirubin, tumour size and eGFR stay at the reference values.",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 69,
+        "cv": 23,
+        "min": 37,
+        "max": 144,
+        "source": "ASSUMPTION — CV 23% derived from the range as ln(144/37)/6; median 69 kg and range 37-144 from Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table S1 (N=469)."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.3,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table S1 (N=469) — female 139 (30%)."
+      },
+      "ECOG": {
+        "dist": "bernoulli",
+        "p": 0.35,
+        "levels": [
+          "1+",
+          "0"
+        ],
+        "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table S1 (N=469) — ECOG 0 in 166 (35%), 1 in 303 (65%)."
+      },
+      "TUMOR": {
+        "dist": "bernoulli",
+        "p": 0.87,
+        "levels": [
+          "melanoma/other",
+          "NSCLC"
+        ],
+        "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table S1 (N=469) — NSCLC 406 (87%), melanoma 32 (7%), RCC 31 (7%)."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 0.5,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) — fitted on SC and IV data together (D77 IV 400 mg Q6W arm, C18 IV crossover)."
+    },
+    "sc": {
+      "supported": true,
+      "source": "FDA Multi-disciplinary Review BLA 761467 (KEYTRUDA QLEX) p.176 — 'first-order absorption from the extravascular compartment after SC administration'; no lag."
+    }
+  },
+  "regimen": {
+    "dose": 790,
+    "tinf_h": 0,
+    "tau": 42,
+    "ndose": 9,
+    "tend": 378,
+    "source": "KEYTRUDA QLEX US label 12.3 / Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) — 790 mg with berahyaluronidase alfa every 6 weeks (D77)."
+  },
+  "regimenPresets": [
+    {
+      "label": "Advanced solid tumours · adult patients — SC 790 mg every 6 weeks (Keytruda Qlex)",
+      "dose": 790,
+      "unit": "mg",
+      "tau": 42,
+      "ndose": 9,
+      "tend": 378,
+      "route": "SC",
+      "source": "KEYTRUDA QLEX US label 12.3 section 2 — 790 mg / 9,600 units berahyaluronidase alfa every 6 weeks (the MK-3475A-D77 regimen)."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — SC 395 mg every 3 weeks (Keytruda Qlex)",
+      "dose": 395,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 18,
+      "tend": 378,
+      "route": "SC",
+      "source": "KEYTRUDA QLEX US label 12.3 section 2 — 395 mg / 4,800 units every 3 weeks (C18 arm 4)."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 400 mg every 6 weeks (comparator arm)",
+      "dose": 400,
+      "unit": "mg",
+      "tau": 42,
+      "ndose": 9,
+      "tend": 378,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) — the IV arm of D77."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 200 mg every 3 weeks (comparator arm)",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 18,
+      "tend": 378,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — IV 200 mg Q3W reference exposures."
+    }
+  ],
+  "covariateChecksNote": "Song Table 2 model-based exposures for SC 790 mg Q6W, SC 395 mg Q3W and IV 200 mg Q3W, each compared with one typical analysis-set patient.",
+  "covariateChecks": [
+    {
+      "group": "SC 790 mg Q6W — first cycle",
+      "metric": "AUC_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 1597,
+      "ci": [
+        1094.2,
+        2330.8
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: SC 790 mg Q6W, cycle 1 AUC0-6wk 1597 (39.2%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 790 mg Q6W — first cycle",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 18.8,
+      "ci": [
+        11.2,
+        31.6
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: cycle 1 Ctrough (day 42) 18.8 (55.5%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 790 mg Q6W — first cycle",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 63.1,
+      "ci": [
+        42.2,
+        94.3
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: cycle 1 Cmax 63.1 (41.9%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 790 mg Q6W — steady state",
+      "metric": "AUCtau_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 2506,
+      "ci": [
+        1662.9,
+        3776.6
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state AUC0-6wk (steady state = cycle 3 for Q6W / cycle 6 for Q3W in the source; the app uses a fully developed steady state, so the late CL decrease is slightly larger here) 2506 (42.8%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 790 mg Q6W — steady state",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 33.6,
+      "ci": [
+        19.7,
+        57.4
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Ctrough 33.6 (57.7%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 790 mg Q6W — steady state",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 790,
+      "tau": 42,
+      "value": 90.1,
+      "ci": [
+        60.4,
+        134.3
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Cmax 90.1 (41.6%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 395 mg Q3W",
+      "metric": "AUC_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 395,
+      "tau": 21,
+      "value": 511,
+      "ci": [
+        350.1,
+        745.8
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: SC 395 mg Q3W, cycle 1 AUC0-3wk 511 (39.2%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 395 mg Q3W",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 395,
+      "tau": 21,
+      "value": 18.8,
+      "ci": [
+        12.8,
+        27.5
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: cycle 1 Ctrough (day 21) 18.8 (39.5%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 395 mg Q3W",
+      "metric": "AUCtau_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 395,
+      "tau": 21,
+      "value": 1282,
+      "ci": [
+        850.7,
+        1932.0
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state AUC0-3wk (steady state = cycle 3 for Q6W / cycle 6 for Q3W in the source; the app uses a fully developed steady state, so the late CL decrease is slightly larger here) 1282 (42.8%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 395 mg Q3W",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 395,
+      "tau": 21,
+      "value": 47.8,
+      "ci": [
+        30.5,
+        75.0
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Ctrough 47.8 (47.4%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "SC 395 mg Q3W",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "SC",
+      "dose": 395,
+      "tau": 21,
+      "value": 72.5,
+      "ci": [
+        48.4,
+        108.5
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Cmax 72.5 (42.0%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV."
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "AUC_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 534,
+      "ci": [
+        430.5,
+        662.4
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: IV 200 mg Q3W, cycle 1 AUC0-3wk 534 (21.8%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 14.3,
+      "ci": [
+        10.6,
+        19.3
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: cycle 1 Ctrough (day 21) 14.3 (30.7%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 64.0,
+      "ci": [
+        52.7,
+        77.8
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: cycle 1 Cmax (end of infusion) 64.0 (19.7%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "AUCtau_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 1130,
+      "ci": [
+        833.9,
+        1531.2
+      ],
+      "unit": "ug*day/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state AUC0-3wk (steady state = cycle 3 for Q6W / cycle 6 for Q3W in the source; the app uses a fully developed steady state, so the late CL decrease is slightly larger here) 1130 (31.1%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 36.3,
+      "ci": [
+        24.4,
+        53.9
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Ctrough 36.3 (41.2%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 200 mg Q3W (control)",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 69,
+        "TUMOR": "NSCLC"
+      },
+      "route": "IV",
+      "dose": 200,
+      "tau": 21,
+      "value": 98.8,
+      "ci": [
+        78.8,
+        123.9
+      ],
+      "unit": "ug/mL",
+      "source": "Song et al. 2025, Eur J Cancer 230:115711 (doi:10.1016/j.ejca.2025.115711) Table 2 — model-based exposures, geometric mean (CV%); SC n=343 (D77 SC + C18 arms 1-3), IV n=469: steady-state Cmax 98.8 (22.9%). Compared with a typical analysis-set patient: median weight 69 kg, NSCLC (87%), male (70%), ECOG >=1 (65%) (Song Table S1); albumin, bilirubin, tumour size and eGFR at the model references (their distributions are not published). Interval = GM x exp(+-SD_log) from the CV.",
+      "tinf_h": 0.5
+    }
+  ]
+}

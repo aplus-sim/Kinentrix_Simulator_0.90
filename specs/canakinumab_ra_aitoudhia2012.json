@@ -1,0 +1,212 @@
+{
+  "drug": "canakinumab",
+  "brand": "Ilaris",
+  "label": "Canakinumab — rheumatoid arthritis · Ait-Oudhia 2012 · 2-compartment SC/IV",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "PK part of a PK-binding-PD model of canakinumab in RA (472 patients, 4 trials, SC and 2-h IV). Canakinumab is not approved for RA; the model is included as a published SC model.",
+  "_source": {
+    "document": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473)",
+    "table": "Table 1 (parameters), Results (covariate equations)",
+    "subjects": "472 RA patients (349 on canakinumab), 80% women, median 57 y, median 74 kg; 0.1 mg/kg to 900 mg, SC or 2-h IV, Q2W or Q4W"
+  },
+  "limitations": [
+    "Values within the paper are inconsistent: the half-life computed from the tabulated CL of 0.104 L/day is about 44 days, but the text gives a drug half-life of 25 days, and the CL in the text is 0.107. The Novartis pooled analysis of the same drug (RA, 70 kg) has CL 0.214 L/day.",
+    "The paper gives no numerical exposure values (Cmax, Ctrough, AUC) to validate against. Only the single half-life row is compared.",
+    "Between-subject variability was reported only as 'apparent CV', so it was converted with ln(1+CV²); the variability in bioavailability (3.68%) was omitted because it is small.",
+    "IL-1β binding is not simulated. Rheumatoid arthritis is not an approved indication."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "thalf",
+      "value": 25,
+      "ci": [20.0, 30.0],
+      "unit": "day",
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results — drug vs IL-1beta half-life '(4.5 h vs. 25 days)'. +-20% assumed. The paper's own Table 1 parameters give a longer half-life; this row shows that inconsistency."
+    }
+  ],
+  "baseline": {
+    "CL": 0.104,
+    "Vc": 3.71,
+    "Vp": 2.24,
+    "Q": 0.165,
+    "ka": 0.266,
+    "F": 0.667
+  },
+  "baselineUnits": {
+    "CL": "L/day (70 kg)",
+    "Vc": "L (70 kg)",
+    "Vp": "L (70 kg)",
+    "Q": "L/day",
+    "ka": "1/day",
+    "F": "fraction"
+  },
+  "baselineSource": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — ka 0.266 /day (RSE 3%), Vc 3.71 L, Vp 2.24 L, CL = CLDL 0.104 L/day, Q 0.165 L/day, F 0.667. The text's '0.107 l/day' differs from the table; the table is followed.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "cv": 11.8,
+      "omega2": 0.01383,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — BSV CL 11.8% (apparent CV)."
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "cv": 37,
+      "omega2": 0.12831,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — BSV Vc 37%."
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "cv": 39.9,
+      "omega2": 0.14773,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — BSV Vp 39.9%."
+    },
+    {
+      "params": [
+        "Q"
+      ],
+      "cv": 13.2,
+      "omega2": 0.01727,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — BSV Q 13.2%."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "cv": 5,
+      "omega2": 0.0025,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — BSV ka 5%."
+    }
+  ],
+  "iivType": "apparent %CV converted to omega^2 = ln(1+CV^2)",
+  "iivNote": "Correlations not reported. F BSV (3.68%, logit) omitted.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional + additive",
+    "form": "combined",
+    "prop": 0.111,
+    "add": 0.0326,
+    "cv": 11.1,
+    "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Table 1 — total canakinumab: proportional 11.1%, additive 0.217 nmol/L = 0.0326 ug/mL at 150 kDa."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.75,
+      "enabled": true,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results — 'CL = theta_CL * e^eta_CL * (BWT/70)^3/4' (exponent fixed)."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.75,
+      "enabled": true,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results — weight on 'CL, CL L, CL D, V c, and V p'; the undefined 'CL D' is read as the inter-compartmental clearance Q (inference)."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 1.0,
+      "enabled": true,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results — 'V = theta_v * e^eta_v * (BWT/70)'."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 1.0,
+      "enabled": true,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results — same equation for Vp."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance in the model",
+    "desc": [
+      "This model has no term for change in clearance over time."
+    ]
+  },
+  "population": {
+    "_note": "Observed medians/ranges only.",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 74,
+        "cv": 17,
+        "min": 40,
+        "max": 111,
+        "source": "ASSUMPTION — CV 17% derived from the range as ln(111/40)/6 on the log scale; median 74 kg and range 40-111 kg from Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Results ('median weight of 74 kg (range 40-111 kg)')."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 2,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Suppl. Table S1 — A2101 0.3-10 mg/kg IV over 2 h; A2204/A2207 600 mg IV."
+    },
+    "sc": {
+      "supported": true,
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) — first-order SC absorption, F on the logit scale."
+    }
+  },
+  "regimen": {
+    "dose": 150,
+    "tinf_h": 0,
+    "tau": 28,
+    "ndose": 12,
+    "tend": 336,
+    "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Suppl. Table S1 — A2201: 150 mg SC every 4 weeks (one of the studied arms)."
+  },
+  "regimenPresets": [
+    {
+      "label": "Rheumatoid arthritis · adult patients — SC 150 mg every 4 weeks (trial A2201, not an approved regimen)",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 336,
+      "route": "SC",
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Suppl. Table S1 — A2201 150 mg SC Q4W. Not an approved indication."
+    },
+    {
+      "label": "Rheumatoid arthritis · adult patients — SC 300 mg every 2 weeks (trial A2201, not an approved regimen)",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 24,
+      "tend": 336,
+      "route": "SC",
+      "source": "Ait-Oudhia, Lowe, Mager 2012, CPT Pharmacometrics Syst Pharmacol 1:e5 (doi:10.1038/psp.2012.6, PMC3603473) Suppl. Table S1 — A2201 300 mg (2 x 150 mg) SC Q2W."
+    }
+  ]
+}

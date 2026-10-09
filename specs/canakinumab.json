@@ -1,0 +1,639 @@
+{
+  "drug": "canakinumab",
+  "brand": "Ilaris",
+  "label": "Canakinumab (Ilaris) — 2-compartment SC · Chakraborty 2012 pooled model",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": [
+    "The first subcutaneous drug in this app. The dose enters a depot compartment and is absorbed",
+    "at rate ka with bioavailability F; the engine already supported this, so no code change was",
+    "needed for the route itself.",
+    "Every enabled coefficient below is copied from Table IV of 20_Chakyraborty2012.pdf, the",
+    "population PK-binding analysis the FDA review and the US label both rely on."
+  ],
+  "_source": {
+    "document": "Paper/20_Chakyraborty2012.pdf — Chakraborty A et al., 'Pharmacokinetic and Pharmacodynamic Properties of Canakinumab, a Human Anti-Interleukin-1b Monoclonal Antibody', Clin Pharmacokinet 2012;51(6):e1-e18 (doi:10.2165/11599820-000000000-00000)",
+    "table": "Table IV: Population pharmacokinetic-binding model estimated parameters (p e12-e13)",
+    "subjects": "n = 233 subjects pooled from six studies (CAPS, RA, asthma, psoriasis, healthy volunteers)",
+    "corroboratedBy": [
+      "Regulatory/10_FDA_CP.pdf p18 — single 150 mg SC in adult CAPS, steady-state estimates, accumulation",
+      "Regulatory/13_FDA_L.pdf section 12.3 — 'CL ... 0.174 L/day in a typical CAPS patient weighing 70 kg', 'Vss ... 6.01 liters', 'accumulation ratio was 1.3-fold for CAPS patients'"
+    ]
+  },
+  "_modelChoice": {
+    "chosen": "Chakraborty 2012, the CAPS-referenced parameter set (CL 0.174 L/day)",
+    "watchOut": "data/PPKPARAMETER.csv lists this same DOI with CL 0.137. That number is the Caucasian healthy-volunteer row of Table IV, not the CAPS patient row. The app is set up for the approved CAPS regimen, so the CAPS value 0.174 is used and the other populations are offered as a POP covariate instead.",
+    "alternativesInTheLibrary": {
+      "https://doi.org/10.1002/jcph.162": "N=601 gouty arthritis — CL 0.214, Vc 4.58, Vp 2.86, Q 0.503, ka 0.296, F 0.588, reference weight 93 kg. A different indication population; the label's 'CL 0.23 L/day in a typical patient with gout flares of body weight 93 kg' matches this lineage.",
+      "https://doi.org/10.1038/psp.2012.6": "N=349, 6918 samples — the largest sample count, but carries no covariates at all"
+    }
+  },
+  "limitations": [
+    "The FDA does not state which cell line its steady-state estimates are based on. Run with the marketed Sp2/0 material (F 70%), Cmax,ss and AUCtau,ss come out about 12% above the reported 17.5 ug/mL and 537 ug*day/mL; run with NS0 (F 63.3%), both are reproduced within 2% — so NS0 was taken as the reference. Switching CELLLINE to Sp2/0 raises exposure by 10.6%, and that condition is not validated.",
+    "The original model also describes binding of the drug to its target (IL-1 beta), so it tracks free and bound IL-1 beta as well. Only the canakinumab pharmacokinetic part is reproduced here — which is justified, since the paper itself states that the PK is linear, dose- and time-independent, with no evidence of target-mediated disposition.",
+    "For the virtual patients' weight, albumin and age, only the medians come from the source; the spreads are assumed (see the 'Assumptions' table)."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "thalf",
+      "value": 26.1,
+      "ci": [
+        23.0,
+        29.2
+      ],
+      "unit": "day",
+      "source": "Regulatory/10_FDA_CP.pdf p18 — single 150 mg SC in adult CAPS: t1/2 mean 26.1 d (SD 7.31, n=22). The interval is the 95% CI of that mean (26.1 +- 1.96*7.31/sqrt(22)), not a reported CI."
+    },
+    {
+      "metric": "Vss",
+      "value": 6.01,
+      "ci": [4.81, 7.21],
+      "unit": "L",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — 'Vss ... estimated to be 6.01 liters in a typical CAPS patient weighing 70 kg'. No interval in the source; +-20% assumed. Computed here as Vc + Vp."
+    },
+    {
+      "metric": "Cmax_first",
+      "doseMg": 150,
+      "value": 15.9,
+      "ci": [
+        12.4,
+        19.4
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/10_FDA_CP.pdf p18 — single 150 mg SC in adult CAPS: Cmax mean 15.9 ug/mL (SD 3.52, n=25). The interval is mean +- 1 SD, i.e. the observed spread across those 25 patients - the right yardstick here because the model predicts one typical 70 kg patient, not the sample mean of a particular cohort. The label quotes the same value as '16 +- 3.5 mcg/mL ... approximately 7 days after' dosing, which also tests the absorption rate."
+    },
+    {
+      "metric": "Cmax_ss",
+      "doseMgkg": 2.142857,
+      "value": 17.5,
+      "ci": [14.0, 21.0],
+      "unit": "ug/mL",
+      "source": "Regulatory/10_FDA_CP.pdf p18 — 'following multiple doses of 150 mg every 8 weeks in the CAPS patients, the estimated steady state Cmax and AUCtau were 17.5 ug/mL and 537 ug*day/mL'. No interval in the source; +-20% assumed. 2.142857 mg/kg x the model's 70 kg reference = the 150 mg flat dose."
+    },
+    {
+      "metric": "AUCtau_ss",
+      "doseMgkg": 2.142857,
+      "value": 537,
+      "ci": [429.6, 644.4],
+      "unit": "ug*day/mL",
+      "source": "Regulatory/10_FDA_CP.pdf p18 — same sentence. No interval in the source; +-20% assumed."
+    },
+    {
+      "metric": "Accum",
+      "doseMgkg": 2.142857,
+      "value": 1.3,
+      "ci": [1.04, 1.56],
+      "unit": "fold",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — 'The expected accumulation ratio was 1.3-fold for CAPS patients ... following 6 months of subcutaneous dosing of 150 mg ILARIS every 8 weeks'; the FDA review p18 states the same 30% accumulation. No interval in the source; +-20% assumed."
+    }
+  ],
+  "baseline": {
+    "CL": 0.174,
+    "Vc": 3.3,
+    "Vp": 2.71,
+    "Q": 0.429,
+    "ka": 0.299,
+    "F": 0.633
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day",
+    "ka": "1/day",
+    "F": "fraction"
+  },
+  "baselineSource": "20_Chakyraborty2012.pdf Table IV — CLD 0.174 +- 0.0124 L/d (CAPS, at 70 kg and 43 g/L albumin), VC 3.30 +- 0.135 L, VP 2.71 +- 0.151 L, PSD 0.429 +- 0.0529 L/d, ka 0.299 +- 0.0382 /d and F1 63.3% +- 5.26% for the NS0 cell line, which is the reference here because every value in the validation panel was measured on NS0 material; the marketed Sp2/0 material is the CELLLINE covariate. PSD is the paper's intercompartmental permeability-surface area coefficient and takes the role of Q.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.0859,
+      "cv": 29,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'CLD ... 0.0859 +- 0.0147 (29%)', shrinkage 4.64%"
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "omega2": 0.0589,
+      "cv": 24,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'VC ... 0.0589 +- 0.0205 (24%)', shrinkage 21.0%"
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "omega2": 0.0817,
+      "cv": 29,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'VP ... 0.0817 +- 0.0200 (29%)', shrinkage 30.9%"
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.406,
+      "cv": 64,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'ka ... 0.406 +- 0.107 (64%)', shrinkage 13.8%. Absorption is by far the most variable parameter."
+    }
+  ],
+  "iivType": "omega^2 (variance on the log scale)",
+  "iivNote": "The variances are taken as printed rather than converted from the rounded %CV, so the engine's omega equals sqrt(omega^2) exactly. Each parameter has its own independent eta; the source reports no correlation between them.",
+  "residualError": {
+    "type": "exponential (additive on log scale)",
+    "form": "exponential",
+    "sdLog": 0.2296,
+    "cv": 23,
+    "source": "20_Chakyraborty2012.pdf Table IV — residual error variance for canakinumab 0.0527 +- 0.00572 (23%), shrinkage 7.58%. Form from p e8: 'The model was run with logarithmically transformed input concentration data. The residual error was therefore specified with an additive model ... Yn = log(IPREn) + en' — i.e. exponential on the concentration scale, SD sqrt(0.0527) = 0.2296."
+  },
+  "corr": null,
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.695,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'Weight on CLD 0.695 +- 0.0900', exponent for a power model on the centred covariate; the centring value is the 70 kg stated in the CLD row.",
+      "desc": "Steeper than the 0.5-0.6 of the anti-PD-(L)1 antibodies. The label makes the same point: 'pharmacokinetic properties ... are comparable in different diseases but influenced by body weight'."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.684,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'Weight on VC 0.684 +- 0.0921' (centred at 70 kg)"
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": 0.798,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'Weight on VP 0.798 +- 0.236' (centred at 70 kg)",
+      "desc": "The only model in this app whose source reports a weight effect on the peripheral volume directly, rather than by analogy with Vc."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 43,
+      "coef": -0.916,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'Albumin on CLD -0.916 +- 0.185'; the reference is the 43 g/L median albumin named in the CLD row and on p e9.",
+      "desc": "Lower albumin raises clearance — the same direction and nearly the same size as in pembrolizumab (-0.854), despite a completely different target and patient population."
+    },
+    {
+      "id": "KA_AGE",
+      "param": "ka",
+      "cov": "AGE",
+      "type": "power",
+      "ref": 34,
+      "coef": -0.555,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — 'Age on ka -0.555 +- 0.151'; the reference is the median age of 34 years, stated in the ka row ('ka (d-1 for 34 year old)') and on p e9.",
+      "desc": "The app's first covariate on an absorption parameter: older patients absorb the subcutaneous dose more slowly, which lowers and delays the peak without changing total exposure."
+    },
+    {
+      "id": "KA_LINE",
+      "param": "ka",
+      "cov": "CELLLINE",
+      "type": "multiplier",
+      "level": "Sp2/0",
+      "coef": 0.8997,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — ka is estimated per cell line: NS0 0.299 +- 0.0382 /d, Sp2/0 0.269 +- 0.0634 /d.",
+      "coefDerivation": "DERIVED — the ratio of the two values in the same table row, 0.269/0.299 = 0.8997.",
+      "desc": "Canakinumab production was switched from the NS0 to the Sp2/0 cell line during development. Sp2/0 is the marketed material; NS0 is the material used in every study that produced the reported values in the validation panel, which is why NS0 is the reference here."
+    },
+    {
+      "id": "F_LINE",
+      "param": "F",
+      "cov": "CELLLINE",
+      "type": "multiplier",
+      "level": "Sp2/0",
+      "coef": 1.1058,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — subcutaneous bioavailability F1 per cell line: NS0 63.3% +- 5.26%, Sp2/0 70.0% +- 8.25% (both estimated on the logit scale).",
+      "coefDerivation": "DERIVED — the ratio of the two values, 0.700/0.633 = 1.1058.",
+      "desc": "A 10.6% higher bioavailability raises exposure by the same factor, since AUC = F*dose/CL. This single switch is what separates the model from the FDA's reported steady-state figures (see the note on limitations)."
+    },
+    {
+      "id": "CL_POP_HVCAU",
+      "param": "CL",
+      "cov": "POP",
+      "type": "multiplier",
+      "level": "Caucasian HV",
+      "coef": 0.787,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — CLD is estimated per population at 70 kg and 43 g/L albumin: CAPS 0.174, Caucasian healthy volunteers 0.137.",
+      "coefDerivation": "DERIVED — the ratio of two values in the same table column, 0.137/0.174 = 0.787. The paper models population type as 'a proportional increase or decrease in the parameter value' (p e9), which is exactly this multiplicative form.",
+      "desc": "Healthy volunteers clear canakinumab about 21% more slowly than CAPS patients. This is the row data/PPKPARAMETER.csv recorded as canakinumab's clearance."
+    },
+    {
+      "id": "CL_POP_HVJPN",
+      "param": "CL",
+      "cov": "POP",
+      "type": "multiplier",
+      "level": "Japanese HV",
+      "coef": 0.971,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — Japanese healthy volunteers 0.169 vs CAPS 0.174 (DERIVED ratio 0.971).",
+      "desc": "The FDA review (10_FDA_CP.pdf p28) puts the Japanese / non-Japanese difference at about 17% among healthy volunteers and judges it 'not significant to warrant dose adjustment'."
+    },
+    {
+      "id": "CL_POP_RA",
+      "param": "CL",
+      "cov": "POP",
+      "type": "multiplier",
+      "level": "RA",
+      "coef": 1.121,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — rheumatoid arthritis 0.195 vs CAPS 0.174 (DERIVED ratio 1.121). The RA data come from study CACZ885A2101, the proof-of-concept programme reported in 21_Alten_2008.pdf."
+    },
+    {
+      "id": "CL_POP_ASTHMA",
+      "param": "CL",
+      "cov": "POP",
+      "type": "multiplier",
+      "level": "Asthma",
+      "coef": 0.966,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — asthma 0.168 vs CAPS 0.174 (DERIVED ratio 0.966)."
+    },
+    {
+      "id": "CL_POP_PSO",
+      "param": "CL",
+      "cov": "POP",
+      "type": "multiplier",
+      "level": "Psoriasis",
+      "coef": 1.063,
+      "enabled": true,
+      "source": "20_Chakyraborty2012.pdf Table IV — psoriasis 0.185 vs CAPS 0.174 (DERIVED ratio 1.063)."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 70,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the covariate block of Table IV lists weight on CLD, VC and VP only. No weight effect on PSD (Q) was retained.",
+      "desc": "Unlike pembrolizumab, where the source states that Q is weight-scaled like CL, this paper gives no such statement, so Q is left unscaled."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — and the source argues against it: 'No sex- or age-related pharmacokinetic differences were observed after correction for body weight' (20_Chakyraborty2012.pdf abstract; the same sentence appears in 13_FDA_L.pdf 12.3). Sex was tested as a candidate covariate and not retained.",
+      "desc": "A deliberate absence, not a gap in the data. Age does survive, but on absorption (KA_AGE) rather than on clearance."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "multiplier",
+      "level": "pos",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — and not expected: 'None of the patients in the two CAPS studies showed a treatment-induced immune response to canakinumab that can alter the pharmacokinetic properties' (20_Chakyraborty2012.pdf p e13)."
+    },
+    {
+      "id": "CL_CRCL",
+      "param": "CL",
+      "cov": "CRCL",
+      "type": "power",
+      "ref": null,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — 10_FDA_CP.pdf p28 reports four CAPS patients with renal impairment and concludes 'Adequate data is not available to recommend dosage adjustment in patients with renal impairment'. Too few subjects for a coefficient.",
+      "desc": "Renal function. The review notes lower AUC in those four patients, but n=4 cannot support a model term."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — and the source argues against it",
+    "desc": [
+      "This model is recorded in PPKPARAMETER.csv with 'Time dependency' = 0,",
+      "so there is no reason to turn on time-dependent CL for canakinumab."
+    ]
+  },
+  "population": {
+    "_note": "Covariate distributions for the virtual population. The medians are the model's own centring values, which the source states; the spread around them is assumed.",
+    "seed": 20260915,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 70,
+        "cv": 27,
+        "min": 35,
+        "max": 180,
+        "source": "ASSUMPTION — CV 27% and the 35-180 kg clamps are assumed (carried over from the pembrolizumab spec). The median is the model's own reference body weight of 70 kg (20_Chakyraborty2012.pdf Table IV)."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 43,
+        "sd": 4.5,
+        "min": 20,
+        "max": 55,
+        "source": "ASSUMPTION for the spread only — SD 4.5 g/L and the clamps are assumed. The mean is the analysis population's median serum albumin, 43 g/L (20_Chakyraborty2012.pdf p e9)."
+      },
+      "AGE": {
+        "dist": "normal",
+        "mean": 34,
+        "sd": 14,
+        "min": 4,
+        "max": 80,
+        "source": "ASSUMPTION for the spread only — SD 14 years and the clamps are assumed. The mean is the analysis population's median age of 34 years (20_Chakyraborty2012.pdf p e9); CAPS is treated from childhood, hence the wide clamps."
+      },
+      "CELLLINE": {
+        "dist": "fixed",
+        "value": "NS0",
+        "levels": [
+          "NS0",
+          "Sp2/0"
+        ],
+        "source": "The population is held on NS0 material, matching the studies the reported values came from. Switch to Sp2/0 to simulate the marketed product (+10.6% bioavailability, -10% absorption rate)."
+      },
+      "POP": {
+        "dist": "fixed",
+        "value": "CAPS",
+        "levels": [
+          "CAPS",
+          "Caucasian HV",
+          "Japanese HV",
+          "RA",
+          "Asthma",
+          "Psoriasis"
+        ],
+        "source": "The virtual population is held at CAPS, the indication the default regimen belongs to. Population type is an input you switch rather than a sampled covariate — the source gives one clearance per population, not a mix."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 2,
+      "source": "The model was fitted on intravenous and subcutaneous data together: 'Canakinumab was also administered as a 2-hour infusion, allowing for the estimation of the subcutaneous bioavailability' (20_Chakyraborty2012.pdf p e7), and studies CACZ885B2101, A1101 and A2101 dosed 0.3-10 mg/kg IV. Bioavailability and absorption do not apply on this route."
+    },
+    "sc": {
+      "supported": true,
+      "source": "The approved route: 'ILARIS IS FOR SUBCUTANEOUS USE ONLY' (13_FDA_L.pdf 2.1). ka and F are estimated per cell line in Table IV."
+    }
+  },
+  "regimen": {
+    "dose": 150,
+    "tinf_h": 0,
+    "tau": 56,
+    "ndose": 6,
+    "tend": 504,
+    "source": "Regulatory/13_FDA_L.pdf 2.2 — 'For patients with CAPS > 40 kg: 150 mg subcutaneously, every 8 weeks'. Subcutaneous, so infusion time is 0 and the dose enters the depot compartment. Six doses and a 504-day window are display defaults: steady state takes about 130 days, and the window leaves a terminal tail of roughly six half-lives after the last dose."
+  },
+  "covariateChecksNote": "Label section 12.3 lists, for each indication, the CL, Vss and accumulation ratio of 'a typical patient of that weight'. These rows check whether the weight term of this model (fitted mainly in adults, e.g. CAPS) still holds when carried over to other weights. The model has no population terms for systemic JIA, gout or periodic fever, so all rows are computed on a CAPS basis; age is held at the reference value (34 years) because the label gives no age for the typical patient. The reported values have no intervals, so ±20% is used. The accumulation ratio is at steady state, whereas the label states 'after 6 months of dosing'.",
+  "covariateChecks": [
+    {
+      "group": "Systemic JIA — weight 33 kg",
+      "metric": "CL",
+      "cov": {
+        "WT": 33
+      },
+      "value": 0.11,
+      "ci": [0.088, 0.132],
+      "unit": "L/day",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — 'Clearance (CL) of canakinumab ... was estimated to be ... 0.11 L/day in an SJIA patient weighing 33 kg'. The label's SJIA figures come from the paediatric SJIA analysis, so this row tests how far this adult model's weight term extrapolates. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Systemic JIA — weight 33 kg",
+      "metric": "Vss",
+      "cov": {
+        "WT": 33
+      },
+      "value": 3.2,
+      "ci": [2.56, 3.84],
+      "unit": "L",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — 'Canakinumab volume of distribution (Vss) ... 3.2 liters in a SJIA patient weighing 33 kg'. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Systemic JIA — weight 33 kg",
+      "metric": "Accum",
+      "cov": {
+        "WT": 33
+      },
+      "doseMgkg": 4,
+      "tau": 28,
+      "value": 1.6,
+      "ci": [1.28, 1.92],
+      "unit": "fold",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — 'The expected accumulation ratio was ... 1.6-fold for SJIA patients ... following 6 months of subcutaneous dosing of ... 4 mg/kg every 4 weeks'. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) — weight 70 kg",
+      "metric": "CL",
+      "value": 0.17,
+      "ci": [0.136, 0.204],
+      "unit": "L/day",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — '0.17 L/day in a Periodic Fever Syndrome (TRAPS, HIDS/MKD, FMF) patient weighing 70 kg'. At 70 kg this is the reference subject, so the row compares the CAPS and periodic-fever estimates. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) — weight 70 kg",
+      "metric": "Vss",
+      "value": 6.34,
+      "ci": [5.072, 7.608],
+      "unit": "L",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — '6.34 liters for a Periodic Fever Syndrome (TRAPS, HIDS/MKD, FMF) patient weighing 70 kg'. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Gout — weight 93 kg",
+      "metric": "CL",
+      "cov": {
+        "WT": 93
+      },
+      "value": 0.23,
+      "ci": [0.184, 0.276],
+      "unit": "L/day",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — '0.23 L/day in a typical patient with gout flares of body weight 93 kg'. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Gout — weight 93 kg",
+      "metric": "Vss",
+      "cov": {
+        "WT": 93
+      },
+      "value": 7.9,
+      "ci": [6.32, 9.48],
+      "unit": "L",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — '7.9 liters in a typical patient with gout flares of body weight 93 kg'. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Gout — weight 93 kg",
+      "metric": "Accum",
+      "cov": {
+        "WT": 93
+      },
+      "dose": 150,
+      "tau": 84,
+      "value": 1.1,
+      "ci": [0.88, 1.32],
+      "unit": "fold",
+      "source": "Regulatory/13_FDA_L.pdf 12.3 — '1.1-fold for patients with gout flares following 6 months of subcutaneous dosing of ... 150 mg every 12 weeks'. No interval in the source; +-20% assumed."
+    }
+  ],
+  "regimenPresets": [
+    {
+      "label": "Cryopyrin-associated periodic syndromes (CAPS) · patients >40 kg — SC 150 mg every 8 weeks",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 56,
+      "ndose": 6,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.2 — 'For patients with CAPS > 40 kg: 150 mg subcutaneously, every 8 weeks'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 40,
+        "minIncl": false
+      }
+    },
+    {
+      "label": "Cryopyrin-associated periodic syndromes (CAPS) · patients 15–40 kg — SC 2 mg/kg every 8 weeks",
+      "dose": 2,
+      "unit": "mg/kg",
+      "tau": 56,
+      "ndose": 6,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.2 — 'For patients with CAPS >= 15 kg and <= 40 kg: 2 mg/kg subcutaneously, every 8 weeks'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 15,
+        "minIncl": true,
+        "max": 40,
+        "maxIncl": true
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Cryopyrin-associated periodic syndromes (CAPS) · patients 15–40 kg, inadequate response — SC 3 mg/kg every 8 weeks",
+      "dose": 3,
+      "unit": "mg/kg",
+      "tau": 56,
+      "ndose": 6,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.2 — 'For pediatric patients with CAPS 15 kg to 40 kg with an inadequate response, the dosage can be increased to 3 mg/kg subcutaneously, every 8 weeks'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 15,
+        "minIncl": true,
+        "max": 40,
+        "maxIncl": true
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) · patients >40 kg — SC 150 mg every 4 weeks",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.3 — 'For patients > 40 kg: 150 mg subcutaneously, every 4 weeks'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 40,
+        "minIncl": false
+      }
+    },
+    {
+      "label": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) · patients >40 kg, inadequate response — SC 300 mg every 4 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.3 — 'The dosage can be increased to 300 mg every 4 weeks if the clinical response is not adequate'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 40,
+        "minIncl": false
+      }
+    },
+    {
+      "label": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) · patients ≤40 kg — SC 2 mg/kg every 4 weeks",
+      "dose": 2,
+      "unit": "mg/kg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.3 — 'For patients <= 40 kg: 2 mg/kg administered subcutaneously, every 4 weeks'.",
+      "route": "SC",
+      "wtRange": {
+        "max": 40,
+        "maxIncl": true
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Periodic fever syndromes (TRAPS, HIDS/MKD, FMF) · patients ≤40 kg, inadequate response — SC 4 mg/kg every 4 weeks",
+      "dose": 4,
+      "unit": "mg/kg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.3 — 'The dosage can be increased to 4 mg/kg every 4 weeks if the clinical response is not adequate'.",
+      "route": "SC",
+      "wtRange": {
+        "max": 40,
+        "maxIncl": true
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Still's disease (AOSD, SJIA) · patients ≥7.5 kg — SC 4 mg/kg (max 300 mg) every 4 weeks",
+      "dose": 4,
+      "unit": "mg/kg",
+      "tau": 28,
+      "ndose": 12,
+      "tend": 504,
+      "source": "Regulatory/13_FDA_L.pdf 2.4 — 'The recommended weight-based dosage of ILARIS for patients with Still's Disease (AOSD and SJIA) weighing >= 7.5 kg is 4 mg/kg (maximum dose of 300 mg) administered subcutaneously every 4 weeks'.",
+      "route": "SC",
+      "maxDose": 300,
+      "wtRange": {
+        "min": 7.5,
+        "minIncl": true
+      },
+      "note": "Use in paediatric SJIA is an extrapolation — in the covariate checks this model overpredicts the SJIA accumulation ratio by 19%."
+    },
+    {
+      "label": "Gout flares · adult patients — SC 150 mg single dose (no re-treatment within 12 weeks)",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 84,
+      "ndose": 1,
+      "tend": 168,
+      "source": "Regulatory/13_FDA_L.pdf 2.5 — 'The recommended dose of ILARIS for adult patients with a gout flare is 150 mg administered subcutaneously. In patients who require re-treatment, there should be an interval of at least 12 weeks before a new dose'.",
+      "route": "SC"
+    }
+  ]
+}

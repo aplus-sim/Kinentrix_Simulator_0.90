@@ -1,0 +1,664 @@
+{
+  "drug": "relatlimab",
+  "brand": "Opdualag (relatlimab + nivolumab)",
+  "label": "Relatlimab — 2-compartment IV · linear + Michaelis-Menten elimination · time-varying CL · Opdualag BLA 761234",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": false
+  },
+  "_note": [
+    "The other half of the Opdualag fixed-dose combination; the nivolumab half is its own spec.",
+    "Every parameter is copied from Table 77 of the multi-discipline review, converted from per-hour",
+    "to per-day units. It is the first model in the app that carries all three non-trivial pieces at",
+    "once: parallel Michaelis-Menten elimination, a time-varying clearance and a covariate on a",
+    "tumour-burden marker (LDH)."
+  ],
+  "_source": {
+    "document": "Regulatory/11_FDA_M.pdf — CENTER FOR DRUG EVALUATION AND RESEARCH, APPLICATION NUMBER 761234Orig1s000, MULTI-DISCIPLINE REVIEW, Opdualag (nivolumab and relatlimab-rmbw) (Reference ID 4955210)",
+    "table": "Table 77: Applicant - Parameter Estimates of the Final Relatlimab Population Pharmacokinetic Model (p266-267)",
+    "subjects": "N = 1713 adults (456 first-line melanoma, 791 prior-IO melanoma, 466 other tumours), Table 74",
+    "referenceSubject": "Table 77 Note 1 — 'a reference subject, 60-year old white male, weighing 75 kg, with 1L MEL, baseline eGFR of 90 mL/min/1.73 m2, baseline ALB of 4 g/dL, baseline LDH (normalized to upper limit of normal) of 0.8, a normal PS status (PS = 0), and receiving nivo+rela FDC ... These reference values were aligned with the nivolumab PPK model reference values.'"
+  },
+  "_unitConversions": {
+    "CL": "6.97 mL/h x 24 / 1000 = 0.16728 L/day",
+    "Q": "25.5 mL/h x 24 / 1000 = 0.612 L/day",
+    "Vm": "VMAX 0.0776 mg/h x 24 = 1.8624 mg/day. Unlike dupilumab, the review gives Vmax as an amount rate, so it is used as is.",
+    "T50": "3.19E+03 h / 24 = 132.92 day",
+    "ALB": "centred at 4 g/dL in the source; a power model is scale-free, so 40 g/L is identical.",
+    "LDH": "the covariate is LDH divided by the upper limit of normal, centred at 0.8. Table 74 reports LDH in U/L (first-line melanoma median 238, mean 355, range 60-4641). Treating the median as the 0.8 reference (the note says the references are the approximate dataset medians) puts the upper limit of normal near 298 U/L; the population distribution below is scaled by that factor."
+  },
+  "limitations": [
+    "Exposure of the reference subject is lower than the population geometric means in Table 26 (steady-state Cmax −15%, average concentration −13%). The reference-subject clearance (6.97 mL/h) is also 15% higher than the population geometric mean reported in the review (6.06 mL/h after the first dose). This appears to reflect differences in covariate make-up between the reference subject and the actual melanoma population; the values still fall within the pass intervals (based on the reported CV).",
+    "Between-subject variability on Emax (omega^2 0.101) and the performance-status term on Emax (EMAXPS −0.148) cannot be applied: the former is not supported by the engine, and for the latter the rule for combining it with the main Emax is not printed. This appears to be one reason why the model's late-treatment decrease in clearance (4.9%) is smaller than the label's 'about 10%'.",
+    "The LDH covariate is a ratio to the upper limit of normal (ULN), but the distribution table is given only in U/L. The median of 238 U/L was mapped to the reference value 0.8 for conversion (which amounts to assuming a ULN of about 298 U/L). The LDH distribution has a very long right tail (max 4641 U/L), so turning on covariate sampling widens the shaded band considerably.",
+    "The review does not print the model equations. Continuous covariates were applied as a power of the ratio to the reference value and categorical ones as exp(theta) — the same inference as for nivolumab.",
+    "The model has no separate term for drug–drug interaction with nivolumab. The fixed-dose combination (FDC) is the reference, and separate administration (SAV) is reflected only as a covariate."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Cmax_first",
+      "doseMg": 160,
+      "value": 44.4,
+      "ci": [
+        35.3,
+        55.9
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cmax1 44.4 (23.3). Interval = value x exp(+-1 SD on the log scale) for the reported CV, as for every row below."
+    },
+    {
+      "metric": "Ctrough_first",
+      "doseMg": 160,
+      "value": 5.7,
+      "ci": [
+        3.57,
+        9.1
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cmin1 5.7 (49.5) — the trough at the end of the first 4-week interval, the row most sensitive to the non-linear elimination."
+    },
+    {
+      "metric": "Cavg_first",
+      "doseMg": 160,
+      "value": 14.8,
+      "ci": [
+        11.54,
+        18.99
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cavg1 14.8 (25.3)."
+    },
+    {
+      "metric": "Cmax_ss",
+      "doseMgkg": 2.133333,
+      "value": 62.2,
+      "ci": [
+        46.3,
+        83.5
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cmaxss 62.2 (30.1); the label quotes the same '62.2 (30%)'. 2.133333 mg/kg x 75 kg = 160 mg."
+    },
+    {
+      "metric": "Ctrough_ss",
+      "doseMgkg": 2.133333,
+      "value": 15.3,
+      "ci": [
+        8.5,
+        27.55
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cminss 15.3 (64.3)."
+    },
+    {
+      "metric": "Cavg_ss",
+      "doseMgkg": 2.133333,
+      "value": 28.8,
+      "ci": [
+        18.78,
+        44.17
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 26 — geometric mean (CV%) relatlimab exposures at nivo+rela 480/160 mg Q4W, previously untreated melanoma (reference population), N=333: Cavgss 28.8 (44.8); the label quotes '28.8 (45%)'."
+    },
+    {
+      "metric": "Accum",
+      "doseMgkg": 2.133333,
+      "value": 1.87,
+      "ci": [
+        1.441,
+        2.427
+      ],
+      "unit": "fold",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 27 — predicted dose-normalized relatlimab exposures and accumulation ratio by dose, geometric mean (CV%): 160 mg Q4W (N=734) RAC 1.87 (26.5), defined as Cavg,ss / Cavg1 - the same definition the app uses. The label rounds it to 'the systemic accumulation was 1.9-fold'."
+    },
+    {
+      "metric": "Vss",
+      "value": 6.6,
+      "ci": [
+        5.41,
+        8.05
+      ],
+      "unit": "L",
+      "source": "Regulatory/10_FDA_L.pdf 12.3 — 'The geometric mean (CV%) volume of distribution at steady state of relatlimab is 6.6 L (20%)'. Computed here as Vc + Vp."
+    },
+    {
+      "metric": "thalf_eff",
+      "doseMgkg": 2.133333,
+      "value": 26.2,
+      "ci": [
+        18.3,
+        37.5
+      ],
+      "unit": "day",
+      "source": "Regulatory/10_FDA_L.pdf 12.3 — 'the geometric mean (CV%) effective half-life (t1/2) of relatlimab is 26.2 days (37%)' after 480/160 mg Q4W. An effective half-life is the one that reproduces the accumulation ratio, so it is computed here as ln2 x tau / ln(R/(R-1)) from the simulated steady state, not from the terminal slope (which, with Michaelis-Menten elimination, depends on concentration)."
+    }
+  ],
+  "covariateChecksNote": "Table 27 shows dose-normalised exposure and accumulation ratios as the dose is varied from 20 to 800 mg. At lower doses target-mediated (Michaelis-Menten) elimination makes up a larger share, lowering exposure per unit dose, so these rows validate the nonlinear elimination term. Values were converted to concentrations by multiplying by the dose, and intervals were set from the reported CV. The 20 mg sample (21 patients) is small. The clearance rows are the geometric means after the first dose and at steady state from p94 of the review; the ratio has no interval, so ±20% is used.",
+  "covariateChecks": [
+    {
+      "group": "Dose nonlinearity (Table 27)",
+      "metric": "Cavg_ss",
+      "dose": 20,
+      "tau": 14,
+      "value": 3.4,
+      "ci": [
+        1.947,
+        5.939
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 27 — predicted dose-normalized relatlimab exposures and accumulation ratio by dose, geometric mean (CV%): 20 mg Q2W (N=21) dose-normalized Cavg,ss 0.17 (60.4) ug/mL per mg, x 20 mg = 3.4 ug/mL."
+    },
+    {
+      "group": "Dose nonlinearity (Table 27)",
+      "metric": "Cavg_ss",
+      "dose": 80,
+      "tau": 14,
+      "value": 21.2,
+      "ci": [
+        13.57,
+        33.11
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 27 — predicted dose-normalized relatlimab exposures and accumulation ratio by dose, geometric mean (CV%): 80 mg Q2W (N=736) dose-normalized Cavg,ss 0.265 (46.9), x 80 mg = 21.2 ug/mL."
+    },
+    {
+      "group": "Dose nonlinearity (Table 27)",
+      "metric": "Accum",
+      "dose": 80,
+      "tau": 14,
+      "value": 2.58,
+      "ci": [
+        1.94,
+        3.431
+      ],
+      "unit": "fold",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 27 — predicted dose-normalized relatlimab exposures and accumulation ratio by dose, geometric mean (CV%): 80 mg Q2W (N=736) RAC 2.58 (29.1)."
+    },
+    {
+      "group": "Dose nonlinearity (Table 27)",
+      "metric": "Cavg_ss",
+      "dose": 800,
+      "tau": 14,
+      "value": 307.2,
+      "ci": [
+        225.0,
+        419.4
+      ],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_M.pdf p92 Table 27 — predicted dose-normalized relatlimab exposures and accumulation ratio by dose, geometric mean (CV%): 800 mg Q2W (N=8) dose-normalized Cavg,ss 0.384 (31.9), x 800 mg = 307.2 ug/mL — near saturation of the target-mediated pathway."
+    },
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CL",
+      "at": "first",
+      "value": 0.14544,
+      "ci": [
+        0.0999,
+        0.2117
+      ],
+      "unit": "L/day",
+      "source": "Regulatory/11_FDA_M.pdf p94 — 'Relatlimab CL decreases over time, with a mean maximal reduction from baseline (CV%) of 9.7% (26.2%) [geometric mean CL (CV%), 5.48 mL/h (41.3%) at steady state and 6.06 mL/h (38.9%) after the first dose]'. 6.06 mL/h = 0.1454 L/day."
+    },
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CL",
+      "at": "steady",
+      "value": 0.13152,
+      "ci": [
+        0.0884,
+        0.1956
+      ],
+      "unit": "L/day",
+      "source": "Regulatory/11_FDA_M.pdf p94 — same sentence, 5.48 mL/h = 0.1315 L/day."
+    },
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CLratio",
+      "value": 0.904,
+      "ci": [0.723, 1.085],
+      "unit": "ss / first",
+      "source": "Regulatory/11_FDA_M.pdf p94 — 5.48 / 6.06 = 0.904; the label: 'The geometric mean (CV%) clearance of relatlimab is 5.5 mL/h (41%) at steady state, 10% lower than after the first dose [6 mL/h (39%)]'. No interval, so +-20%."
+    }
+  ],
+  "Km": 1.47,
+  "baseline": {
+    "CL": 0.16728,
+    "Vc": 4.13,
+    "Vp": 2.97,
+    "Q": 0.612,
+    "Km": 1.47,
+    "Vm": 1.8624
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day",
+    "Km": "mg/L",
+    "Vm": "mg/day"
+  },
+  "baselineSource": "Regulatory/11_FDA_M.pdf Table 77 — CL0REF 6.97 mL/h (RSE 3.61%), VCREF 4.13 L (1.04%), QREF 25.5 mL/h (4.37%), VPREF 2.97 L (2.25%), VMAX 0.0776 mg/h (4.18%), KM 1.47 mg/L (10.7%), converted to per-day units.",
+  "iiv": {
+    "CL": 39.36,
+    "Vc": 25.56,
+    "Vp": 43.05,
+    "Vm": 47.44
+  },
+  "iivType": "%CV",
+  "iivSource": "Regulatory/11_FDA_M.pdf Table 77 Random Effects — ZCL 0.144 (SD 0.379), ZV1 0.0633 (0.252), ZV2 0.170 (0.412), ZVmax 0.203 (0.451). The %CV here is sqrt(exp(omega^2)-1), at which this engine's omega equals the reported one. ZEMAX 0.101 cannot be applied (see limitations).",
+  "corr": {
+    "a": "CL",
+    "b": "Vc",
+    "rho": 0.484,
+    "source": "Regulatory/11_FDA_M.pdf Table 77 — 'ZCL:ZV1 omega1,2 0.0462 (0.484)'."
+  },
+  "residualError": {
+    "type": "proportional + additive",
+    "form": "combined",
+    "prop": 0.204,
+    "add": 0.357,
+    "cv": 20.4,
+    "source": "Regulatory/11_FDA_M.pdf Table 77 — Proportional Error 0.204 (RSE 0.523%) and Additive Error 0.357 ug/mL (2.51%). Applied as C x (1 + 0.204 e1) + 0.357 e2, floored at 0."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": 0.722,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLWTB 0.722 (RSE 8.75%), reference 75 kg (Note 1)."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": 0.37,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — V1WTB 0.370 (10.8%)."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": 0.633,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — V2WTB 0.633 (13.0%)."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 40,
+      "coef": -0.868,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLALB -0.868 (11.9%); reference 4 g/dL = 40 g/L.",
+      "desc": "Almost exactly the albumin exponent of nivolumab (-0.965) and pembrolizumab (-0.854)."
+    },
+    {
+      "id": "CL_LDH",
+      "param": "CL",
+      "cov": "LDH",
+      "type": "power",
+      "ref": 0.8,
+      "coef": 0.991,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLBLDH 0.991 (14.5%); baseline LDH normalized to the upper limit of normal, reference 0.8.",
+      "desc": "The app's first tumour-burden marker. Clearance rises almost in proportion to LDH: a patient at twice the upper limit of normal clears relatlimab about 2.5 times faster than the reference. The nivolumab model in the same review keeps no LDH term."
+    },
+    {
+      "id": "CL_GFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 90,
+      "coef": 0.234,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLBGFR 0.234 (21.3%), reference 90 mL/min/1.73 m2."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.199,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLSEX -0.199 (14.3%), applied as exp(theta) for women (reference: male, Note 1)."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.154,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — VCSEX -0.154 (11.6%)."
+    },
+    {
+      "id": "CL_PS",
+      "param": "CL",
+      "cov": "PS",
+      "type": "categorical",
+      "level": "1+",
+      "coef": 0.12,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLPS 0.120 (21.5%), baseline ECOG performance status 1 or worse."
+    },
+    {
+      "id": "CL_SAV",
+      "param": "CL",
+      "cov": "THERAPY",
+      "type": "categorical",
+      "level": "separate vials",
+      "coef": 0.156,
+      "enabled": true,
+      "source": "Regulatory/11_FDA_M.pdf Table 77 — CLSAV 0.156 (19.7%): nivolumab and relatlimab co-administered from separate vials rather than the fixed-dose combination (reference).",
+      "desc": "Given from separate vials, relatlimab clears about 17% faster than in the fixed-dose combination - a larger effect than the matching nivolumab term (+3%)."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Note 1 gives QREF 'in a reference subject weighing 75 kg', but Table 77 lists no weight exponent for Q, so Q is left unscaled."
+    },
+    {
+      "id": "CL_AGE",
+      "param": "CL",
+      "cov": "AGE",
+      "type": "power",
+      "ref": 60,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the reference subject is 60 years old, but no age term appears in Table 77 (the nivolumab model keeps one; this one does not)."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "multiplier",
+      "level": "pos",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — 7.5% of first-line melanoma subjects were ADA positive (Table 74), but no ADA term was retained in Table 77."
+    },
+    {
+      "id": "EMAX_PS",
+      "param": "CL",
+      "cov": "PS",
+      "type": "multiplier",
+      "level": "1+",
+      "coef": null,
+      "enabled": false,
+      "source": "Sourced but not applied — Table 77 EMAXPS -0.148 (24.2%) modifies the time-varying Emax for PS 1 or worse, but the rule combining it with EMAX is not printed.",
+      "desc": "Left off rather than guessed; it would enlarge the late-treatment clearance drop in patients who are less well."
+    }
+  ],
+  "timeVarying": {
+    "enabled": true,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": -0.0492,
+    "T50": 132.92,
+    "gamma": 4.03,
+    "source": "Regulatory/11_FDA_M.pdf Table 77 — EMAX -0.0492 (RSE 43.4%), T50 3.19E+03 h = 132.92 day (2.54%), Hill 4.03 (8.77%).",
+    "desc": [
+      "Relatlimab clearance also decreases during treatment, but far less than nivolumab (maximum 19.8%) — 4.9% —",
+      "and the time to half of the change is later, at 133 days. With a Hill coefficient of 4.03, the change is concentrated around that time."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the first-line melanoma column of the relatlimab popPK dataset (Table 74, N=456). LDH is converted to the ULN scale as described under _unitConversions.",
+    "seed": 20260917,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 80,
+        "cv": 23.0,
+        "min": 39,
+        "max": 163,
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL, N=456) — body weight median 80 kg, mean 80.9, SD 18.6, range 39-163. CV = SD/mean."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 41.4,
+        "sd": 4.57,
+        "min": 21,
+        "max": 52,
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL) — albumin mean 4.14 g/dL, SD 0.457, range 2.1-5.2, converted to g/L."
+      },
+      "LDH": {
+        "dist": "lognormal",
+        "median": 0.8,
+        "cv": 110.7,
+        "min": 0.2,
+        "max": 15.6,
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL) — LDH median 238 U/L, mean 355 (SD 417), range 60-4641, rescaled so the median equals the model's 0.8 x ULN. The log-normal spread (CV 110.7%) is derived from the mean/median ratio: sigma^2 = 2 ln(355/238)."
+      },
+      "GFR": {
+        "dist": "normal",
+        "mean": 86.7,
+        "sd": 18.6,
+        "min": 25.7,
+        "max": 132,
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL) — baseline eGFR mean 86.7 mL/min/1.73 m2, SD 18.6, range 25.7-132."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.417,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL) — 266 men (58.3%), 190 women (41.7%)."
+      },
+      "PS": {
+        "dist": "bernoulli",
+        "p": 0.294,
+        "levels": [
+          "0",
+          "1+"
+        ],
+        "source": "Regulatory/11_FDA_M.pdf Table 74 (Adult 1L MEL) — ECOG PS 0 in 322 (70.6%), 1 in 134 (29.4%), 2 in none."
+      },
+      "THERAPY": {
+        "dist": "fixed",
+        "value": "fixed-dose combination",
+        "levels": [
+          "fixed-dose combination",
+          "separate vials"
+        ],
+        "source": "Held at the fixed-dose combination, the reference of Table 77 and the approved presentation."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The only route studied: 'Administer OPDUALAG as an intravenous infusion over 30 minutes' (10_FDA_L.pdf section 2)."
+    },
+    "sc": {
+      "supported": false,
+      "source": "Relatlimab has no subcutaneous form and no absorption parameters in any source here."
+    }
+  },
+  "regimen": {
+    "dose": 160,
+    "tinf_h": 0.5,
+    "tau": 28,
+    "ndose": 6,
+    "tend": 336,
+    "source": "Regulatory/10_FDA_L.pdf 2.1 — '480 mg nivolumab and 160 mg relatlimab administered intravenously every 4 weeks'. Six doses and 336 days are display defaults; clearance keeps falling until about day 130."
+  },
+  "regimenPresets": [
+    {
+      "label": "Unresectable or metastatic melanoma · adult patients, with nivolumab — IV 160 mg every 4 weeks (Opdualag)",
+      "dose": 160,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 6,
+      "tend": 336,
+      "tinf_h": 0.5,
+      "route": "IV",
+      "cov": {
+        "THERAPY": "fixed-dose combination"
+      },
+      "source": "Regulatory/10_FDA_L.pdf 2.1 — '480 mg nivolumab and 160 mg relatlimab administered intravenously every 4 weeks'; 'Administer OPDUALAG as an intravenous infusion over 30 minutes'. Only the relatlimab half is simulated."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients, separate vials — IV 80 mg every 2 weeks (trial dose, not an approved regimen)",
+      "dose": 80,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "tinf_h": 0.5,
+      "route": "IV",
+      "cov": {
+        "THERAPY": "separate vials"
+      },
+      "note": "Not an approved regimen. Switches the product covariate to separate vials (CL +17%).",
+      "source": "Regulatory/11_FDA_M.pdf p92 — 'Nivo + rela SAV (Q2W): 80+20 to 240+240 mg'; 80 mg Q2W is the largest group in Table 27 (N=736). Infusion time taken from the approved product."
+    }
+  ],
+  "populationPresets": [
+    {
+      "label": "First-line melanoma, adults (N=456)",
+      "n": 456,
+      "note": "Opdualag's indication and the model's reference population.",
+      "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) — Adult 1L MEL column; the spec's population block above."
+    },
+    {
+      "label": "Immunotherapy-experienced melanoma, adults (N=791)",
+      "n": 791,
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 77,
+          "cv": 23.3,
+          "min": 41.1,
+          "max": 170,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — body weight median 77 kg, mean 79.1 (SD 18.4), range 41.1-170. CV = SD/mean."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 39.6,
+          "sd": 4.73,
+          "min": 20,
+          "max": 60,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — baseline albumin mean 3.96 g/dL (SD 0.473), range 2-6, converted to g/L."
+        },
+        "LDH": {
+          "dist": "lognormal",
+          "median": 0.797,
+          "cv": 123.7,
+          "min": 0.29,
+          "max": 25.1,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — LDH median 237 U/L, mean 377 (SD 482), range 85-7464; rescaled with the same upper limit of normal as the reference population (~298 U/L, see _unitConversions). CV 123.7% from sigma^2 = 2 ln(mean/median)."
+        },
+        "GFR": {
+          "dist": "normal",
+          "mean": 86.8,
+          "sd": 18.5,
+          "min": 34.2,
+          "max": 144,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — baseline eGFR mean 86.8 mL/min/1.73 m2 (SD 18.5), range 34.2-144."
+        },
+        "SEX": {
+          "dist": "bernoulli",
+          "p": 0.402,
+          "levels": [
+            "M",
+            "F"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — 318 of 791 women (40.2%)."
+        },
+        "PS": {
+          "dist": "bernoulli",
+          "p": 0.317,
+          "levels": [
+            "0",
+            "1+"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Prior-IO MEL, N=791 — ECOG PS 1 or worse in 251 of 791 (31.7%) (PS 1: 240, PS 2: 11); the model separates 0 from 1 or worse."
+        }
+      },
+      "note": "The relatlimab model has no tumour-type term, so only the distribution differences (slightly lower albumin, longer LDH tail) are reflected.",
+      "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) — Adult Prior-IO MEL column. The relatlimab model keeps no tumour-type term."
+    },
+    {
+      "label": "Other tumour types, adults (N=466)",
+      "n": 466,
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 71.5,
+          "cv": 22.9,
+          "min": 37,
+          "max": 145,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — body weight median 71.5 kg, mean 73.3 (SD 16.8), range 37-145. CV = SD/mean."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 37.5,
+          "sd": 4.78,
+          "min": 22.0,
+          "max": 48.0,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — baseline albumin mean 3.75 g/dL (SD 0.478), range 2.2-4.8, converted to g/L."
+        },
+        "LDH": {
+          "dist": "lognormal",
+          "median": 0.692,
+          "cv": 86.2,
+          "min": 0.3,
+          "max": 8.0,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — LDH median 206 U/L, mean 272 (SD 227), range 90-2367; rescaled with the same upper limit of normal as the reference population (~298 U/L, see _unitConversions). CV 86.2% from sigma^2 = 2 ln(mean/median)."
+        },
+        "GFR": {
+          "dist": "normal",
+          "mean": 86.6,
+          "sd": 20.9,
+          "min": 27.3,
+          "max": 159,
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — baseline eGFR mean 86.6 mL/min/1.73 m2 (SD 20.9), range 27.3-159."
+        },
+        "SEX": {
+          "dist": "bernoulli",
+          "p": 0.32,
+          "levels": [
+            "M",
+            "F"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — 149 of 466 women (32.0%)."
+        },
+        "PS": {
+          "dist": "bernoulli",
+          "p": 0.507,
+          "levels": [
+            "0",
+            "1+"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) Adult Others, N=466 — ECOG PS 1 or worse in 230 of 454 (50.7%) with a known status (PS 1: 227, PS 2: 3; 12 missing left out); the model separates 0 from 1 or worse."
+        }
+      },
+      "note": "Low albumin and 51% with performance status ≥1 push CL upward, while low LDH pushes it the other way.",
+      "source": "Regulatory/11_FDA_M.pdf Table 74 (relatlimab popPK dataset by patient population) — Adult Others column. The relatlimab model keeps no tumour-type term."
+    }
+  ]
+}

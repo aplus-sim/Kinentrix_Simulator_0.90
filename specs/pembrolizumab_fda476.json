@@ -1,0 +1,439 @@
+{
+  "drug": "pembrolizumab",
+  "brand": "Keytruda (FDA BLA 125514 final covariate model)",
+  "label": "Pembrolizumab — 2-compartment IV · FDA Clinical Pharmacology Review Table 16 (n=476)",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": false
+  },
+  "_source": {
+    "document": "Regulatory/10_FDA_CP.pdf — CENTER FOR DRUG EVALUATION AND RESEARCH, APPLICATION NUMBER 125514Orig1s000, CLINICAL PHARMACOLOGY AND BIOPHARMACEUTICS REVIEW(S)",
+    "table": "Table 16: Parameter Estimate of the Final Covariate Model (p29-30)",
+    "originalSource": "Population PK Report 03tlc8, Page 57 (cited by the review)",
+    "subjects": "n=476, patients dosed 1-10 mg/kg Q2W or Q3W",
+    "reportedModelEquations": [
+      "CL = 0.218 * (WGT/median(WGT))^0.589 * (ALB/median(ALB))^-1.06 * (IgG/median(IgG))^0.373 * [(1-0.133) if female]",
+      "Vc = 3.68 * (WGT/median(WGT))^0.474 * [(1-0.142) if female]",
+      "alpha for CL and Q = 0.589 / alpha for Vc and Vp = 0.474  (i.e. Q and Vp are weight-scaled as well)"
+    ],
+    "reviewNarrative_p6_p17": [
+      "Half-life 25.8 days (95% CI 23.6-28.3), time to steady state 129 days (118-142), Vss 7.66 L (7.09-8.13)",
+      "'body weight, albumin and gender were covariate for CL; body weight and gender were covariates for Vc'",
+      "'Albumin, IgG and gender were identified as statistically significant covariates on pembrolizumab CL'",
+      "'None of the selected covariates changed CL by more than 30%' — judged not clinically meaningful"
+    ]
+  },
+  "_differencesFromOtherSpec": {
+    "note": "pembrolizumab.json holds values from the later large analysis (N=2195, DOI 10.1007/s10928-017-9528-y); this file holds the model FDA reviewed at original approval (n=476). The coefficients of each were fitted jointly on their own dataset, so coefficients must never be mixed across the two.",
+    "CL": "0.202 -> 0.218",
+    "Vc": "3.48 -> 3.68",
+    "Q": "0.795 -> 0.897",
+    "Vp": "4.06 -> 3.91",
+    "weightExponent_CL_Q": "0.578 -> 0.589",
+    "weightExponent_Vc_Vp": "0.492 -> 0.474",
+    "albuminOnCL": "-0.854 -> -1.06",
+    "sexOnCL": "-0.152 -> -0.133",
+    "sexOnVc": "-0.134 -> -0.142",
+    "IgGOnCL": "absent -> 0.373  ** new covariate",
+    "IIV": "CL 38% / Vc 21% independent -> CL and Q share one eta (28.1%), Vc and Vp share another (13.4%)  ** different structure",
+    "residualError": "not stated -> 30.1% proportional (stated in the review)"
+  },
+  "_openIssues": {
+    "medianReferenceValues": "The FDA review writes median(WGT)/median(ALB)/median(IgG) symbolically and never gives the numbers. Neither the full review nor the Medical Review reports the median body weight or albumin of the popPK population. The ref values below are substituted or derived, as flagged by refStatus.",
+    "impact": "A wrong ref biases the typical parameters by the same factor (the covariate form and the exponents themselves are unaffected). Obtaining the original popPK report (03tlc8) or the sponsor dataset would settle it."
+  },
+  "reportedChecks": [
+    {
+      "metric": "thalf",
+      "value": 25.8,
+      "ci": [
+        23.6,
+        28.3
+      ],
+      "unit": "day",
+      "source": "10_FDA_CP.pdf p6 — 'Half-life was 25.8 (23.6, 28.3) days.' (population PK mean, 95% CI)"
+    },
+    {
+      "metric": "Vss",
+      "value": 7.66,
+      "ci": [
+        7.09,
+        8.13
+      ],
+      "unit": "L",
+      "source": "10_FDA_CP.pdf p6 — 'Volume of distribution at steady-state was 7.66 (7.09, 8.13) L.'"
+    },
+    {
+      "metric": "Cmax_ss",
+      "doseMgkg": 2,
+      "value": 65.7,
+      "ci": [
+        50.1,
+        88.4
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15) — 2 mg/kg Q3W steady-state median (90% prediction interval)"
+    },
+    {
+      "metric": "Ctrough_ss",
+      "doseMgkg": 2,
+      "value": 23.3,
+      "ci": [
+        13.3,
+        39.6
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15)"
+    },
+    {
+      "metric": "AUC6wk_ss",
+      "doseMgkg": 2,
+      "value": 1408,
+      "ci": [
+        931,
+        2225
+      ],
+      "unit": "ug*day/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15) — AUCss,6-week"
+    },
+    {
+      "metric": "Cmax_ss",
+      "doseMgkg": 10,
+      "value": 327,
+      "ci": [
+        245,
+        454
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15) — 10 mg/kg Q3W"
+    },
+    {
+      "metric": "Ctrough_ss",
+      "doseMgkg": 10,
+      "value": 117,
+      "ci": [
+        64.3,
+        206
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15)"
+    },
+    {
+      "metric": "AUC6wk_ss",
+      "doseMgkg": 10,
+      "value": 7079,
+      "ci": [
+        4405,
+        11372
+      ],
+      "unit": "ug*day/mL",
+      "source": "10_FDA_CP.pdf Table 5 (p15)"
+    },
+    {
+      "metric": "Accum",
+      "doseMgkg": 2,
+      "value": 2.1,
+      "ci": [
+        1.9,
+        2.3
+      ],
+      "unit": "fold",
+      "source": "10_FDA_CP.pdf p16 — 'The accumulation ratio is approximately 2.1 folds from the first dose to steady-state when pembrolizumab is administered Q3W.' (no CI in the source; +-10% assumed)"
+    }
+  ],
+  "bandNote": {
+    "fixed": "Under this setting the band matches the width of the 90% prediction intervals in FDA Table 5 to within 0.87~1.15-fold.",
+    "sampled": "Under this setting the shaded band widens 1.1~1.4-fold and the median rises by 5~8% — the intervals in FDA Table 5 appear to reflect IIV only, with covariates fixed at their medians. Turn this option off when comparing with the source.",
+    "source": "Measured for the pembrolizumab specs in this repository (covariate/analysis.js output). It says nothing about any other drug, which is why it lives in the spec."
+  },
+  "baseline": {
+    "CL": 0.218,
+    "Vc": 3.68,
+    "Vp": 3.91,
+    "Q": 0.897
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day"
+  },
+  "baselineSource": "10_FDA_CP.pdf Table 16 (p30) — CL 0.218 (RSE 2.64), Vc 3.68 (1.91), Q 0.897 (13.2), Vp 3.91 (5.91)",
+  "iivGroups": [
+    {
+      "params": [
+        "CL",
+        "Q"
+      ],
+      "omega2": 0.076,
+      "cv": 28.1,
+      "source": "10_FDA_CP.pdf Table 16 — 'IIV on CL and Q (%CV) 0.076 (28.1%)', RSE 14.4, shrinkage 14.9%"
+    },
+    {
+      "params": [
+        "Vc",
+        "Vp"
+      ],
+      "omega2": 0.018,
+      "cv": 13.4,
+      "source": "10_FDA_CP.pdf Table 16 — 'IIV on Vc and Vp 0.018 (13.4%)', RSE 33.1, shrinkage 29.7%"
+    }
+  ],
+  "residualError": {
+    "type": "proportional (form inferred)",
+    "form": "proportional",
+    "prop": 0.301,
+    "cv": 30.1,
+    "source": "10_FDA_CP.pdf Table 16 — 'Residual Error Estimates 30.1%' (RSE 3.25). The table gives the size but not the form; a proportional error is assumed, the usual reading of a residual error quoted in %. Floored at 0."
+  },
+  "corr": null,
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 77.2,
+      "refStatus": "VERIFIED",
+      "coef": 0.589,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 (p30) — 'alpha for CL and Q  0.589' (RSE 14.8)",
+      "refNote": "median(WGT) is not given numerically in Table 16, but was recovered from Table 5 (steady-state exposure) of the same review. Exposure is linear in dose, so 'the dose that reproduces the Table 5 median at 2 or 10 mg/kg Q3W, divided by the mg/kg' is the median body weight. Six independent estimates (2 and 10 mg/kg x Cmax, Ctrough, AUC6wk) fall in 76.7-77.8 kg with a median of 77.2 kg — matching the 77.2 kg reported in 22_Tomoko_2017.pdf p4."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 77.2,
+      "refStatus": "VERIFIED",
+      "coef": 0.589,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — same row, 'alpha for CL and Q'. The FDA table states directly that Q uses the same exponent as CL."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 77.2,
+      "refStatus": "VERIFIED",
+      "coef": 0.474,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — 'alpha for Vc and Vp  0.474' (RSE 13.4)"
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 77.2,
+      "refStatus": "VERIFIED",
+      "coef": 0.474,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — same row, 'alpha for Vc and Vp'."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.6,
+      "refStatus": "SUBSTITUTED",
+      "coef": -1.06,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — 'Albumin on CL  -1.06' (RSE 10.9)",
+      "refNote": "median(ALB) is absent from the review, so the reference 39.6 g/L from data/extracted_poppk_params.csv is substituted."
+    },
+    {
+      "id": "CL_IGG",
+      "param": "CL",
+      "cov": "IGG",
+      "type": "power",
+      "ref": 1.0,
+      "coef": 0.373,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — 'IgG on CL  0.373' (RSE 12.7)",
+      "desc": "** Covariate not present in the previous simulator. Higher baseline serum IgG increases CL (interpreted as competition for FcRn-mediated recycling).",
+      "refNote": "median(IgG) is absent from the review, so this covariate is defined as a ratio to the population median — an input of IGG=1.0 is the median, 1.5 means 1.5x the median. No absolute unit (g/L) is needed, which sidesteps the unknown median."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.133,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — 'Gender on CL  -0.133' (RSE 28.3). The model equation reads '[(1-0.133) if female]', which fixes the form as proportional."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.142,
+      "enabled": true,
+      "source": "10_FDA_CP.pdf Table 16 — 'Gender on Vc  -0.142' (RSE 20.8), model equation '[(1-0.142) if female]'"
+    },
+    {
+      "id": "VP_SEX",
+      "param": "Vp",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the review narrative (p17) says 'gender also was associated with a reduction in Vc and Vp', but the model equation in Table 16 shows Vc only. No coefficient is given.",
+      "desc": "Narrative and table disagree. The table (model equation) is followed, so this is not applied."
+    }
+  ],
+  "_covariatesTestedButDroppedFromFinalModel": {
+    "source": "10_FDA_CP.pdf p30 — 'Covariates investigated for the development of the final model included:'",
+    "list": [
+      "body weight",
+      "age",
+      "gender",
+      "creatinine clearance",
+      "ALP",
+      "AST",
+      "ALT",
+      "albumin",
+      "bilirubin",
+      "anti-drug antibody (ADA)",
+      "race",
+      "tumor burden (SLD)",
+      "geographic location",
+      "cancer type",
+      "coadministered drugs",
+      "baseline ECOG Performance",
+      "baseline IgG level"
+    ],
+    "finalSelection": "gender, IgG, albumin (on CL) + gender (on Vc). All others were dropped.",
+    "implication": "ADA, tumor burden (SLD), ECOG, cancer type, renal function, age and race were actually tested by FDA and failed to enter the final model. In other words, the items left 'UNSOURCED and disabled' in pembrolizumab.json are most likely not missing coefficients but covariates that were never significant.",
+    "reviewerVerdict": "'None of the covariates tested appeared to have a clinically meaningful effect on pembrolizumab clearance.' / 'none of the selected covariates changed CL by more than 30%'"
+  },
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — the source in fact argues against it",
+    "desc": [
+      "10_FDA_CP.pdf p16: 'The PK parameters (i.e., clearance and volume of distribution) do not change",
+      "following the administration of multiple doses of 1 to 10 mg/kg Q3W or Q2W, which is supported by",
+      "the population PK analysis.' — At the time of initial approval (n=476), no time-dependent CL was observed.",
+      "Several drugs of the same class use time-dependent CL, but for pembrolizumab this review provides no basis for it.",
+      "Whether this changed in later, larger analyses needs to be checked separately."
+    ]
+  },
+  "tiers": {
+    "current": [
+      "CL_WT",
+      "VC_WT",
+      "CL_ALB",
+      "CL_SEX",
+      "VC_SEX"
+    ]
+  },
+  "population": {
+    "_note": "Covariate distributions for the virtual population. Sourced entries and assumptions are labelled separately.",
+    "seed": 20260907,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 77.2,
+        "cv": 27,
+        "min": 35.7,
+        "max": 209.5,
+        "source": "22_Tomoko_2017.pdf p4 — median 77.2 kg, range 35.7-209.5 kg. CV 27% is DERIVED from that range assuming log-normality. The FDA review (n=476) does not report its weight distribution."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 39.6,
+        "sd": 4.5,
+        "min": 20,
+        "max": 55,
+        "source": "ASSUMPTION — no albumin distribution appears in the FDA review or in any of the papers. The mean is the model reference value; SD 4.5 is assumed. First priority to replace with measured data."
+      },
+      "IGG": {
+        "dist": "lognormal",
+        "median": 1.0,
+        "cv": 25,
+        "min": 0.4,
+        "max": 3.0,
+        "source": "ASSUMPTION — defined as a ratio to the median (median = 1.0). CV 25% is assumed. The FDA review reports no IgG distribution."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.403,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "10_FDA_CP.pdf p17 — 'The population PK dataset included 284 men (59.7%) and 192 women (40.3%).' Actual composition of the analysis population."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The only route in the analysis: 1-10 mg/kg Q2W or Q3W by infusion."
+    },
+    "sc": {
+      "supported": false,
+      "source": "The FDA review of BLA 125514 covers the intravenous product only; it reports no absorption rate and no bioavailability."
+    }
+  },
+  "regimen": {
+    "dose": 200,
+    "tinf_h": 0.5,
+    "tau": 21,
+    "ndose": 6,
+    "tend": 168,
+    "source": "data/regimen.csv — approved regimen 200 mg q21day IV. (This model was fitted on 2 mg/kg Q3W era data, but the simulation uses the current fixed dose.)"
+  },
+  "regimenPresets": [
+    {
+      "label": "Advanced solid tumours · adult patients — IV 200 mg every 3 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 6,
+      "tend": 168,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — 'Melanoma: 200 mg every 3 weeks or 400 mg every 6 weeks' (the same pair is listed for every adult indication) and 'Administer KEYTRUDA as an intravenous infusion over 30 minutes after dilution. (2.4)'.",
+      "tinf_h": 0.5,
+      "route": "IV"
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 400 mg every 6 weeks",
+      "dose": 400,
+      "unit": "mg",
+      "tau": 42,
+      "ndose": 4,
+      "tend": 210,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — '... or 400 mg every 6 weeks'; infusion over 30 minutes.",
+      "tinf_h": 0.5,
+      "route": "IV"
+    },
+    {
+      "label": "Advanced solid tumours · paediatric patients — IV 2 mg/kg (max 200 mg) every 3 weeks",
+      "dose": 2,
+      "unit": "mg/kg",
+      "tau": 21,
+      "ndose": 6,
+      "tend": 168,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — 'Melanoma: ... 2 mg/kg (up to 200 mg) every 3 weeks for pediatrics'.",
+      "tinf_h": 0.5,
+      "route": "IV",
+      "maxDose": 200,
+      "note": "The model was fitted to adult data; paediatric body weights are an extrapolation."
+    }
+  ]
+}

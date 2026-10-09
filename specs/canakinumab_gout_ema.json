@@ -1,0 +1,230 @@
+{
+  "drug": "canakinumab",
+  "brand": "Ilaris",
+  "label": "Canakinumab (Ilaris) — gout · EMA II/0010 · 2-compartment SC · typical values only",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "The regulatory model of the gout variation (pooled 1298 subjects; typical subject 93 kg, 34 y, albumin 43 g/L). Its covariate exponents were not published, so this is a typical-patient model with IIV and no covariates.",
+  "_source": {
+    "document": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation)",
+    "table": "Table 13 (parameters), p.20 and SmPC 5.2 (exposures)",
+    "subjects": "Pooled 1298 subjects incl. gouty arthritis patients (the published analysis, Chakraborty et al. 2013, J Clin Pharmacol (doi:10.1002/jcph.162), abstract, used 601 subjects and reports CL 0.214 L/day, Vss 7.44 L, t1/2 25.8 d at 93 kg - a different run)"
+  },
+  "limitations": [
+    "The covariate coefficients (weight exponent 'about 0.5~1', creatinine clearance) were not reported, so the model has no covariates. Only a 93 kg typical patient is computed.",
+    "Within the same report, the single-dose AUCinf (495) and the steady-state AUCτ (383.8) are inconsistent. For a linear drug the two should be equal; the model agrees with 383.8 (495 is left as a failure).",
+    "The residual error and the IL-1β binding parameters were not reported.",
+    "The model in Chakraborty 2013 (paywalled) is a different analysis (601 subjects), so its values differ slightly (CL 0.214 vs 0.229, Vss 7.44 vs 7.76).",
+    "The report does not say whether IV data were included in the model, so the IV route is disabled."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Vss",
+      "value": 7.76,
+      "ci": [
+        7.37,
+        8.15
+      ],
+      "unit": "L",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — 'volume of distribution at steady state was 7.76 L'. +-5% assumed; checks Vc + Vp."
+    },
+    {
+      "metric": "thalf",
+      "value": 25.6,
+      "ci": [20.5, 30.7],
+      "unit": "day",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — 'half-life (t1/2) of canakinumab in adult gouty arthritis patients was 25.6 days'. +-20% assumed."
+    },
+    {
+      "metric": "Cmax_first",
+      "dose": 150,
+      "tau": 84,
+      "value": 10.8,
+      "ci": [8.64, 12.96],
+      "unit": "ug/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) proposed SmPC 5.2 (p.117) — single 150 mg SC dose in a typical 93 kg patient '(Cmax: 10.8 ug/ml and AUCinf: 495 ug*d/ml)'. +-20% assumed."
+    },
+    {
+      "metric": "AUC_first",
+      "dose": 150,
+      "tau": 400,
+      "value": 495,
+      "ci": [396.0, 594.0],
+      "unit": "ug*day/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) same sentence, AUCinf 495 ug*d/mL. Computed as the AUC over 400 days after one dose (about 15 half-lives, i.e. to infinity). +-20% assumed. Note: for a linear drug the single-dose AUCinf equals the steady-state AUCtau, and the same report gives AUCtau,ss 383.8 at 150 mg. 495 and 383.8 cannot both hold for one typical patient; the model reproduces 383.8 (and F*Dose/CL = 0.595*150/0.229 = 390)."
+    },
+    {
+      "metric": "Cmax_ss",
+      "dose": 150,
+      "tau": 84,
+      "value": 11.3,
+      "ci": [9.04, 13.56],
+      "unit": "ug/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — 150 mg SC every 12 weeks: 'estimated steady state Cmax and AUCtau were 11.3 ug/mL' and 383.8 ug*day/mL. +-20% assumed."
+    },
+    {
+      "metric": "AUCtau_ss",
+      "dose": 150,
+      "tau": 84,
+      "value": 383.8,
+      "ci": [307.0, 460.6],
+      "unit": "ug*day/mL",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — same sentence. +-20% assumed."
+    },
+    {
+      "metric": "Accum",
+      "dose": 150,
+      "tau": 84,
+      "value": 1.1,
+      "ci": [0.88, 1.32],
+      "unit": "fold",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — 'expected accumulation ratio of canakinumab was 1.1-fold' at Q12W. +-20% assumed."
+    }
+  ],
+  "baseline": {
+    "CL": 0.229,
+    "Vc": 4.78,
+    "Vp": 2.98,
+    "Q": 0.423,
+    "ka": 0.319,
+    "F": 0.595
+  },
+  "baselineUnits": {
+    "CL": "L/day (93 kg, albumin 43 g/L)",
+    "Vc": "L (93 kg)",
+    "Vp": "L (93 kg)",
+    "Q": "L/day",
+    "ka": "1/day (product D, age 34 y)",
+    "F": "fraction (product D)"
+  },
+  "baselineSource": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — CL 0.229 +- 0.00716 L/day (93 kg, 43 g/L), Vc 4.78 L, Vp 2.98 L, intercompartmental flow 0.423 L/day, ka 0.319 /day (product D, 34 y), F 59.5 +- 3.74% (product D). 'the median body weight of gout subjects' = 93 kg.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "cv": 36,
+      "omega2": 0.1219,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — IIV CL 36% CV."
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "cv": 44,
+      "omega2": 0.177,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — IIV Vc 44% CV."
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "cv": 29,
+      "omega2": 0.0808,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — IIV Vp 29% CV."
+    },
+    {
+      "params": [
+        "Q"
+      ],
+      "cv": 54,
+      "omega2": 0.2559,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — IIV intercompartmental flow 54% CV."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "cv": 49,
+      "omega2": 0.2152,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — IIV ka 49% CV. F: 'NA' (not estimated)."
+    }
+  ],
+  "iivType": "%CV converted to omega^2 = ln(1+CV^2)",
+  "iivNote": "No covariances reported.",
+  "corr": null,
+  "residualError": null,
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 93,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 says only 'power of approximately 0.5-1' for weight."
+    },
+    {
+      "id": "CL_CRCL",
+      "param": "CL",
+      "cov": "CRCL",
+      "type": "power",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.22: creatinine clearance was significant but small; form and coefficient not given (mean post hoc CL 0.249 / 0.208 / 0.194 L/day for normal / mild / moderate renal function, Table 15)."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance in the model",
+    "desc": [
+      "This model has no term for change in clearance over time."
+    ]
+  },
+  "population": {
+    "_note": "No covariates in this model.",
+    "seed": 20260918,
+    "covariates": {},
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": false,
+      "source": "Not stated whether IV data were part of this regulatory run."
+    },
+    "sc": {
+      "supported": true,
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) Table 13 (p.20) — first-order SC absorption."
+    }
+  },
+  "regimen": {
+    "dose": 150,
+    "tinf_h": 0,
+    "tau": 84,
+    "ndose": 1,
+    "tend": 168,
+    "source": "Regulatory/13_FDA_L.pdf (ILARIS US label) 2.5 — 150 mg SC for a gout flare."
+  },
+  "regimenPresets": [
+    {
+      "label": "Gout flares · adult patients — SC 150 mg single dose (no re-treatment within 12 weeks)",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 84,
+      "ndose": 1,
+      "tend": 168,
+      "route": "SC",
+      "source": "Regulatory/13_FDA_L.pdf (ILARIS US label) 2.5 — 'The recommended dose of ILARIS for adult patients with a gout flare is 150 mg administered subcutaneously ... an interval of at least 12 weeks before a new dose'."
+    },
+    {
+      "label": "Gout flares · adult patients, recurrent flares — SC 150 mg every 12 weeks",
+      "dose": 150,
+      "unit": "mg",
+      "tau": 84,
+      "ndose": 6,
+      "tend": 504,
+      "route": "SC",
+      "source": "EMA assessment report EMEA/H/C/001109/II/0010 (Ilaris gouty arthritis variation) p.20 — the steady-state simulation at 150 mg every 12 weeks."
+    }
+  ]
+}

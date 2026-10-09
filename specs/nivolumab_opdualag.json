@@ -1,0 +1,772 @@
+{
+  "drug": "nivolumab",
+  "brand": "Opdualag (nivolumab + relatlimab-rmbw)",
+  "label": "Nivolumab — 2-compartment IV · time-varying CL · Opdualag BLA 761234 full popPK model",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": false
+  },
+  "_note": [
+    "This is the first spec in the app with a sourced time-dependent clearance. The engine has",
+    "carried the sigmoid-Emax structure since the start but every drug so far had to leave it off",
+    "for want of coefficients. Nivolumab supplies them - and needs them: without the declining",
+    "clearance the steady-state exposures below come out 14-22% low and the validation fails.",
+    "The parameters describe nivolumab as given in the fixed-dose combination with relatlimab."
+  ],
+  "_source": {
+    "document": "Regulatory/11_FDA_M.pdf — CENTER FOR DRUG EVALUATION AND RESEARCH, APPLICATION NUMBER 761234Orig1s000, MULTI-DISCIPLINE REVIEW, Opdualag (nivolumab and relatlimab-rmbw) (Reference ID 4955210)",
+    "table": "Table 78: Applicant - Parameter Estimates of the Full Nivolumab Population Pharmacokinetic Model (p268-269)",
+    "subjects": "N = 2974 subjects (936 first-line melanoma, 777 prior-IO melanoma, 1211 other tumours, 50 paediatric)",
+    "referenceSubject": "Table 78 Note 1 — 'a reference subject with 1L MEL, receiving nivo+rela FDC, 60-year old white male, baseline eGFR of 90 mL/min/1.73 m2, baseline ALB of 4 g/dL, weighing 75 kg, and with a normal PS status (PS = 0)'",
+    "corroboratedBy": [
+      "Regulatory/10_FDA_L.pdf section 12.3 — steady-state Cmax and Cavg of nivolumab, volume of distribution",
+      "Regulatory/11_FDA_M.pdf p93 — nivolumab clearance after the first dose and at steady state, maximal reduction, terminal half-life"
+    ]
+  },
+  "_unitConversions": {
+    "CL": "9.72 mL/h x 24 / 1000 = 0.23328 L/day",
+    "Q": "31.4 mL/h x 24 / 1000 = 0.7536 L/day",
+    "T50": "2050 h / 24 = 85.42 day",
+    "ALB": "the model centres albumin at 4 g/dL; a power model is scale-free, so 40 g/L with the same exponent is identical, and g/L keeps this drug comparable with the others in the app."
+  },
+  "limitations": [
+    "The source also estimates between-subject variability on Emax (omega^2 0.0797), but this engine cannot apply it. Every virtual patient therefore has the same time course of clearance, so the spread of exposure late in treatment is narrower than in the source.",
+    "Emax is the value for the monotherapy reference subject, and the review has a separate term for combination therapy (EMAXCOMBO -0.00830, 95% CI -0.0572~0.0434). The rule for combining the two is not printed and that term is indistinguishable from 0, so only the main Emax was applied.",
+    "The review prints only the estimates, not the model equations. Continuous covariates were applied as a power of the ratio to the reference value and categorical ones as exp(theta) — the forms customarily used in NONMEM, but this is an inference, not a citation. For the sex term, the difference between the two conventions is 1.3%.",
+    "The same table also has paediatric coefficients (under 12 years: CLPED -0.966, VCPED -0.382), but they were not applied, because the reference subject, the 480 mg flat dose and the weight distribution are all adult-based. The adolescent coefficients were applied because this product is approved from age 12.",
+    "The combination partner, relatlimab, is included as a separate spec (relatlimab_opdualag.json). Neither model has an interaction term between the two drugs."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Vss",
+      "value": 6.6,
+      "ci": [
+        5.47,
+        7.96
+      ],
+      "unit": "L",
+      "source": "10_FDA_L.pdf 12.3 — 'The geometric mean (CV%) volume of distribution at steady state of relatlimab is 6.6 L (20%) and 6.6 L (19%) of nivolumab.' The interval is the geometric mean times exp(+-1 SD on the log scale) for CV 19%. Computed here as Vc + Vp."
+    },
+    {
+      "metric": "thalf",
+      "value": 26.5,
+      "ci": [
+        18.7,
+        37.6
+      ],
+      "unit": "day",
+      "source": "11_FDA_M.pdf p93 — 'the terminal t1/2 (CV%) is 26.5 days (36.4%)'. Interval = geometric mean times exp(+-1 SD on the log scale) for CV 36.4%. Evaluated at steady state, where clearance has reached its plateau."
+    },
+    {
+      "metric": "Cmax_ss",
+      "doseMgkg": 6.4,
+      "value": 187,
+      "ci": [
+        135.9,
+        257.4
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_L.pdf 12.3 — 'the mean Cmax and Cavg of nivolumab at steady state were 187 (33%) and 94.4 (43%) mcg/mL'. Interval = geometric mean times exp(+-1 SD on the log scale) for CV 33%. 6.4 mg/kg x the model's 75 kg reference = the 480 mg flat dose."
+    },
+    {
+      "metric": "AUCtau_ss",
+      "doseMgkg": 6.4,
+      "value": 2643,
+      "ci": [
+        1755,
+        3981
+      ],
+      "unit": "ug*day/mL",
+      "source": "10_FDA_L.pdf 12.3 — derived from the same sentence: Cavg,ss 94.4 ug/mL x the 28-day dosing interval = 2643 ug*day/mL. Interval from the reported CV 43% the same way. This is the row that fails without the time-varying clearance (2058 instead of 2562)."
+    }
+  ],
+  "baseline": {
+    "CL": 0.23328,
+    "Vc": 4.02,
+    "Vp": 2.68,
+    "Q": 0.7536
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day"
+  },
+  "baselineSource": "11_FDA_M.pdf Table 78 — CL0REF 9.72 mL/h (RSE 2.36%), VCREF 4.02 L (0.722%), QREF 31.4 mL/h (5.93%), VPREF 2.68 L (2.66%), converted to L/day.",
+  "iiv": {
+    "CL": 36.03,
+    "Vc": 26.6
+  },
+  "iivType": "%CV",
+  "iivSource": "11_FDA_M.pdf Table 78 Random Effects — ZCL omega^2 0.122 (SD 0.349) and ZVC omega^2 0.0683 (SD 0.261). The %CV given here is sqrt(exp(omega^2)-1), the value at which this engine's omega equals the reported one exactly.",
+  "corr": {
+    "a": "CL",
+    "b": "Vc",
+    "rho": 0.51,
+    "source": "11_FDA_M.pdf Table 78 — 'ZCL:ZVC omega1,2 0.0465 (0.510)', i.e. a covariance of 0.0465 and a correlation of 0.510 between the clearance and central-volume etas."
+  },
+  "residualError": {
+    "type": "proportional",
+    "form": "proportional",
+    "prop": 0.2,
+    "cv": 20.0,
+    "source": "11_FDA_M.pdf Table 78 — PERR theta6 0.200 (RSE 1.51%) with RESERR sigma fixed to 1, i.e. Y = IPRED x (1 + 0.200 e). Floored at 0."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": 0.543,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLWTB 0.543 (RSE 6.59%); the reference weight of 75 kg is stated in Note 1.",
+      "desc": "Body-weight power model. Close to the 0.578 of the pembrolizumab model — the whole anti-PD-1 class scales similarly."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 75,
+      "coef": 0.586,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — VCWTB 0.586 (RSE 4.05%)"
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 40,
+      "coef": -0.965,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLALBB -0.965 (RSE 6.70%); the reference albumin of 4 g/dL from Note 1 is expressed here as 40 g/L (a power model is unchanged by the unit).",
+      "desc": "The strongest covariate on clearance, as in every other antibody in this app: low albumin marks a catabolic state and raises clearance."
+    },
+    {
+      "id": "CL_AGE",
+      "param": "CL",
+      "cov": "AGE",
+      "type": "power",
+      "ref": 60,
+      "coef": -0.101,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLAGE -0.101 (RSE 33.6%); reference age 60 years from Note 1.",
+      "desc": "A weak effect: clearance falls about 7% between 60 and 90 years."
+    },
+    {
+      "id": "CL_GFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 90,
+      "coef": 0.122,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLGFR 0.122 (RSE 24.0%); reference eGFR 90 mL/min/1.73 m2 from Note 1.",
+      "desc": "An antibody this size is not filtered by the kidney, so this is a marker of general physiological state rather than a route of elimination. The effect is small."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.164,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLFEMALE -0.164 (RSE 10.4%), applied as exp(theta) (see limitations).",
+      "desc": "Clearance is about 15% lower in women."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.134,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — VCSEX -0.134 (RSE 9.03%)"
+    },
+    {
+      "id": "CL_PS",
+      "param": "CL",
+      "cov": "PS",
+      "type": "categorical",
+      "level": "1+",
+      "coef": 0.135,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLPS 0.135 (RSE 12.8%), the effect of a baseline ECOG performance score of 1 or worse.",
+      "desc": "Patients who are less well clear the antibody faster — the same catabolic story as albumin, read off a clinical scale. In the first-line melanoma population 31.8% had PS 1 or 2."
+    },
+    {
+      "id": "CL_RACE_BLACK",
+      "param": "CL",
+      "cov": "RACE",
+      "type": "categorical",
+      "level": "Black",
+      "coef": 0.036,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLRAAA 0.0360, RSE 105%, 95% CI -0.0405 to 0.120.",
+      "desc": "Retained in the full model but not distinguishable from zero — the confidence interval spans it. Shown so the model is reproduced as published, not because the effect is established."
+    },
+    {
+      "id": "CL_RACE_ASIAN",
+      "param": "CL",
+      "cov": "RACE",
+      "type": "categorical",
+      "level": "Asian",
+      "coef": -0.114,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLRAAS -0.114 (RSE 27.9%), 95% CI -0.181 to -0.0536."
+    },
+    {
+      "id": "CL_TUMOR_IOMEL",
+      "param": "CL",
+      "cov": "TUMOR",
+      "type": "categorical",
+      "level": "prior-IO melanoma",
+      "coef": -0.172,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLIOMEL -0.172 (RSE 15.5%), relative to the reference population of first-line melanoma."
+    },
+    {
+      "id": "CL_TUMOR_OTHER",
+      "param": "CL",
+      "cov": "TUMOR",
+      "type": "categorical",
+      "level": "other tumour",
+      "coef": -0.00499,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLOTH -0.00499, RSE 433%, 95% CI -0.0473 to 0.0413 — effectively no difference from the first-line melanoma reference."
+    },
+    {
+      "id": "CL_MONO",
+      "param": "CL",
+      "cov": "THERAPY",
+      "type": "categorical",
+      "level": "nivolumab monotherapy",
+      "coef": 0.0499,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLMONO 0.0499 (RSE 49.3%), relative to the fixed-dose combination reference.",
+      "desc": "Nivolumab given alone is cleared about 5% faster than in the Opdualag fixed-dose combination."
+    },
+    {
+      "id": "CL_SAV",
+      "param": "CL",
+      "cov": "THERAPY",
+      "type": "categorical",
+      "level": "separate vials",
+      "coef": 0.0328,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLSAV 0.0328, RSE 73.3%, 95% CI -0.0141 to 0.0815 — nivolumab and relatlimab co-administered from separate vials rather than as the fixed-dose combination."
+    },
+    {
+      "id": "CL_ADOLESCENT",
+      "param": "CL",
+      "cov": "AGEGRP",
+      "type": "categorical",
+      "level": "adolescent",
+      "coef": -0.449,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — CLADO -0.449 (RSE 21.4%), for adolescents 12 to 17 years.",
+      "desc": "Applies on top of the weight and age terms. The product is indicated from 12 years of age and at least 40 kg, so this is the one paediatric term inside the label's scope."
+    },
+    {
+      "id": "VC_ADOLESCENT",
+      "param": "Vc",
+      "cov": "AGEGRP",
+      "type": "categorical",
+      "level": "adolescent",
+      "coef": -0.171,
+      "enabled": true,
+      "source": "11_FDA_M.pdf Table 78 — VCADO -0.171 (RSE 25.0%)"
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "multiplier",
+      "level": "pos",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — anti-drug antibodies were recorded in the analysis dataset (11.2% of subjects positive, 11_FDA_M.pdf Table 75) but no ADA term appears among the estimated parameters of Table 78.",
+      "classPrior": {
+        "note": "CL multipliers on ADA positivity reported by anti-PD-(L)1 peers in data/PPKPARAMETER.csv. A sensitivity range only.",
+        "atezolizumab": 1.159,
+        "avelumab": 1.23,
+        "durvalumab": 1.256,
+        "toripalimab": 1.191,
+        "median": 1.19
+      }
+    },
+    {
+      "id": "CL_LDH",
+      "param": "CL",
+      "cov": "LDH",
+      "type": "power",
+      "ref": 234,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED for nivolumab — baseline lactate dehydrogenase is summarised in the analysis dataset but no LDH term survives in Table 78. The relatlimab model in the same review does keep one (CLBLDH 0.991, Table 77), so the covariate matters for the other half of the combination."
+    },
+    {
+      "id": "CL_PED",
+      "param": "CL",
+      "cov": "AGEGRP",
+      "type": "categorical",
+      "level": "child",
+      "coef": null,
+      "enabled": false,
+      "source": "Sourced but deliberately not applied — 11_FDA_M.pdf Table 78 gives CLPED -0.966 and VCPED -0.382 for children under 12, who are outside this product's indication (12 years and older, at least 40 kg). Enabling them would also need a paediatric weight distribution.",
+      "desc": "Left off so that nothing in this app simulates a population the label does not cover."
+    }
+  ],
+  "timeVarying": {
+    "enabled": true,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": -0.198,
+    "T50": 85.42,
+    "gamma": 2.94,
+    "source": "11_FDA_M.pdf Table 78 — EMAXREF -0.198 (RSE 11.8%), T50 2.05E+03 h = 85.42 days (RSE 6.22%), HILL 2.94 (RSE 13.4%). Corroborated by p93: 'Nivolumab CL decreases over time, with a mean maximal reduction from baseline (CV%) of 21.1% (16.3%) [geometric mean CL (CV%), 7.57 mL/h (40.1%) at steady state and 9.59 mL/h (40.3%) after the first dose]'.",
+    "desc": [
+      "CL(t) = CL0 * (1 + Emax * t^2.94 / (85.42^2.94 + t^2.94)): clearance falls by up to 19.8%,",
+      "half of that drop reached at about 85 days. The mechanism usually offered is that responding",
+      "patients recover from the catabolic state of advanced disease, so their antibody clearance",
+      "returns towards normal.",
+      "This is the coefficient set the pembrolizumab specs record as missing - for pembrolizumab the",
+      "FDA review argues there is no time dependence at all, so the difference is real, not an artefact."
+    ]
+  },
+  "population": {
+    "_note": "Observed, not assumed: the baseline covariate summary of the first-line melanoma population in the nivolumab popPK analysis dataset (11_FDA_M.pdf Table 75, N=936) - the indication Opdualag is approved for. Only the distributional shapes are chosen.",
+    "seed": 20260915,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 78.2,
+        "cv": 23.6,
+        "min": 34.1,
+        "max": 163,
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL, N=936) — body weight median 78.2 kg, mean 79.6, SD 18.8, range 34.1-163. CV 23.6% = SD/mean."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 41.5,
+        "sd": 4.67,
+        "min": 21,
+        "max": 52,
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL) — baseline serum albumin mean 4.15 g/dL, SD 0.467, range 2.1-5.2, converted to g/L."
+      },
+      "AGE": {
+        "dist": "normal",
+        "mean": 61,
+        "sd": 13.9,
+        "min": 20,
+        "max": 90,
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL) — age mean 61 years, SD 13.9, median 63, range 20-90."
+      },
+      "GFR": {
+        "dist": "normal",
+        "mean": 86.9,
+        "sd": 18.9,
+        "min": 25.7,
+        "max": 140,
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL) — baseline eGFR mean 86.9 mL/min/1.73 m2, SD 18.9, range 25.7-140."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.421,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL) — 542 men (57.9%) and 394 women (42.1%)."
+      },
+      "PS": {
+        "dist": "bernoulli",
+        "p": 0.318,
+        "levels": [
+          "0",
+          "1+"
+        ],
+        "source": "11_FDA_M.pdf Table 75 (Adult 1L MEL) — baseline ECOG performance status 0 in 638 (68.2%), 1 in 295 (31.5%) and 2 in 3 (0.3%); the model's term separates 0 from 1 or worse, so 31.8% carry it."
+      },
+      "RACE": {
+        "dist": "categorical",
+        "levels": [
+          "White",
+          "Black",
+          "Asian"
+        ],
+        "probs": [
+          0.9498,
+          0.0075,
+          0.0427
+        ],
+        "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult 1L MEL — white 870 (92.9%), black 7 (0.7%), Asian 40 (4.3%), other 13 (1.4%), missing 6 (0.6%). Black 7/936, Asian 40/936; white, other and missing are pooled into the white reference level, since the model estimates no separate term for them."
+      },
+      "TUMOR": {
+        "dist": "fixed",
+        "value": "first-line melanoma",
+        "levels": [
+          "first-line melanoma",
+          "prior-IO melanoma",
+          "other tumour"
+        ],
+        "source": "The virtual population is held at first-line melanoma, the indication of the fixed-dose combination and the model's own reference population. Tumour setting is an input you switch rather than a sampled covariate."
+      },
+      "THERAPY": {
+        "dist": "fixed",
+        "value": "fixed-dose combination",
+        "levels": [
+          "fixed-dose combination",
+          "separate vials",
+          "nivolumab monotherapy"
+        ],
+        "source": "Held at the fixed-dose combination, the reference of Table 78 and the approved presentation of Opdualag."
+      },
+      "AGEGRP": {
+        "dist": "fixed",
+        "value": "adult",
+        "levels": [
+          "adult",
+          "adolescent"
+        ],
+        "source": "Held at adult. The label covers patients 12 years and older weighing at least 40 kg, so switching to 'adolescent' is within the indication - but the weight distribution above is the adult one, so change the weight input as well."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The approved route: 'Administer OPDUALAG as an intravenous infusion over 30 minutes' (10_FDA_L.pdf section 2)."
+    },
+    "sc": {
+      "supported": false,
+      "source": "This model has no absorption parameters. A subcutaneous nivolumab model does exist in the repository library (data/PPKPARAMETER.csv, doi:10.1002/cpt.3148, N=3540, ka 0.396 /day, F 0.767) - a separate spec, not this one."
+    }
+  },
+  "regimen": {
+    "dose": 480,
+    "tinf_h": 0.5,
+    "tau": 28,
+    "ndose": 6,
+    "tend": 336,
+    "source": "10_FDA_L.pdf section 2 — 'Adult patients and pediatric patients 12 years of age or older who weigh at least 40 kg: 480 mg nivolumab and 160 mg relatlimab intravenously every 4 weeks' and 'Administer OPDUALAG as an intravenous infusion over 30 minutes'. Only the nivolumab half is simulated. Six doses and a 336-day window are display defaults; note that clearance is still falling over the first few of them."
+  },
+  "covariateChecksNote": "Nivolumab clearance decreases during treatment. These rows compare clearance after the first dose and at steady state, and their ratio, with the reported values to check that the time-dependent CL term (Emax, T50, Hill) is implemented correctly. The reported values are patient geometric means, so the intervals are set from the reported CV; the ratio has no interval, so ±20% is used.",
+  "covariateChecks": [
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CL",
+      "at": "first",
+      "value": 0.2302,
+      "ci": [
+        0.1562,
+        0.3393
+      ],
+      "unit": "L/day",
+      "source": "Regulatory/11_FDA_M.pdf p93 — 'Nivolumab CL decreases over time, with a mean maximal reduction from baseline (CV%) of 21.1% (16.3%) [geometric mean CL (CV%), 7.57 mL/h (40.1%) at steady state and 9.59 mL/h (40.3%) after the first dose]'. 9.59 mL/h = 0.2302 L/day. Interval = value x exp(+-1 SD on the log scale) for CV 40.3%."
+    },
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CL",
+      "at": "steady",
+      "value": 0.1817,
+      "ci": [
+        0.1235,
+        0.2673
+      ],
+      "unit": "L/day",
+      "source": "Regulatory/11_FDA_M.pdf p93 — 'Nivolumab CL decreases over time, with a mean maximal reduction from baseline (CV%) of 21.1% (16.3%) [geometric mean CL (CV%), 7.57 mL/h (40.1%) at steady state and 9.59 mL/h (40.3%) after the first dose]'. 7.57 mL/h = 0.1817 L/day. Interval from CV 40.1% the same way."
+    },
+    {
+      "group": "Change in clearance over treatment",
+      "metric": "CLratio",
+      "value": 0.789,
+      "ci": [0.631, 0.947],
+      "unit": "ss / first",
+      "source": "Regulatory/11_FDA_M.pdf p93 — 'Nivolumab CL decreases over time, with a mean maximal reduction from baseline (CV%) of 21.1% (16.3%) [geometric mean CL (CV%), 7.57 mL/h (40.1%) at steady state and 9.59 mL/h (40.3%) after the first dose]'. 7.57 / 9.59 = 0.789. The CVs largely cancel in a ratio of two geometric means, so this is the sharpest test of the time-varying term; no interval is reported, so +-20%."
+    }
+  ],
+  "regimenPresets": [
+    {
+      "label": "Unresectable or metastatic melanoma · adult patients, with relatlimab — IV 480 mg every 4 weeks (Opdualag)",
+      "dose": 480,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 6,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf (Opdualag) 2.1 — '480 mg nivolumab and 160 mg relatlimab administered intravenously every 4 weeks'; 'Administer OPDUALAG as an intravenous infusion over 30 minutes'. Only the nivolumab half is simulated.",
+      "tinf_h": 0.5,
+      "route": "IV",
+      "cov": {
+        "THERAPY": "fixed-dose combination"
+      }
+    },
+    {
+      "label": "Advanced solid tumours · adult patients, monotherapy — IV 240 mg every 2 weeks",
+      "dose": 240,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "BetaBeta/data/Regimen_merged.xlsx — nivolumab, melanoma, REF 13_FDA_L (the Opdivo label, extracted into the team dataset; not in this source pack) — 240 mg every 2 weeks, 0.5 h infusion.",
+      "tinf_h": 0.5,
+      "route": "IV",
+      "cov": {
+        "THERAPY": "nivolumab monotherapy"
+      },
+      "note": "Switches the combination covariate to monotherapy (CL +5%)."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients, monotherapy — IV 480 mg every 4 weeks",
+      "dose": 480,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 6,
+      "tend": 336,
+      "source": "BetaBeta/data/Regimen_merged.xlsx — nivolumab, melanoma, REF 13_FDA_L (the Opdivo label, extracted into the team dataset; not in this source pack) — 480 mg every 4 weeks, 0.5 h infusion.",
+      "tinf_h": 0.5,
+      "route": "IV",
+      "cov": {
+        "THERAPY": "nivolumab monotherapy"
+      },
+      "note": "Switches the combination covariate to monotherapy (CL +5%)."
+    }
+  ],
+  "populationPresets": [
+    {
+      "label": "First-line melanoma, adults (N=936)",
+      "n": 936,
+      "note": "Opdualag's indication and the model's reference population.",
+      "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) — Adult 1L MEL column; the spec's population block above."
+    },
+    {
+      "label": "Immunotherapy-experienced melanoma, adults (N=777)",
+      "n": 777,
+      "cov": {
+        "TUMOR": "prior-IO melanoma"
+      },
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 77,
+          "cv": 23.4,
+          "min": 41.1,
+          "max": 170,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — body weight median 77 kg, mean 79 (SD 18.5), range 41.1-170. CV = SD/mean."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 39.6,
+          "sd": 4.72,
+          "min": 20,
+          "max": 60,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — baseline albumin mean 3.96 g/dL (SD 0.472), range 2-6, converted to g/L."
+        },
+        "AGE": {
+          "dist": "normal",
+          "mean": 61,
+          "sd": 13.3,
+          "min": 23,
+          "max": 92,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — age mean 61 years (SD 13.3), range 23-92."
+        },
+        "GFR": {
+          "dist": "normal",
+          "mean": 86.7,
+          "sd": 18.3,
+          "min": 34.2,
+          "max": 144,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — baseline eGFR mean 86.7 mL/min/1.73 m2 (SD 18.3), range 34.2-144."
+        },
+        "SEX": {
+          "dist": "bernoulli",
+          "p": 0.403,
+          "levels": [
+            "M",
+            "F"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — 313 of 777 women (40.3%)."
+        },
+        "PS": {
+          "dist": "bernoulli",
+          "p": 0.319,
+          "levels": [
+            "0",
+            "1+"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — ECOG PS 1 or worse in 248 of 777 (31.9%) (PS 1: 237, PS 2: 11); the model separates 0 from 1 or worse."
+        },
+        "RACE": {
+          "dist": "categorical",
+          "levels": [
+            "White",
+            "Black",
+            "Asian"
+          ],
+          "probs": [
+            0.9537,
+            0.009,
+            0.0373
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Prior-IO MEL, N=777 — white 736, black 7, Asian 29, other 5, missing 0. Black 7/777, Asian 29/777; white, other and missing are pooled into the white reference level, since the model estimates no separate term for them."
+        }
+      },
+      "note": "The tumour-type term lowers CL by 16% (exp(−0.172)). Albumin is slightly lower than in the reference population.",
+      "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) — Adult Prior-IO MEL column. Tumour type set to prior-IO melanoma (100% of this group)."
+    },
+    {
+      "label": "Other tumour types, adults (N=1211, 60% NSCLC)",
+      "n": 1211,
+      "cov": {
+        "TUMOR": "other tumour"
+      },
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 72.7,
+          "cv": 23.4,
+          "min": 32.8,
+          "max": 158,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — body weight median 72.7 kg, mean 74.9 (SD 17.5), range 32.8-158. CV = SD/mean."
+        },
+        "ALB": {
+          "dist": "normal",
+          "mean": 38.4,
+          "sd": 4.92,
+          "min": 19.0,
+          "max": 52.0,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — baseline albumin mean 3.84 g/dL (SD 0.492), range 1.9-5.2, converted to g/L."
+        },
+        "AGE": {
+          "dist": "normal",
+          "mean": 61.1,
+          "sd": 11,
+          "min": 18,
+          "max": 88,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — age mean 61.1 years (SD 11), range 18-88."
+        },
+        "GFR": {
+          "dist": "normal",
+          "mean": 84,
+          "sd": 21,
+          "min": 27.3,
+          "max": 159,
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — baseline eGFR mean 84 mL/min/1.73 m2 (SD 21), range 27.3-159."
+        },
+        "SEX": {
+          "dist": "bernoulli",
+          "p": 0.346,
+          "levels": [
+            "M",
+            "F"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — 419 of 1211 women (34.6%)."
+        },
+        "PS": {
+          "dist": "bernoulli",
+          "p": 0.647,
+          "levels": [
+            "0",
+            "1+"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — ECOG PS 1 or worse in 776 of 1199 (64.7%) with a known status (PS 1: 767, PS 2: 9; 12 missing left out); the model separates 0 from 1 or worse."
+        },
+        "RACE": {
+          "dist": "categorical",
+          "levels": [
+            "White",
+            "Black",
+            "Asian"
+          ],
+          "probs": [
+            0.9216,
+            0.0438,
+            0.0347
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) Adult Others, N=1211 — white 1083, black 53, Asian 42, other 31, missing 2. Black 53/1211, Asian 42/1211; white, other and missing are pooled into the white reference level, since the model estimates no separate term for them."
+        }
+      },
+      "note": "A high proportion (65%) with performance status ≥1 and low albumin skew CL upward. This population mostly received nivolumab monotherapy, but the administration form is chosen separately under the regimen.",
+      "source": "Regulatory/11_FDA_M.pdf Table 75 (nivolumab popPK dataset by patient population) — Adult Others column (NSCLC 727, other tumour types 484). Tumour type set to 'other tumour'; the model's NSCLC and other-tumour terms are not separated in this spec."
+    },
+    {
+      "label": "Adolescents 12~17 years (N=24)",
+      "n": 24,
+      "cov": {
+        "TUMOR": "other tumour",
+        "AGEGRP": "adolescent",
+        "WT": 59.8,
+        "AGE": 15,
+        "GFR": 120
+      },
+      "covariates": {
+        "WT": {
+          "dist": "lognormal",
+          "median": 59.8,
+          "cv": 27.4,
+          "min": 39.7,
+          "max": 99.4,
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — body weight median 59.8 kg, mean 62.3 (SD 17.1), range 39.7-99.4. CV = SD/mean."
+        },
+        "AGE": {
+          "dist": "normal",
+          "mean": 14.8,
+          "sd": 1.87,
+          "min": 12,
+          "max": 17,
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — age mean 14.8 years (SD 1.87), range 12-17."
+        },
+        "GFR": {
+          "dist": "normal",
+          "mean": 117,
+          "sd": 28.7,
+          "min": 66.9,
+          "max": 179,
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — baseline eGFR mean 117 mL/min/1.73 m2 (SD 28.7), range 66.9-179."
+        },
+        "SEX": {
+          "dist": "bernoulli",
+          "p": 0.417,
+          "levels": [
+            "M",
+            "F"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — 10 of 24 women (41.7%)."
+        },
+        "PS": {
+          "dist": "bernoulli",
+          "p": 0.75,
+          "levels": [
+            "0",
+            "1+"
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — ECOG PS 1 or worse in 18 of 24 (75.0%) (PS 1: 14, PS 2: 4); the model separates 0 from 1 or worse."
+        },
+        "RACE": {
+          "dist": "categorical",
+          "levels": [
+            "White",
+            "Black",
+            "Asian"
+          ],
+          "probs": [
+            0.8333,
+            0.0833,
+            0.0833
+          ],
+          "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — white 19, black 2, Asian 2, other 1. Black 2/24, Asian 2/24; white, other and missing are pooled into the white reference level, since the model estimates no separate term for them."
+        }
+      },
+      "note": "The Opdualag label allows use from age 12 and 40 kg. With only 24 subjects the distributions are coarse. Albumin values exist for only 2 of the 24, so the adult first-line melanoma distribution is used as is. The typical-patient inputs are also set to the adolescent medians (59.8 kg, 15 years, eGFR 120).",
+      "source": "Regulatory/11_FDA_M.pdf Table 76 (nivolumab popPK dataset, adolescents 12-17 years, N=24) — 23 of 24 had non-melanoma tumours, so tumour type is 'other tumour'. Albumin is kept at the first-line adult distribution: Table 76 has a value for only 2 of the 24 adolescents (mean 3.0 g/dL), too few to describe a spread. Children under 12 (N=26) are not offered: the model's paediatric term has no coefficient in this spec (CL_PED disabled) and the label does not cover them."
+    }
+  ]
+}

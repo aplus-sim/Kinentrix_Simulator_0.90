@@ -1,0 +1,800 @@
+{
+  "drug": "dupilumab",
+  "brand": "Dupixent",
+  "label": "Dupilumab (Dupixent) — 2-compartment SC · parallel linear + Michaelis-Menten elimination",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": [
+    "Built from the FDA clinical pharmacology review of BLA 761055 (atopic dermatitis), Table 4.6.7",
+    "'Model 4 - Primary Covariate model'. This is the first drug in the app whose elimination is",
+    "genuinely non-linear at therapeutic concentrations, and the first whose virtual population",
+    "distributions are taken from a source rather than assumed."
+  ],
+  "_source": {
+    "document": "Regulatory/11_FDA_CP.pdf — CENTER FOR DRUG EVALUATION AND RESEARCH, APPLICATION NUMBER 761055Orig1s000, CLINICAL PHARMACOLOGY AND BIOPHARMACEUTICS REVIEW(S) (Reference ID 4030358)",
+    "table": "Table 4.6.7 (p51), Model 4 = Primary Covariate model; source given there as the Applicant's population PK report Page 62, Table 15",
+    "subjects": "n = 2115 (202 healthy subjects, 1913 atopic dermatitis patients) pooled from 16 studies, NONMEM 7.3",
+    "corroboratedBy": [
+      "Regulatory/10_FDA_L.pdf section 12.3 — single-dose Cmax at 300/400/600 mg, steady-state troughs, bioavailability 61-66%, total volume of distribution 4.8 +- 1.3 L",
+      "Paper/20_Li_2020.pdf — six phase 1 studies in healthy subjects; describes the same 'parallel linear and nonlinear elimination, with the target-mediated phase highly dominated by nonlinearity at lower drug concentrations'"
+    ]
+  },
+  "_parameterisation": {
+    "why": "The source does not report CL, Q and Vp directly. It estimates the central volume V2, an elimination rate constant ke, and fixed inter-compartmental rates k23/k32, and states that V3 is proportional to V2. The engine works in CL/Q/Vp, so the conversion is:",
+    "CL": "V2 * ke = 2.74 * 0.0477 = 0.1307 L/day  (the review's own derived value: 0.131)",
+    "Q": "k23 * V2 = 0.211 * 2.74 = 0.578 L/day  (review: 0.578)",
+    "Vp": "V2 * k23 / k32 = 2.74 * 0.211 / 0.310 = 1.865 L  (review: 1.86)",
+    "consequenceForCovariates": "Because CL, Q and Vp are all products of V2 with fixed rates, every covariate on V2 (weight, albumin) moves CL, Q and Vp by exactly the same factor. That is why WT and ALB appear four times each in the effects list. Covariates on ke (BMI, ADA, EASI, race) move CL only.",
+    "Vm": "Reported as 1.07 mg/L/day, a rate per unit volume - 'which can be interpreted as an assumption of a proportional relationship between the production rate of the target and the volume of the central compartment' (11_FDA_CP.pdf p49). The engine works in amounts, so it multiplies this by each subject's own Vc. Reading it as mg/day instead would understate the non-linear elimination about 3-fold."
+  },
+  "_crossCheck": {
+    "what": "The review's Table 4.6.8 reports post-hoc steady-state trough concentrations at 300 mg Q2W by covariate group. Those numbers are not used as reportedChecks (the simulation behind them included a 600 mg loading dose and mixes covariates within each group), but they are an independent check on whether each covariate term was implemented in the right direction and size. Model values below are this spec at the reference subject with one covariate moved.",
+    "weight <70 kg (review 101 mg/L)": "WT 50 kg -> 101.6",
+    "weight >=100 kg (review 41.8 mg/L)": "WT 100 kg -> 48.0",
+    "ADA positive (review 57.8 mg/L)": "ADA pos -> 56.3",
+    "ADA negative (review 81.0 mg/L)": "ADA neg, white -> 79.3",
+    "race white (review 78.9 mg/L)": "RACE White -> 79.3",
+    "EASI >=50 (review 67.8 mg/L)": "EASI 60 -> 60.7"
+  },
+  "limitations": [
+    "The original model describes absorption with 3 transit compartments (mean transit time 0.105 day), but this engine has only one depot, so the initial absorption delay of about 2.5 hours is not reproduced. As a result the peak appears at around day 5, earlier than the label's 'about 1 week'.",
+    "The FDA review states flatly that with this degree of nonlinearity one should 'not use the terminal half-life and linear clearance to calculate the time to reach the limit of quantitation, nor try to predict in that way when a patient reaches clinically insignificant concentrations'. The half-life shown by this app is fitted to the tail of the simulation and depends on concentration, so it should be read as a description of that curve, not as a constant of the drug.",
+    "Patients with high or moderate antibody titres were excluded from the population PK analysis (the review also notes this as a limitation). The ADA effect below therefore applies only to low titres.",
+    "Weight and BMI are physiologically linked, but the source does not report their correlation, so they are sampled independently. At the extremes this can produce combinations that do not occur in reality.",
+    "The loading dose is not included. The app's regimen is the one the label presents as '300 mg every 2 weeks without a loading dose', which reaches steady state by week 16."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Cmax_first",
+      "doseMg": 300,
+      "value": 30.5,
+      "ci": [
+        21.1,
+        39.9
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_L.pdf 12.3 — 'Following an initial subcutaneous (SC) dose of 600 mg, 400 mg, or 300 mg, dupilumab reached peak mean +- SD concentrations (Cmax) of 70.1+-24.1 mcg/mL, 41.8+-12.4 mcg/mL, or 30.5+-9.39 mcg/mL, respectively, by approximately 1 week post dose.' The interval is mean +- 1 SD, the observed spread."
+    },
+    {
+      "metric": "Cmax_first",
+      "doseMg": 400,
+      "value": 41.8,
+      "ci": [
+        29.4,
+        54.2
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_L.pdf 12.3 — same sentence, 400 mg. Together with the 300 and 600 mg rows this tests the non-linearity: three doses, three different exposure ratios."
+    },
+    {
+      "metric": "Cmax_first",
+      "doseMg": 600,
+      "value": 70.1,
+      "ci": [
+        46.0,
+        94.2
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_L.pdf 12.3 — same sentence, 600 mg (the loading dose)."
+    },
+    {
+      "metric": "Vss",
+      "value": 4.8,
+      "ci": [
+        3.5,
+        6.1
+      ],
+      "unit": "L",
+      "source": "10_FDA_L.pdf 12.3 — 'The estimated total volume of distribution was approximately 4.8+-1.3 L.' Interval is mean +- 1 SD. Computed here as Vc + Vp."
+    },
+    {
+      "metric": "Ctrough_ss",
+      "doseMgkg": 4.109589,
+      "value": 67.8,
+      "ci": [
+        55.3,
+        80.2
+      ],
+      "unit": "ug/mL",
+      "source": "10_FDA_L.pdf 12.3 — 'the mean +- SD steady-state trough concentrations ranged from 55.3+-34.3 mcg/mL to 80.2+-35.3 mcg/mL for 300 mg administered Q2W'. The interval is that reported range of trial means and the point value its midpoint. 4.1095890 mg/kg x the model's 73 kg reference weight = the 300 mg flat dose."
+    }
+  ],
+  "baseline": {
+    "CL": 0.1307,
+    "Vc": 2.74,
+    "Vp": 1.865,
+    "Q": 0.578,
+    "ka": 0.306,
+    "F": 0.642,
+    "Km": 0.01,
+    "VmPerVol": 1.07
+  },
+  "baselineUnits": {
+    "CL": "L/day (= V2*ke)",
+    "Vc": "L (= V2)",
+    "Vp": "L (= V2*k23/k32)",
+    "Q": "L/day (= k23*V2)",
+    "ka": "1/day",
+    "F": "fraction",
+    "Km": "mg/L (fixed)",
+    "VmPerVol": "mg/L/day x Vc -> mg/day"
+  },
+  "baselineSource": "11_FDA_CP.pdf Table 4.6.7 Model 4 — V2 2.74 (SE 0.021) L, ke 0.0477 (0.00078) /d, and the fixed parameters k23 0.211 /d, k32 0.310 /d, ka 0.306 /d, Vm 1.07 mg/L/d, Km 0.01 mg/L, F 0.642. Km was fixed because 'different versions of the model persistently estimated the Michaelis-Menten (MM) constant (Km) at values below ~0.01 mg/L with large relative standard errors' (p48).",
+  "iivGroups": [
+    {
+      "params": [
+        "Vc",
+        "Vp",
+        "Q",
+        "CL"
+      ],
+      "omega2": 0.042436,
+      "cv": 20.6,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'sigma(eta(V2)) 0.206 (0.0068)', i.e. an SD of 0.206 on the log scale, so omega^2 = 0.206^2 = 0.0424. One eta on V2 moves CL, Q and Vp with it, because all three are products of V2 with fixed rates."
+    },
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.085849,
+      "cv": 29.3,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'sigma(eta(ke)) 0.293 (0.010)', omega^2 = 0.293^2 = 0.0858. Applied to CL, since CL = V2*ke and the V2 eta is already applied above."
+    }
+  ],
+  "iivType": "omega^2 (variance on the log scale)",
+  "iivNote": "The source reports SDs on the log scale, squared here into variances, and corr(eta_ke, eta_V2) = -0.450, applied through iivCorr (2026-09-18): subjects with a large volume tend to have a smaller elimination rate constant.",
+  "residualError": {
+    "type": "proportional + additive",
+    "form": "combined",
+    "prop": 0.125,
+    "add": 6.06,
+    "cv": 12.5,
+    "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'sigma prop. (CV%) 12.5 (0.18)' and 'sigma add. (mg/L) 6.06 (0.23)'. Applied as C x (1 + 0.125 e1) + 6.06 e2, floored at 0. The additive part is large because Model 4 was fitted to phase 3 trough samples only; it widens the band most at low concentrations, where real samples would often be below the quantification limit."
+  },
+  "corr": null,
+  "effects": [
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 73,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.817,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'V2 ~ weight 0.817 (0.031)'.",
+      "refNote": "The centring weight is not printed in the review. The median weight of the phase 3 analysis set, 73.0 kg (Table 4.6.1, n=897), is substituted. The label's statement that 'dupilumab trough concentrations were lower in subjects with higher body weight' is the qualitative form of this term.",
+      "desc": "The dominant covariate. The review singles out weight on the central volume and BMI on ke as the only two with 'a notable effect with around 50% increase'."
+    },
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 73,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.817,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same 'V2 ~ weight 0.817' term, carried into CL because the model defines CL = V2*ke (footnote b of the table: 'Linear clearance calculated as V2*ke')."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 73,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.817,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same term, carried into Q because Q = k23*V2 with k23 fixed."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 73,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.817,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same term, carried into Vp: 'the calculated individual volume of the peripheral compartment was proportional to the volume of the central compartment' (p50)."
+    },
+    {
+      "id": "VC_ALB",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 45,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.653,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'V2 ~ albumin -0.653 (0.072)'.",
+      "refNote": "The centring albumin is not printed in the review; the median of the phase 3 analysis set, 45.0 g/L (Table 4.6.1), is substituted.",
+      "desc": "Lower albumin raises the volume of distribution, and with it clearance - the opposite sign to the albumin-on-clearance term in the anti-PD-1 models, because here albumin acts on volume."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 45,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.653,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same 'V2 ~ albumin' term, carried into CL = V2*ke."
+    },
+    {
+      "id": "Q_ALB",
+      "param": "Q",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 45,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.653,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same term, carried into Q = k23*V2."
+    },
+    {
+      "id": "VP_ALB",
+      "param": "Vp",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 45,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.653,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 — the same term, carried into Vp, which is proportional to V2."
+    },
+    {
+      "id": "CL_BMI",
+      "param": "CL",
+      "cov": "BMI",
+      "type": "power",
+      "ref": 24.9,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.368,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'ke ~ BMI 0.368 (0.053)'; ke enters this spec as CL, the volume terms being handled separately.",
+      "refNote": "The centring BMI is not printed in the review; the median of the phase 3 analysis set, 24.9 kg/m2 (Table 4.6.1), is substituted.",
+      "desc": "One of the two effects the review calls notable. Higher BMI raises the elimination rate constant; body weight acts separately, through the volume."
+    },
+    {
+      "id": "CL_EASI",
+      "param": "CL",
+      "cov": "EASI",
+      "type": "power",
+      "ref": 29.3,
+      "refStatus": "SUBSTITUTED",
+      "coef": 0.143,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'ke ~ EASI 0.143 (0.021)'.",
+      "refNote": "The centring EASI is not printed in the review; the median of the phase 3 analysis set, 29.3 (Table 4.6.1), is substituted.",
+      "desc": "The app's first disease-severity covariate: the Eczema Area and Severity Index, 0-72. More severe disease means faster elimination - more target to bind. Table 4.6.8 of the review shows steady-state trough falling from 82.9 to 67.8 mg/L across EASI groups."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "categorical",
+      "level": "pos",
+      "coef": 0.164,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'ke ~ ADA 0.164 (0.029)'.",
+      "formNote": "The review does not state whether the paper wrote this as exp(theta) or (1+theta); exp() is used, the common NONMEM form for a categorical covariate, which differs from (1+theta) by 1.2% here.",
+      "desc": "Anti-drug antibodies raise clearance by about 18%, lowering exposure - 'Development of antibodies to dupilumab was associated with lower serum dupilumab concentrations' (10_FDA_L.pdf 12.3). Note the analysis excluded high and moderate titers, so this describes low titers."
+    },
+    {
+      "id": "CL_RACE",
+      "param": "CL",
+      "cov": "RACE",
+      "type": "categorical",
+      "level": "White",
+      "coef": -0.123,
+      "enabled": true,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — 'ke ~ race (white) -0.123 (0.018)'; same form note as CL_ADA.",
+      "desc": "White subjects clear dupilumab about 12% more slowly than the rest of the analysis population. The review judges the effect of race, like the others, to be less than a 2-fold exposure change."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — sex was tested as a candidate covariate (11_FDA_CP.pdf p46) and not retained in the final model."
+    },
+    {
+      "id": "CL_AGE",
+      "param": "CL",
+      "cov": "AGE",
+      "type": "power",
+      "ref": 35,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — and the source argues against it for adults: 'age did not affect dupilumab clearance in adults and in pediatric subjects 6 to 17 years of age' (10_FDA_L.pdf 12.3). In children under 6 clearance does increase with age, which this adult model does not cover."
+    },
+    {
+      "id": "CL_CRCL",
+      "param": "CL",
+      "cov": "CRCL",
+      "type": "power",
+      "ref": 109,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — predicted creatinine clearance was tested as a candidate covariate (11_FDA_CP.pdf p46) and not retained."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance term appears in the model",
+    "desc": [
+      "Dupilumab clearance does vary with concentration, but through the Michaelis-Menten term, not through time.",
+      "That mechanism is already active in this spec, so turning on time-dependent CL would count the same effect twice."
+    ]
+  },
+  "population": {
+    "_note": "Unlike the other drugs in this app, these distributions are observed: they are the baseline covariate summary of the phase 3 analysis set (n=897). Only the distributional shapes are chosen.",
+    "seed": 20260915,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 73.0,
+        "cv": 24.6,
+        "min": 41,
+        "max": 175,
+        "source": "11_FDA_CP.pdf Table 4.6.1 (n=897) — weight median 73.0 kg, mean 75.7, SD 18.6, min 41, max 175. CV 24.6% = SD/mean; the log-normal shape is the assumption, the numbers are observed."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 44.6,
+        "sd": 3.69,
+        "min": 22,
+        "max": 57,
+        "source": "11_FDA_CP.pdf Table 4.6.1 (n=897) — albumin mean 44.6 g/L, SD 3.69, min 22, max 57."
+      },
+      "BMI": {
+        "dist": "normal",
+        "mean": 26.0,
+        "sd": 5.65,
+        "min": 16.3,
+        "max": 57.3,
+        "source": "11_FDA_CP.pdf Table 4.6.1 (n=897) — BMI mean 26.0 kg/m2, SD 5.65, min 16.3, max 57.3."
+      },
+      "EASI": {
+        "dist": "normal",
+        "mean": 32.1,
+        "sd": 12.9,
+        "min": 0.6,
+        "max": 72,
+        "source": "11_FDA_CP.pdf Table 4.6.1 (n=897) — baseline EASI mean 32.1, SD 12.9, min 0.600, max 72.0."
+      },
+      "ADA": {
+        "dist": "bernoulli",
+        "p": 0.106,
+        "levels": [
+          "neg",
+          "pos"
+        ],
+        "source": "11_FDA_CP.pdf Table 4.6.4 — of 898 subjects on active treatment, 87 had low ADA titers, 6 moderate and 2 high (10.6% positive in total). The reviewer notes the high and moderate titers were excluded from the model."
+      },
+      "RACE": {
+        "dist": "bernoulli",
+        "p": 0.692,
+        "levels": [
+          "Other",
+          "White"
+        ],
+        "source": "11_FDA_CP.pdf Table 4.6.8 — of the 552 subjects in the 300 mg Q2W arm, 382 were white, 128 Asian and 42 other, i.e. a white fraction of 69.2%. The model's term separates white from everyone else, so the two levels are 'White' and 'Other'."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The model's rich-data backbone includes the first-in-human study R668-AS-0907, described by the review as 'the only study with IV administration' (11_FDA_CP.pdf p47), which is what makes the bioavailability estimable at all."
+    },
+    "sc": {
+      "supported": true,
+      "source": "The approved route. Absorption is modelled with three transit compartments plus a first-order rate; this app keeps the rate and drops the transit delay (see limitations)."
+    }
+  },
+  "regimen": {
+    "dose": 300,
+    "tinf_h": 0,
+    "tau": 14,
+    "ndose": 12,
+    "tend": 336,
+    "source": "10_FDA_L.pdf 12.3 — '300 mg Q2W without a loading dose' is one of the regimens the label lists as reaching steady state by week 16 (the approved adult atopic dermatitis regimen adds a 600 mg loading dose, which this engine cannot express). Subcutaneous, so infusion time is 0 and the dose enters the depot compartment. Twelve doses and a 336-day window are display defaults."
+  },
+  "covariateChecksNote": "FDA review Table 4.6.8 gives, for each covariate group, the average of the model-based post hoc estimates of the individual Phase 3 patients. The groups are covariate 'ranges', so each row is computed for a single representative patient within that range. The representative value is the median of this spec's virtual-patient distribution (Table 4.6.1 observed values) truncated to that range. Moving weight or BMI alone produces large mismatches (e.g. +44% for the BMI ≥ 30 group), so the two are moved together, converted into each other via the height of 1.712 m implied by the Table 4.6.1 median weight of 73 kg and median BMI of 24.9. All other covariates are at their reference values, and race is set to White, 69% of the analysis population (except in the race and ADA rows). The review's simulations include a 600 mg loading dose, but these are steady-state values at weeks 22~24, so it does not affect the results. The reported values are predictions of the same model, not observations, so this table checks whether the covariate terms are implemented correctly. The tolerance is ±10%.",
+  "covariateChecks": [
+    {
+      "group": "Weight groups (BMI moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 60.5,
+        "BMI": 20.6,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 101,
+      "ci": [80.8, 121.2],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, body weight < 70 kg: 101 (2.01), n=223. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Weight groups (BMI moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 81.1,
+        "BMI": 27.7,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 67.1,
+      "ci": [53.7, 80.5],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, body weight 70–100 kg: 67.1 (1.52), n=270. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Weight groups (BMI moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 109.1,
+        "BMI": 37.2,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 41.8,
+      "ci": [33.4, 50.2],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, body weight ≥ 100 kg: 41.8 (2.77), n=59. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "BMI groups (weight moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "BMI": 21.8,
+        "WT": 63.9,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 97.5,
+      "ci": [78.0, 117.0],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, BMI 15–25 kg/m2: 97.5 (1.85), n=262. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "BMI groups (weight moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "BMI": 27.4,
+        "WT": 80.3,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 68.4,
+      "ci": [54.7, 82.1],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, BMI 25–30 kg/m2: 68.4 (1.97), n=182. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "BMI groups (weight moved along, converted at the same height)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "BMI": 32.6,
+        "WT": 95.6,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 48.0,
+      "ci": [38.4, 57.6],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, BMI ≥ 30 kg/m2: 48.0 (2.09), n=108. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Baseline EASI groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "EASI": 15.6,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 82.9,
+      "ci": [66.3, 99.5],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, baseline EASI < 21: 82.9 (3.12), n=131. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Baseline EASI groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "EASI": 33.9,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 78.5,
+      "ci": [62.8, 94.2],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, baseline EASI 21–50: 78.5 (1.75), n=352. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Baseline EASI groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "EASI": 54.5,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 67.8,
+      "ci": [54.2, 81.4],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, baseline EASI ≥ 50: 67.8 (3.91), n=69. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Albumin groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "ALB": 38.6,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 60.5,
+      "ci": [48.4, 72.6],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, albumin 30–40 g/L: 60.5 (4.18), n=35. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Albumin groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "ALB": 44.8,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 77.9,
+      "ci": [62.3, 93.5],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, albumin 40–50 g/L: 77.9 (1.59), n=462. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Albumin groups",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "ALB": 51.2,
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 92.7,
+      "ci": [74.2, 111.2],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, albumin ≥ 50 g/L: 92.7 (3.71), n=55. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Race",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 78.9,
+      "ci": [63.1, 94.7],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, race White: 78.9 (1.71), n=382. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Race",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "RACE": "Other"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 76.7,
+      "ci": [61.4, 92.0],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, race Asian 80.0 (3.02), n=128 and Other 66.6 (5.21), n=42, pooled by n into 76.7 because the model's term only separates white subjects from everyone else. The Asian subgroup is likely lighter, which the one-covariate row cannot reproduce. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Anti-drug antibodies (ADA)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "ADA": "neg",
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 81.0,
+      "ci": [64.8, 97.2],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, ADA negative: 81.0 (1.49), n=486. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Anti-drug antibodies (ADA)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "ADA": "pos",
+        "RACE": "White"
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 57.8,
+      "ci": [46.2, 69.4],
+      "unit": "ug/mL",
+      "source": "Regulatory/11_FDA_CP.pdf Table 4.6.8 (p53) — mean (SE) post-hoc steady-state Ctrough at 300 mg Q2W, ADA positive: 57.8 (4.03), n=66. No interval in the source; +-20% assumed."
+    }
+  ],
+  "regimenPresets": [
+    {
+      "label": "Atopic dermatitis · adult patients — SC 600 mg loading, then 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.3 — 'The recommended dosage of DUPIXENT for adult patients is an initial dose of 600 mg (two 300 mg injections), followed by 300 mg given every 2 weeks (Q2W)'.",
+      "loadDose": 600,
+      "route": "SC"
+    },
+    {
+      "label": "Atopic dermatitis · adult patients — SC 300 mg every 2 weeks (no loading dose; validation regimen)",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 12.3 — lists '300 mg Q2W without a loading dose' among the regimens reaching steady state by week 16. This is the regimen the validation panel uses.",
+      "route": "SC"
+    },
+    {
+      "label": "Atopic dermatitis · patients ≥6 years, ≥60 kg — SC 600 mg loading, then 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.3 Table 2 — '60 kg or more: 600 mg (two 300 mg injections), 300 mg every 2 weeks (Q2W)'.",
+      "loadDose": 600,
+      "route": "SC",
+      "wtRange": {
+        "min": 60,
+        "minIncl": true
+      }
+    },
+    {
+      "label": "Atopic dermatitis · patients ≥6 years, 30–60 kg — SC 400 mg loading, then 200 mg every 2 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.3 Table 2 — '30 to less than 60 kg: 400 mg (two 200 mg injections), 200 mg every 2 weeks (Q2W)'.",
+      "loadDose": 400,
+      "route": "SC",
+      "wtRange": {
+        "min": 30,
+        "minIncl": true,
+        "max": 60,
+        "maxIncl": false
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Atopic dermatitis · patients ≥6 years, 15–30 kg — SC 600 mg loading, then 300 mg every 4 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 8,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.3 Table 2 — '15 to less than 30 kg: 600 mg (two 300 mg injections), 300 mg every 4 weeks (Q4W)'.",
+      "loadDose": 600,
+      "route": "SC",
+      "wtRange": {
+        "min": 15,
+        "minIncl": true,
+        "max": 30,
+        "maxIncl": false
+      },
+      "note": "The model was fitted to adult and adolescent data; paediatric body weights are an extrapolation."
+    },
+    {
+      "label": "Asthma · patients ≥12 years — SC 400 mg loading, then 200 mg every 2 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.4 Table 3 — 'Initial Loading Dose 400 mg (two 200 mg injections), Subsequent Dosage 200 mg every 2 weeks (Q2W)'. The model was fitted on atopic dermatitis; the label states the PK is similar across indications.",
+      "loadDose": 400,
+      "route": "SC"
+    },
+    {
+      "label": "Asthma · patients ≥12 years — SC 600 mg loading, then 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.4 Table 3 — 'Or 600 mg (two 300 mg injections), 300 mg every 2 weeks (Q2W)'.",
+      "loadDose": 600,
+      "route": "SC"
+    },
+    {
+      "label": "Chronic rhinosinusitis with nasal polyps (CRSwNP) · patients ≥12 years — SC 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.5 — 'The recommended dosage of DUPIXENT for adult and pediatric patients 12 years of age and older is 300 mg given every 2 weeks (Q2W)'.",
+      "route": "SC"
+    },
+    {
+      "label": "Eosinophilic esophagitis (EoE) · patients ≥40 kg — SC 300 mg every week",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 7,
+      "ndose": 24,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.6 Table 5 — '40 kg or more: 300 mg every week (QW)'.",
+      "route": "SC",
+      "wtRange": {
+        "min": 40,
+        "minIncl": true
+      }
+    },
+    {
+      "label": "Prurigo nodularis, chronic spontaneous urticaria, bullous pemphigoid · adult patients — SC 600 mg loading, then 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.7, 2.9, 2.10 — each: 'an initial dose of 600 mg (two 300 mg injections) followed by 300 mg given every 2 weeks (Q2W)'.",
+      "loadDose": 600,
+      "route": "SC"
+    },
+    {
+      "label": "Chronic obstructive pulmonary disease (COPD) · adult patients — SC 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "source": "Regulatory/10_FDA_L.pdf 2.8 — 'The recommended dosage of DUPIXENT for adult patients is 300 mg given every 2 weeks (Q2W)'.",
+      "route": "SC"
+    }
+  ],
+  "iivCorr": [
+    {
+      "a": 0,
+      "b": 1,
+      "rho": -0.45,
+      "source": "11_FDA_CP.pdf Table 4.6.7 Model 4 — corr(eta_ke, eta_V2) -0.450 (0.035). Group 0 is the V2 eta, group 1 the ke eta."
+    }
+  ]
+}

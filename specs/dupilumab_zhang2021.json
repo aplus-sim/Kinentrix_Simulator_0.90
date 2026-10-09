@@ -1,0 +1,484 @@
+{
+  "drug": "dupilumab",
+  "brand": "Dupixent",
+  "label": "Dupilumab (Dupixent) — asthma · Zhang 2021 · 2-compartment SC · linear + Michaelis-Menten",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "Second dupilumab model: asthma (adults and adolescents), fitted in one step with no fixed parameters. Same parameterisation as the FDA atopic dermatitis model, but its own values - notably Km 2.08 mg/L instead of 0.01.",
+  "_source": {
+    "document": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131)",
+    "table": "Table 3: final model parameters; Results: covariate equations; Table 2: population; Table 4 and Figure 3: exposures",
+    "subjects": "N=2114 (202 healthy volunteers, 1912 asthma patients incl. 68 adolescents), 14,584 concentrations; phase 1 IV 1-12 mg/kg and SC 75-600 mg, phase 2a/2b and phase 3 QUEST"
+  },
+  "_parameterisation": {
+    "why": "The paper estimates Ke, V2, K23, K32 (rates) and Vmax as a concentration rate, like the FDA model. The engine works in CL/Q/Vp:",
+    "CL": "V2 * Ke = 2.76 * 0.0418 = 0.1154 L/day (paper: 0.115)",
+    "Q": "K23 * V2 = 0.0952 * 2.76 = 0.2628 L/day (paper: 0.263)",
+    "Vp": "V2 * K23 / K32 = 2.76 * 0.0952 / 0.163 = 1.6120 L (paper: 1.61)",
+    "consequenceForCovariates": "Weight and albumin on V2 therefore move Vc, CL, Q and Vp by the same factor; weight, CrCL and ADA on Ke move CL only.",
+    "Vm": "Vmax 1.39 mg/L/day is multiplied by each subject's Vc to give an amount rate."
+  },
+  "limitations": [
+    "Correlations between the between-subject variabilities are not reported in the paper, so all are sampled independently.",
+    "The paper does not say which transformation (exponential/logit) the between-subject variability in bioavailability (F) (CV 36.3%) uses, so it is applied exponentially and truncated at 1 when it exceeds 1.",
+    "202 healthy subjects and asthma patients were fitted together, and population (healthy/asthma) is not a covariate.",
+    "The reference-subject validation values (Table 4) are patient means, so they inherently differ from the value for a single reference subject (the distribution is right-skewed, so the mean is higher).",
+    "The source gives no intervals for the percentage change in AUC by weight, so ±20% is used as the pass criterion."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Vss",
+      "value": 4.37,
+      "ci": [
+        4.15,
+        4.59
+      ],
+      "unit": "L",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'total volume of distribution at steady-state 4.37 L'. A check of the V2/K23/K32 -> Vc/Vp conversion rather than of the model; +-5% assumed."
+    },
+    {
+      "metric": "AUCtau_ss",
+      "dose": 300,
+      "tau": 14,
+      "value": 1090,
+      "ci": [
+        497,
+        1683
+      ],
+      "unit": "mg*day/L",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 4 — model-derived steady-state exposure, 300 mg q2w (600 mg loading), phase 3 QUEST (NCT02414854), N=630: AUCss 1090 (SD 593) mg*day/L. Interval = mean +- 1 SD. The source value is the mean over patients, the model value is the reference subject (78 kg, ALB 44, CrCL 111, ADA negative); for a right-skewed exposure the population mean sits above the typical subject."
+    },
+    {
+      "metric": "Cmax_ss",
+      "dose": 300,
+      "tau": 14,
+      "value": 86.9,
+      "ci": [
+        42.1,
+        131.7
+      ],
+      "unit": "mg/L",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 4 — model-derived steady-state exposure, 300 mg q2w (600 mg loading), phase 3 QUEST (NCT02414854), N=630: Cmax,ss 86.9 (SD 44.8) mg/L. Interval = mean +- 1 SD."
+    },
+    {
+      "metric": "Ctrough_ss",
+      "dose": 300,
+      "tau": 14,
+      "value": 70.0,
+      "ci": [
+        29.1,
+        110.9
+      ],
+      "unit": "mg/L",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 4 — model-derived steady-state exposure, 300 mg q2w (600 mg loading), phase 3 QUEST (NCT02414854), N=630: Cmin,ss 70.0 (SD 40.9) mg/L. Interval = mean +- 1 SD. (The Discussion quotes 59.8-70.0 mg/L across studies; Table 4 prints 58.9 for phase 2b - the table is followed.)"
+    }
+  ],
+  "baseline": {
+    "CL": 0.11537,
+    "Vc": 2.76,
+    "Vp": 1.612,
+    "Q": 0.26275,
+    "ka": 0.263,
+    "F": 0.609,
+    "Km": 2.08,
+    "VmPerVol": 1.39
+  },
+  "baselineUnits": {
+    "CL": "L/day (= V2*Ke)",
+    "Vc": "L (= V2)",
+    "Vp": "L (= V2*K23/K32)",
+    "Q": "L/day (= K23*V2)",
+    "ka": "1/day",
+    "F": "fraction",
+    "Km": "mg/L",
+    "VmPerVol": "mg/L/day x Vc -> mg/day"
+  },
+  "baselineSource": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — Ke 0.0418 1/day (RSE 2.77%), V2 2.76 L (2.43%), K23 0.0952 (6.97%), K32 0.163 (4.36%), Vmax 1.39 mg/L/day (3.80%), Km 2.08 mg/L (13.6%), Ka 0.263 1/day (3.80%), Fsc 0.609 (3.27%; the table's '1/day' label on Fsc is a typo). Reference subject: 'median values of WT, ALB, and CLCRN in the final dataset are 78 kg, 44 g/L, 111', ADA negative.",
+  "iivGroups": [
+    {
+      "params": [
+        "Vc",
+        "Vp",
+        "Q",
+        "CL"
+      ],
+      "omega2": 0.00834,
+      "cv": 9.13,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — eta on V2 omega^2 0.00834 (CV 9.13%), shrinkage 57.7%. One eta on V2 moves CL, Q and Vp with it."
+    },
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.0385,
+      "cv": 19.6,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — eta on Ke omega^2 0.0385 (CV 19.6%), shrinkage 47.3%. Applied to CL (= V2*Ke)."
+    },
+    {
+      "params": [
+        "VmPerVol"
+      ],
+      "omega2": 0.0589,
+      "cv": 24.3,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — eta on Vmax omega^2 0.0589 (CV 24.3%)."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.243,
+      "cv": 49.2,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — eta on Ka omega^2 0.243 (CV 49.2%)."
+    },
+    {
+      "params": [
+        "F"
+      ],
+      "omega2": 0.132,
+      "cv": 36.3,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — eta on Fsc omega^2 0.132 (CV 36.3%). The transform is not stated; applied exponentially and capped at F = 1."
+    }
+  ],
+  "iivType": "omega^2 (variance on the log scale)",
+  "iivNote": "No correlations between etas are reported.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional + additive",
+    "form": "combined",
+    "prop": 0.197,
+    "add": 1.73,
+    "cv": 19.7,
+    "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 3 — combined error: proportional variance 0.0388 (19.7%), additive variance 2.98 (SD 1.73 mg/L)."
+  },
+  "effects": [
+    {
+      "id": "VC_WT_V2",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.667,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'V2 = 2.76 * (WT/78)^0.667 * (ALB/44)^-0.484 * exp(eta1)'; Table 3 WT on V2 0.667 (RSE 3.89%)."
+    },
+    {
+      "id": "CL_WT_V2",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.667,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'V2 = 2.76 * (WT/78)^0.667 * (ALB/44)^-0.484 * exp(eta1)'; Table 3 WT on V2 0.667 (RSE 3.89%). Applied to CL too, because CL is V2 times a fixed rate (see _parameterisation)."
+    },
+    {
+      "id": "Q_WT_V2",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.667,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'V2 = 2.76 * (WT/78)^0.667 * (ALB/44)^-0.484 * exp(eta1)'; Table 3 WT on V2 0.667 (RSE 3.89%). Applied to Q too, because Q is V2 times a fixed rate (see _parameterisation)."
+    },
+    {
+      "id": "VP_WT_V2",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.667,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'V2 = 2.76 * (WT/78)^0.667 * (ALB/44)^-0.484 * exp(eta1)'; Table 3 WT on V2 0.667 (RSE 3.89%). Applied to Vp too, because Vp is V2 times a fixed rate (see _parameterisation)."
+    },
+    {
+      "id": "VC_ALB_V2",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 44,
+      "coef": -0.484,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation; Table 3 ALB on V2 -0.484 (RSE 12.3%)."
+    },
+    {
+      "id": "CL_ALB_V2",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 44,
+      "coef": -0.484,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation; Table 3 ALB on V2 -0.484 (RSE 12.3%). Applied to CL too, for the same reason."
+    },
+    {
+      "id": "Q_ALB_V2",
+      "param": "Q",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 44,
+      "coef": -0.484,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation; Table 3 ALB on V2 -0.484 (RSE 12.3%). Applied to Q too, for the same reason."
+    },
+    {
+      "id": "VP_ALB_V2",
+      "param": "Vp",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 44,
+      "coef": -0.484,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation; Table 3 ALB on V2 -0.484 (RSE 12.3%). Applied to Vp too, for the same reason."
+    },
+    {
+      "id": "CL_WT_KE",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.222,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'Ke = 0.0418 * (1 + 0.191*ADA) * (WT/78)^0.222 * (CLCRN/111)^0.217 * exp(eta3)'; Table 3 WT on Ke 0.222 (RSE 22.5%). On CL only, since CL = V2*Ke.",
+      "desc": "Weight acts twice on clearance: through V2 (0.667) and through Ke (0.222), so CL scales with weight^0.889 in total."
+    },
+    {
+      "id": "CL_CRCL",
+      "param": "CL",
+      "cov": "CRCL",
+      "type": "power",
+      "ref": 111,
+      "coef": 0.217,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation; Table 3 CLCRN on Ke 0.217 (RSE 12.1%), reference 111 mL/min/1.73 m2.",
+      "desc": "Creatinine clearance - a covariate the FDA atopic dermatitis model does not have."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "proportional",
+      "level": "pos",
+      "coef": 0.191,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) same equation, '(1 + 0.191*ADA)'; 'ADA is 0 for patients with negative ADA and 1 for patients with positive ADA'. Table 3 RSE 13.6%."
+    },
+    {
+      "id": "VM_WT",
+      "param": "VmPerVol",
+      "cov": "WT",
+      "type": "power",
+      "ref": 78,
+      "coef": 0.224,
+      "enabled": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results — 'Vmax = 1.39 * (WT/78)^0.224 * exp(eta2)'; Table 3 WT on Vmax 0.224 (RSE 24.0%).",
+      "desc": "Vmax is a concentration rate (mg/L/day); the engine multiplies it by each subject's Vc, which already carries weight through V2."
+    },
+    {
+      "id": "CL_AGE",
+      "param": "CL",
+      "cov": "AGE",
+      "type": "power",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131): Tested and not retained: 'had no statistically significant effect on dupilumab PK' (Results). Adolescents differ from adults through weight only: 'After accounting for body weight, there is no apparent age effect'."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "categorical",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131): Tested and not retained (Results)."
+    },
+    {
+      "id": "CL_RACE",
+      "param": "CL",
+      "cov": "RACE",
+      "type": "categorical",
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131): Tested and not retained (Results). The FDA atopic dermatitis model does keep a race term."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED — no time-dependent clearance in the model",
+    "desc": [
+      "Nonlinear (Michaelis-Menten) elimination already accounts for the concentration dependence."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the asthma column of the model-development dataset (Table 2). Only the distributional shapes are chosen.",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 78.0,
+        "cv": 24.8,
+        "min": 32,
+        "max": 186,
+        "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 2, asthma patients (N=1912) — weight mean 80.0 (SD 19.8), median 78.0, range 32-186 kg. CV = SD/mean."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 43.8,
+        "sd": 3.5,
+        "min": 30,
+        "max": 55,
+        "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 2, asthma patients (N=1912) — albumin mean 43.8 (SD 3.50) g/L, range 30-55."
+      },
+      "CRCL": {
+        "dist": "lognormal",
+        "median": 110.9,
+        "cv": 31.9,
+        "min": 30.1,
+        "max": 377,
+        "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 2, asthma patients (N=1912) — creatinine clearance mean 116.2 (SD 37.1), median 110.9, range 30.1-377 mL/min/1.73 m2; right-skewed, so log-normal. CV = SD/mean."
+      },
+      "ADA": {
+        "dist": "bernoulli",
+        "p": 0.145,
+        "levels": [
+          "neg",
+          "pos"
+        ],
+        "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 2, asthma patients (N=1912) — ADA non-negative (positive at any time) in 277 of 1912 (14.5%)."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 1 — the phase 1 data include IV 1-12 mg/kg, which is what makes Fsc estimable."
+    },
+    "sc": {
+      "supported": true,
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) — first-order SC absorption with Ka and Fsc estimated ('plus first order absorption using one-step modeling approach')."
+    }
+  },
+  "regimen": {
+    "dose": 300,
+    "tinf_h": 0,
+    "tau": 14,
+    "ndose": 12,
+    "tend": 336,
+    "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 1 — phase 3 QUEST: 300 mg q2w after a 600 mg loading dose."
+  },
+  "regimenPresets": [
+    {
+      "label": "Asthma · patients ≥12 years — SC 600 mg loading, then 300 mg every 2 weeks",
+      "dose": 300,
+      "unit": "mg",
+      "loadDose": 600,
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "route": "SC",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 1 (QUEST, NCT02414854) and the Dupixent label 2.3."
+    },
+    {
+      "label": "Asthma · patients ≥12 years — SC 400 mg loading, then 200 mg every 2 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "loadDose": 400,
+      "tau": 14,
+      "ndose": 12,
+      "tend": 336,
+      "route": "SC",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Table 1 (QUEST, NCT02414854) and the Dupixent label 2.3."
+    }
+  ],
+  "covariateChecksNote": "Figure 3 of the paper: steady-state AUC of a patient at a given weight relative to the 78 kg typical patient, at the same dose.",
+  "covariateChecks": [
+    {
+      "group": "Weight 5th percentile, 52.9 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 52.9
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 1.567,
+      "ci": [1.254, 1.88],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: +56.7% at 52.9 kg (P5) for 300 mg q2w. No interval in the source; +-20% assumed."
+    },
+    {
+      "group": "Weight 5th percentile, 52.9 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 52.9
+      },
+      "dose": 200,
+      "tau": 14,
+      "value": 1.688,
+      "ci": [1.35, 2.026],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: +68.8% at 52.9 kg for 200 mg q2w. +-20% assumed. The larger change at the lower dose is the non-linear (Michaelis-Menten) part."
+    },
+    {
+      "group": "Weight 95th percentile, 116 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 116
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 0.593,
+      "ci": [0.474, 0.712],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: -40.7% at 116 kg (P95) for 300 mg q2w. +-20% assumed."
+    },
+    {
+      "group": "Weight 95th percentile, 116 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 116
+      },
+      "dose": 200,
+      "tau": 14,
+      "value": 0.52,
+      "ci": [0.416, 0.624],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: -48.0% at 116 kg for 200 mg q2w. +-20% assumed."
+    },
+    {
+      "group": "Typical adolescent, 60 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 60
+      },
+      "dose": 300,
+      "tau": 14,
+      "value": 1.361,
+      "ci": [1.089, 1.633],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: typical adolescent (60 kg) +36.1% for 300 mg q2w. +-20% assumed."
+    },
+    {
+      "group": "Typical adolescent, 60 kg",
+      "metric": "AUCratio_ss",
+      "cov": {
+        "WT": 60
+      },
+      "dose": 200,
+      "tau": 14,
+      "value": 1.438,
+      "ci": [1.15, 1.726],
+      "unit": "fold",
+      "source": "Zhang et al. 2021, CPT Pharmacometrics Syst Pharmacol 10:941-952 (doi:10.1002/psp4.12667, PMC8376131) Results / Figure 3 — change in steady-state AUC relative to the typical 78 kg patient: typical adolescent (60 kg) +43.8% for 200 mg q2w. +-20% assumed."
+    }
+  ]
+}

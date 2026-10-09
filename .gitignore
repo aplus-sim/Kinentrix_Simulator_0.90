@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+validation/results/_app*
+.DS_Store

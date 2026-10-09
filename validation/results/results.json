@@ -1,0 +1,3017 @@
+{
+ "parameters": [
+  {
+   "scenario": "zhang_ref",
+   "param": "CL",
+   "app": 0.11537,
+   "indep": 0.11536799999999998,
+   "rel": 1.733582969287717e-05
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "Vc",
+   "app": 2.76,
+   "indep": 2.76,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "Vp",
+   "app": 1.612,
+   "indep": 1.6119754601226992,
+   "rel": 1.522348069671331e-05
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "Q",
+   "app": 0.26275,
+   "indep": 0.262752,
+   "rel": -7.611740348356655e-06
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "ka",
+   "app": 0.263,
+   "indep": 0.263,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "F",
+   "app": 0.609,
+   "indep": 0.609,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "Vmax",
+   "app": 1.39,
+   "indep": 1.39,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_ref",
+   "param": "Km",
+   "app": 2.08,
+   "indep": 2.08,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "CL",
+   "app": 0.08169074999187409,
+   "indep": 0.08168933383949491,
+   "rel": 1.7335829693099214e-05
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "Vc",
+   "app": 2.1302320540478292,
+   "indep": 2.1302320540478292,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "Vp",
+   "app": 1.2441790112772106,
+   "indep": 1.2441600708303886,
+   "rel": 1.5223480696935354e-05
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "Q",
+   "app": 0.2027965478989374,
+   "indep": 0.20279809154535336,
+   "rel": -7.6117403482456325e-06
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "ka",
+   "app": 0.263,
+   "indep": 0.263,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "F",
+   "app": 0.609,
+   "indep": 0.609,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "Vmax",
+   "app": 1.2742060998259441,
+   "indep": 1.2742060998259441,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_53kg",
+   "param": "Km",
+   "app": 2.08,
+   "indep": 2.08,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "CL",
+   "app": 0.19551810538987172,
+   "indep": 0.19551471598005302,
+   "rel": 1.733582969287717e-05
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "Vc",
+   "app": 3.8609243792787815,
+   "indep": 3.8609243792787815,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "Vp",
+   "app": 2.2550036592019556,
+   "indep": 2.2549693307198773,
+   "rel": 1.5223480696935354e-05
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "Q",
+   "app": 0.36755720313605067,
+   "indep": 0.36756000090734003,
+   "rel": -7.611740348356655e-06
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "ka",
+   "app": 0.263,
+   "indep": 0.263,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "F",
+   "app": 0.609,
+   "indep": 0.609,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "Vmax",
+   "app": 1.5192323475397178,
+   "indep": 1.5192323475397178,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "param": "Km",
+   "app": 2.08,
+   "indep": 2.08,
+   "rel": 0.0
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "CL",
+   "app": 0.13688654477753973,
+   "indep": 0.1370661942684876,
+   "rel": -0.0013106768733650576
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "Vc",
+   "app": 3.101746580640673,
+   "indep": 3.1046655617405987,
+   "rel": -0.0009401917990448094
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "Vp",
+   "app": 1.907768817381502,
+   "indep": 1.9035432159548378,
+   "rel": 0.0022198610418964204
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "Q",
+   "app": 0.511,
+   "indep": 0.5106519685381119,
+   "rel": 0.0006815433667757276
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "ka",
+   "app": 0.284,
+   "indep": 0.28380724103828253,
+   "rel": 0.0006791897240261413
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "F",
+   "app": 0.659,
+   "indep": 0.6588669409719018,
+   "rel": 0.0002019512891358044
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "Vmax",
+   "app": 0.8368894035883745,
+   "indep": 0.8335335713816081,
+   "rel": 0.004026031250551787
+  },
+  {
+   "scenario": "nguyen_adult",
+   "param": "Km",
+   "app": 0.134,
+   "indep": 0.13356994576967246,
+   "rel": 0.0032196930817740554
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "CL",
+   "app": 0.03926773020858673,
+   "indep": 0.039429683500826936,
+   "rel": -0.004107395187100793
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "Vc",
+   "app": 1.3855949492224504,
+   "indep": 1.396282242666695,
+   "rel": -0.007654106825732754
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "Vp",
+   "app": 0.8522278557979087,
+   "indep": 0.8560933658491314,
+   "rel": -0.004515290277233519
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "Q",
+   "app": 0.2181394725542315,
+   "indep": 0.21799090230075097,
+   "rel": 0.0006815433667757276
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "ka",
+   "app": 0.284,
+   "indep": 0.28380724103828253,
+   "rel": 0.0006791897240261413
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "F",
+   "app": 0.659,
+   "indep": 0.6588669409719018,
+   "rel": 0.0002019512891358044
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "Vmax",
+   "app": 0.8368894035883745,
+   "indep": 0.8335335713816081,
+   "rel": 0.004026031250551787
+  },
+  {
+   "scenario": "nguyen_child",
+   "param": "Km",
+   "app": 0.134,
+   "indep": 0.13356994576967246,
+   "rel": 0.0032196930817740554
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "CL",
+   "app": 0.2592,
+   "indep": 0.2592,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "Vc",
+   "app": 4.25,
+   "indep": 4.25,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "Vp",
+   "app": 2.67,
+   "indep": 2.67,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "Q",
+   "app": 0.7488,
+   "indep": 0.7487999999999999,
+   "rel": 2.220446049250313e-16
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "ka",
+   "app": 0.2952,
+   "indep": 0.2952,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "F",
+   "app": 0.788,
+   "indep": 0.788,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "tvEmax",
+   "app": -0.26,
+   "indep": -0.26,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "tvT50",
+   "app": 58.75,
+   "indep": 58.75,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_sc",
+   "param": "tvHill",
+   "app": 3.39,
+   "indep": 3.39,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "CL",
+   "app": 0.21978449893830215,
+   "indep": 0.21978449893830215,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "Vc",
+   "app": 3.304987326558748,
+   "indep": 3.3049873265587486,
+   "rel": -1.1102230246251565e-16
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "Vp",
+   "app": 2.67,
+   "indep": 2.67,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "Q",
+   "app": 0.7488,
+   "indep": 0.7487999999999999,
+   "rel": 2.220446049250313e-16
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "ka",
+   "app": 0.2952,
+   "indep": 0.2952,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "F",
+   "app": 0.742296,
+   "indep": 0.742296,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "tvEmax",
+   "app": -0.26,
+   "indep": -0.26,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "tvT50",
+   "app": 58.75,
+   "indep": 58.75,
+   "rel": 0.0
+  },
+  {
+   "scenario": "67t_iv",
+   "param": "tvHill",
+   "app": 3.39,
+   "indep": 3.39,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "CL",
+   "app": 0.21463644964113907,
+   "indep": 0.2146364496411391,
+   "rel": -1.1102230246251565e-16
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "Vc",
+   "app": 3.100859333065236,
+   "indep": 3.100859333065236,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "Vp",
+   "app": 2.63,
+   "indep": 2.63,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "Q",
+   "app": 0.7848,
+   "indep": 0.7847999999999999,
+   "rel": 2.220446049250313e-16
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "ka",
+   "app": 0.307,
+   "indep": 0.307,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "F",
+   "app": 0.69118576,
+   "indep": 0.69118576,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "tvEmax",
+   "app": -0.303,
+   "indep": -0.303,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "tvT50",
+   "app": 58.33,
+   "indep": 58.333333333333336,
+   "rel": -5.714285714297773e-05
+  },
+  {
+   "scenario": "zhao_sc",
+   "param": "tvHill",
+   "app": 2.82,
+   "indep": 2.82,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "CL",
+   "app": 0.31319206219266554,
+   "indep": 0.31319206219266554,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "Vc",
+   "app": 4.25,
+   "indep": 4.25,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "Vp",
+   "app": 2.63,
+   "indep": 2.63,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "Q",
+   "app": 0.7848,
+   "indep": 0.7847999999999999,
+   "rel": 2.220446049250313e-16
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "ka",
+   "app": 0.307,
+   "indep": 0.307,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "F",
+   "app": 0.752,
+   "indep": 0.752,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "tvEmax",
+   "app": -0.303,
+   "indep": -0.303,
+   "rel": 0.0
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "tvT50",
+   "app": 58.33,
+   "indep": 58.333333333333336,
+   "rel": -5.714285714297773e-05
+  },
+  {
+   "scenario": "zhao_gc",
+   "param": "tvHill",
+   "app": 2.82,
+   "indep": 2.82,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "CL",
+   "app": 0.281,
+   "indep": 0.281,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "Vc",
+   "app": 3.53,
+   "indep": 3.53,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "Vp",
+   "app": 2.75,
+   "indep": 2.75,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "Q",
+   "app": 0.889,
+   "indep": 0.889,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "ka",
+   "app": 0.322,
+   "indep": 0.322,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "F",
+   "app": 0.599,
+   "indep": 0.599,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "tvEmax",
+   "app": -0.218,
+   "indep": -0.218,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "tvT50",
+   "app": 65.5,
+   "indep": 65.5,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q6w",
+   "param": "tvHill",
+   "app": 2.99,
+   "indep": 2.99,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "CL",
+   "app": 0.19663369437513828,
+   "indep": 0.19663369437513828,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "Vc",
+   "app": 2.6418238575588306,
+   "indep": 2.6418238575588306,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "Vp",
+   "app": 2.4541564624582257,
+   "indep": 2.4541564624582257,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "Q",
+   "app": 0.7898560531783579,
+   "indep": 0.7898560531783579,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "ka",
+   "app": 0.260176,
+   "indep": 0.260176,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "F",
+   "app": 0.599,
+   "indep": 0.599,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "tvEmax",
+   "app": -0.218,
+   "indep": -0.218,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "tvT50",
+   "app": 65.5,
+   "indep": 65.5,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_q3w_f",
+   "param": "tvHill",
+   "app": 2.99,
+   "indep": 2.99,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "CL",
+   "app": 0.2690079757364382,
+   "indep": 0.2690079757364382,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "Vc",
+   "app": 3.1851696746159126,
+   "indep": 3.1851696746159126,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "Vp",
+   "app": 2.636944184263549,
+   "indep": 2.636944184263549,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "Q",
+   "app": 0.8510608200344966,
+   "indep": 0.8510608200344966,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "ka",
+   "app": 0.322,
+   "indep": 0.322,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "F",
+   "app": 0.599,
+   "indep": 0.599,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "tvEmax",
+   "app": -0.218,
+   "indep": -0.218,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "tvT50",
+   "app": 65.5,
+   "indep": 65.5,
+   "rel": 0.0
+  },
+  {
+   "scenario": "song_iv",
+   "param": "tvHill",
+   "app": 2.99,
+   "indep": 2.99,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "CL",
+   "app": 0.13581484424440463,
+   "indep": 0.13581484424440463,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "Vc",
+   "app": 1.5519102154505446,
+   "indep": 1.5519102154505446,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "Vp",
+   "app": 1.6612237107172052,
+   "indep": 1.6612237107172052,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "Q",
+   "app": 0.463,
+   "indep": 0.463,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "ka",
+   "app": 0.295,
+   "indep": 0.295,
+   "rel": 0.0
+  },
+  {
+   "scenario": "sjia_33kg",
+   "param": "F",
+   "app": 0.689,
+   "indep": 0.689,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "CL",
+   "app": 0.229,
+   "indep": 0.229,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "Vc",
+   "app": 4.78,
+   "indep": 4.78,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "Vp",
+   "app": 2.98,
+   "indep": 2.98,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "Q",
+   "app": 0.423,
+   "indep": 0.423,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "ka",
+   "app": 0.319,
+   "indep": 0.319,
+   "rel": 0.0
+  },
+  {
+   "scenario": "gout_single",
+   "param": "F",
+   "app": 0.595,
+   "indep": 0.595,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "CL",
+   "app": 0.1084260406449465,
+   "indep": 0.1084260406449465,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "Vc",
+   "app": 3.922,
+   "indep": 3.922,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "Vp",
+   "app": 2.3680000000000003,
+   "indep": 2.3680000000000003,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "Q",
+   "app": 0.17202208371554015,
+   "indep": 0.17202208371554015,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "ka",
+   "app": 0.266,
+   "indep": 0.266,
+   "rel": 0.0
+  },
+  {
+   "scenario": "ra_74kg",
+   "param": "F",
+   "app": 0.667,
+   "indep": 0.667,
+   "rel": 0.0
+  }
+ ],
+ "engine": [
+  {
+   "scenario": "zhang_ref",
+   "spec": "dupilumab_zhang2021",
+   "note": "reference subject, 600 mg load then 300 mg Q2W",
+   "n_points": 4024,
+   "max_rel": 0.0001416178506177257,
+   "mean_rel": 1.5689997165044213e-05,
+   "cmax_app": 89.66706281438998,
+   "cmax_ind": 89.66843049970663,
+   "clast_app": 66.56880670909432,
+   "clast_ind": 66.57019078074501,
+   "auc_app": 28264.07085949186,
+   "auc_ind": 28264.510361052427
+  },
+  {
+   "scenario": "zhang_53kg",
+   "spec": "dupilumab_zhang2021",
+   "note": "52.9 kg, 400 mg load then 200 mg Q2W (non-linear range)",
+   "n_points": 4024,
+   "max_rel": 0.00010810389913951113,
+   "mean_rel": 1.550357652061382e-05,
+   "cmax_app": 81.91774896198145,
+   "cmax_ind": 81.91900431629723,
+   "clast_app": 61.915774569395474,
+   "clast_ind": 61.917045407495216,
+   "auc_app": 25778.95072297708,
+   "auc_ind": 25779.349719597136
+  },
+  {
+   "scenario": "zhang_116kg_ada",
+   "spec": "dupilumab_zhang2021",
+   "note": "116 kg, ALB 38, CrCL 80, ADA positive - every covariate moved",
+   "n_points": 4024,
+   "max_rel": 3.0440495524697297e-05,
+   "mean_rel": 1.5576319646542336e-05,
+   "cmax_app": 44.73686932066722,
+   "cmax_ind": 44.73749574180975,
+   "clast_app": 28.359442623908592,
+   "clast_ind": 28.36007739839937,
+   "auc_app": 13017.210660243094,
+   "auc_ind": 13017.41359188268
+  },
+  {
+   "scenario": "nguyen_adult",
+   "spec": "dupilumab_nguyen2026",
+   "note": "EoE 70 kg, 300 mg QW",
+   "n_points": 4047,
+   "max_rel": 0.0031653787144456658,
+   "mean_rel": 0.001013216463658097,
+   "cmax_app": 192.28214094583794,
+   "cmax_ind": 192.0444480950823,
+   "clast_app": 178.38476976095043,
+   "clast_ind": 178.17009390005757,
+   "auc_app": 61341.03601521642,
+   "auc_ind": 61276.19489615111,
+   "transit_cmax": 192.04298779403476,
+   "transit_clast": 178.50083742894265,
+   "transit_maxrel": 0.6436215020146359
+  },
+  {
+   "scenario": "nguyen_child",
+   "spec": "dupilumab_nguyen2026",
+   "note": "EoE child 22.5 kg, 200 mg Q2W",
+   "n_points": 4024,
+   "max_rel": 0.011153921983898751,
+   "mean_rel": 0.005446766900983861,
+   "cmax_app": 222.52577311586222,
+   "cmax_ind": 221.41214900811386,
+   "clast_app": 189.8500469469893,
+   "clast_ind": 188.95809804256425,
+   "auc_app": 65378.0234215108,
+   "auc_ind": 65032.874286838596,
+   "transit_cmax": 221.41161765038046,
+   "transit_clast": 189.2299773203463,
+   "transit_maxrel": 2.236959854724553
+  },
+  {
+   "scenario": "67t_sc",
+   "spec": "nivolumab_sc_67t",
+   "note": "reference subject, 1200 mg SC Q4W",
+   "n_points": 4012,
+   "max_rel": 3.6180345719394325e-08,
+   "mean_rel": 2.1570115903626844e-09,
+   "cmax_app": 213.09117891566584,
+   "cmax_ind": 213.09117991809367,
+   "clast_app": 117.93313159650152,
+   "clast_ind": 117.93313159635011,
+   "auc_app": 55132.482043383534,
+   "auc_ind": 55132.4821703526
+  },
+  {
+   "scenario": "67t_iv",
+   "spec": "nivolumab_sc_67t",
+   "note": "female, PS 1+, 76.5 kg, eGFR 63; 3 mg/kg IV Q2W (30-min infusion)",
+   "n_points": 5064,
+   "max_rel": 1.5568232480944744e-08,
+   "mean_rel": 1.9551421038368952e-09,
+   "cmax_app": 144.86461542669576,
+   "cmax_ind": 144.864615420828,
+   "clast_app": 75.68603719873747,
+   "clast_ind": 75.68603719280212,
+   "auc_app": 31279.770633430035,
+   "auc_ind": 31279.77055390642
+  },
+  {
+   "scenario": "zhao_sc",
+   "spec": "nivolumab_sc_zhao2025",
+   "note": "female, PS 1+ (both F multipliers), 60 kg, eGFR 70; 1200 mg SC Q4W",
+   "n_points": 4012,
+   "max_rel": 1.188340197533222e-05,
+   "mean_rel": 3.253133342204486e-06,
+   "cmax_app": 235.7517268692869,
+   "cmax_ind": 235.75163312853113,
+   "clast_app": 131.29466176045352,
+   "clast_ind": 131.29458685709585,
+   "auc_app": 60167.37706310088,
+   "auc_ind": 60167.19230731921
+  },
+  {
+   "scenario": "zhao_gc",
+   "spec": "nivolumab_sc_zhao2025",
+   "note": "gastric cancer term; 600 mg SC Q2W",
+   "n_points": 4024,
+   "max_rel": 1.0586586063121572e-05,
+   "mean_rel": 3.1769053754597163e-06,
+   "cmax_app": 153.72202895161206,
+   "cmax_ind": 153.72197270846598,
+   "clast_app": 117.10018959249427,
+   "clast_ind": 117.10013799370778,
+   "auc_app": 45008.98204236948,
+   "auc_ind": 45008.84219328875
+  },
+  {
+   "scenario": "song_q6w",
+   "spec": "pembrolizumab_sc_song2025",
+   "note": "reference subject, 790 mg SC Q6W",
+   "n_points": 4008,
+   "max_rel": 1.0229567493080793e-07,
+   "mean_rel": 4.518158475263779e-09,
+   "cmax_app": 80.2296920275829,
+   "cmax_ind": 80.22969322508408,
+   "clast_app": 23.62105556926768,
+   "clast_ind": 23.62105556922763,
+   "auc_app": 17417.297797183077,
+   "auc_ind": 17417.29790092301
+  },
+  {
+   "scenario": "song_q3w_f",
+   "spec": "pembrolizumab_sc_song2025",
+   "note": "every covariate moved (female, ECOG 0, NSCLC, 60 kg, ALB 35 ...); 395 mg SC Q3W",
+   "n_points": 4016,
+   "max_rel": 1.1483641970677638e-07,
+   "mean_rel": 4.744613260985903e-09,
+   "cmax_app": 83.13196586382249,
+   "cmax_ind": 83.13196654759797,
+   "clast_app": 54.98430502980749,
+   "clast_ind": 54.984305030913454,
+   "auc_app": 24201.97447873162,
+   "auc_ind": 24201.974590590395
+  },
+  {
+   "scenario": "song_iv",
+   "spec": "pembrolizumab_sc_song2025",
+   "note": "69 kg NSCLC; 200 mg IV Q3W (30-min infusion)",
+   "n_points": 4736,
+   "max_rel": 3.502533996169177e-08,
+   "mean_rel": 4.081036703464028e-09,
+   "cmax_app": 90.57047985649413,
+   "cmax_ind": 90.57047985652677,
+   "clast_app": 28.031943839554685,
+   "clast_ind": 28.03194383958821,
+   "auc_app": 15247.151995460204,
+   "auc_ind": 15247.151899235154
+  },
+  {
+   "scenario": "sjia_33kg",
+   "spec": "canakinumab_sjia",
+   "note": "33 kg, ALB 33.3; 4 mg/kg SC Q4W",
+   "n_points": 4012,
+   "max_rel": 9.980340476278826e-08,
+   "mean_rel": 5.688483342202015e-09,
+   "cmax_app": 34.037047260730574,
+   "cmax_ind": 34.03704785138055,
+   "clast_app": 13.943081969854429,
+   "clast_ind": 13.943081969794001,
+   "auc_app": 8347.669738087323,
+   "auc_ind": 8347.66979529944
+  },
+  {
+   "scenario": "gout_single",
+   "spec": "canakinumab_gout_ema",
+   "note": "typical 93 kg; single 150 mg SC",
+   "n_points": 1698,
+   "max_rel": 1.8963204007071965e-08,
+   "mean_rel": 9.98978373848296e-10,
+   "cmax_app": 10.547814031285567,
+   "cmax_ind": 10.547814121575653,
+   "clast_app": 0.00020800109254452811,
+   "clast_ind": 0.00020800109278835562,
+   "auc_app": 389.72534096073804,
+   "auc_ind": 389.7253418632351
+  },
+  {
+   "scenario": "ra_74kg",
+   "spec": "canakinumab_ra_aitoudhia2012",
+   "note": "74 kg; 150 mg SC Q4W",
+   "n_points": 4009,
+   "max_rel": 3.083276189919104e-09,
+   "mean_rel": 3.5513041666216777e-10,
+   "cmax_app": 38.8700347670364,
+   "cmax_ind": 38.870034785355514,
+   "clast_app": 25.47229463651212,
+   "clast_ind": 25.472294636553848,
+   "auc_app": 9480.081521156473,
+   "auc_ind": 9480.081524513473
+  }
+ ],
+ "population_full": [
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "AUC",
+   "stat": "mean_sd",
+   "value": 1090,
+   "spread": 593,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 1250.8808197677927,
+   "sim_spread": 797.324157451408,
+   "ratio": 1.147597082355773,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "Cmax",
+   "stat": "mean_sd",
+   "value": 86.9,
+   "spread": 44.8,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 99.44040605184112,
+   "sim_spread": 60.73242794139901,
+   "ratio": 1.144308470101739,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "Ctrough",
+   "stat": "mean_sd",
+   "value": 70.0,
+   "spread": 40.9,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 74.55364285477341,
+   "sim_spread": 51.70203490002179,
+   "ratio": 1.0650520407824773,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 207,
+   "spread": [
+    113,
+    383
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 158.5521308907962,
+   "sim_spread": [
+    61.859581394725986,
+    364.96553620028874
+   ],
+   "ratio": 0.765952323143943,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "Cmax",
+   "stat": "median_pi",
+   "value": 222,
+   "spread": [
+    126,
+    396
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 173.91788692179864,
+   "sim_spread": [
+    70.3746141453787,
+    391.098957843278
+   ],
+   "ratio": 0.783413905053147,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "AUC",
+   "stat": "median_pi",
+   "value": 1518,
+   "spread": [
+    851,
+    2738
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 1228.3225250670039,
+   "sim_spread": [
+    604.0356277419772,
+    2538.8570292912104
+   ],
+   "ratio": 0.8091716238913069,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 87,
+   "spread": [
+    39,
+    174
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 64.66051722355678,
+   "sim_spread": [
+    18.138644497635905,
+    166.81153047303025
+   ],
+   "ratio": 0.7432243359029514,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg Q2W",
+   "metric": "AUC",
+   "stat": "median_pi",
+   "value": 1420,
+   "spread": [
+    719,
+    2655
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 1091.3231666512147,
+   "sim_spread": [
+    487.38037437916404,
+    2399.302175190008
+   ],
+   "ratio": 0.7685374413036723,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 30-<60 kg, 300 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 134,
+   "spread": [
+    64,
+    261
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 154.00434345396627,
+   "sim_spread": [
+    61.34879053866116,
+    327.974426507132
+   ],
+   "ratio": 1.1492861451788527,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 15-<30 kg, 200 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 156,
+   "spread": [
+    73,
+    314
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 185.34511246251608,
+   "sim_spread": [
+    78.89321428680867,
+    379.74338247688246
+   ],
+   "ratio": 1.188109695272539,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 15-<30 kg, 300 mg Q4W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 89,
+   "spread": [
+    37,
+    201
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    392
+   ],
+   "sim": 112.0872230651228,
+   "sim_spread": [
+    38.26049774100986,
+    251.58224594488186
+   ],
+   "ratio": 1.2594070007317169,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 5-<15 kg, 100 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 149,
+   "spread": [
+    75,
+    278
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 163.81986570761092,
+   "sim_spread": [
+    70.17905164459927,
+    332.54906798129946
+   ],
+   "ratio": 1.0994621859571203,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 108,
+   "spread": 32.7,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 105.00194517594164,
+   "sim_spread": 35.73161671399922,
+   "ratio": 0.9722402331105707,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 50.8,
+   "spread": 44.2,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 49.62275072186578,
+   "sim_spread": 44.72192817148272,
+   "ratio": 0.9768258016115311,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 78.8,
+   "spread": 35.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 75.02014320528262,
+   "sim_spread": 34.007254357445,
+   "ratio": 0.9520322741787135,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 182,
+   "spread": 43.5,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 172.8309007200555,
+   "sim_spread": 51.57654652580411,
+   "ratio": 0.9496203336266785,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 230,
+   "spread": 39.2,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 221.58668958555657,
+   "sim_spread": 44.20879270430839,
+   "ratio": 0.9634203895024198,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 126,
+   "spread": 51.0,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 119.55235600158909,
+   "sim_spread": 70.50341385900762,
+   "ratio": 0.9488282222348341,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 91.7,
+   "spread": 35.5,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 78.41734627331371,
+   "sim_spread": 29.91537145787267,
+   "ratio": 0.8551509953469325,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 31.9,
+   "spread": 29.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 30.346510728771275,
+   "sim_spread": 35.098588902546474,
+   "ratio": 0.9513012767639899,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 37.7,
+   "spread": 25.3,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 35.867231621657155,
+   "sim_spread": 27.653888317037907,
+   "ratio": 0.9513854541553621,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 92.5,
+   "spread": 34.4,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 93.18628462186436,
+   "sim_spread": 48.44276953925062,
+   "ratio": 1.0074192932093444,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 160,
+   "spread": 27.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 136.59280708833052,
+   "sim_spread": 38.12458843901593,
+   "ratio": 0.8537050443020657,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 71.5,
+   "spread": 40.1,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 72.58690399580495,
+   "sim_spread": 60.155398913787614,
+   "ratio": 1.0152014544867825,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W - first-dose peak only",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 91.7,
+   "spread": 35.5,
+   "source": "same Cmax1 value, read as the peak of the first dose only (the app's definition)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 59.21162278628467,
+   "sim_spread": 32.70657169890271,
+   "ratio": 0.645710172151414,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 106,
+   "spread": 46,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 96.80537255080831,
+   "sim_spread": 46.02185781350508,
+   "ratio": 0.9132582316113992,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 54.4,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 41.70055607889691,
+   "sim_spread": 48.728693207425195,
+   "ratio": 0.7665543396856049,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 79.70386904761905,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 67.60196361495224,
+   "sim_spread": 42.751540873483805,
+   "ratio": 0.8481641408720506,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 57.8,
+   "spread": 31,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 47.69274262158476,
+   "sim_spread": 45.47787845736965,
+   "ratio": 0.8251339553907399,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 43.6,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 34.83591268651386,
+   "sim_spread": 40.49124001742342,
+   "ratio": 0.7989888230851802,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 47.19345238095239,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 39.08180851853317,
+   "sim_spread": 44.01498693325968,
+   "ratio": 0.8281192950890549,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part B3 960 mg single",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 81.4,
+   "spread": 41,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 76.46843870145288,
+   "sim_spread": 47.67816062136953,
+   "ratio": 0.9394157088630575,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part A 720 mg single",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 54.8,
+   "spread": 51,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 57.679810848691076,
+   "sim_spread": 47.847091670812155,
+   "ratio": 1.0525512928593264,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1597,
+   "spread": 39.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 1405.2091650120194,
+   "sim_spread": 37.60506006724677,
+   "ratio": 0.8799055510407134,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 18.8,
+   "spread": 55.5,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 13.249479212218807,
+   "sim_spread": 68.12085035472928,
+   "ratio": 0.7047595325648301,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 63.1,
+   "spread": 41.9,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 58.8510861370557,
+   "sim_spread": 39.779653506389764,
+   "ratio": 0.932663805658569,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 2506,
+   "spread": 42.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 1994.2402080742636,
+   "sim_spread": 44.315882331345456,
+   "ratio": 0.7957861963584452,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 33.6,
+   "spread": 57.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 21.219694893517225,
+   "sim_spread": 77.77266120023961,
+   "ratio": 0.6315385384975364,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 90.1,
+   "spread": 41.6,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 77.62850050857067,
+   "sim_spread": 40.531391262111505,
+   "ratio": 0.8615815816711506,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 511,
+   "spread": 39.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 474.86182545738404,
+   "sim_spread": 35.03731502842228,
+   "ratio": 0.92927950187355,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 18.8,
+   "spread": 39.5,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 16.251074560057678,
+   "sim_spread": 37.217490566533506,
+   "ratio": 0.8644188595775361,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 31.5,
+   "spread": 41.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 29.73619323523855,
+   "sim_spread": 38.77064994856691,
+   "ratio": 0.9440061344520174,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1282,
+   "spread": 42.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 1025.1404207147514,
+   "sim_spread": 43.12050431007803,
+   "ratio": 0.7996415138180588,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 47.8,
+   "spread": 47.4,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 35.18004223025757,
+   "sim_spread": 52.6661096018392,
+   "ratio": 0.7359841470765183,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 72.5,
+   "spread": 42.0,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 60.255391304337216,
+   "sim_spread": 41.49949060537163,
+   "ratio": 0.8311088455770651,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 534,
+   "spread": 21.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 478.85741825953136,
+   "sim_spread": 22.12791784960818,
+   "ratio": 0.8967367383137291,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 14.3,
+   "spread": 30.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 12.344920189214847,
+   "sim_spread": 33.96131800222684,
+   "ratio": 0.8632811321129263,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 64.0,
+   "spread": 19.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 64.65045929024608,
+   "sim_spread": 22.786653120213465,
+   "ratio": 1.010163426410095,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1130,
+   "spread": 31.1,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 917.8497404971968,
+   "sim_spread": 34.345060857720206,
+   "ratio": 0.8122564075196431,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 36.3,
+   "spread": 41.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 27.24879116733832,
+   "sim_spread": 51.80194655078506,
+   "ratio": 0.750655404058907,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 98.8,
+   "spread": 22.9,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 92.7106381548325,
+   "sim_spread": 21.906526446548956,
+   "ratio": 0.9383667829436487,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "Ctrough",
+   "stat": "mean_sd",
+   "value": 14.68,
+   "spread": 8.8,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 15.085012085815624,
+   "sim_spread": 7.74604743324516,
+   "ratio": 1.0275893791427537,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "Cmax",
+   "stat": "mean_sd",
+   "value": 36.5,
+   "spread": 14.92,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 34.5305924428866,
+   "sim_spread": 12.957014010495977,
+   "ratio": 0.9460436285722357,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "AUC",
+   "stat": "mean_sd",
+   "value": 696.09,
+   "spread": 326.55,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 685.9406781571009,
+   "sim_spread": 269.74628647507654,
+   "ratio": 0.9854195264363816,
+   "ok": true
+  }
+ ],
+ "population_app": [
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "AUC",
+   "stat": "mean_sd",
+   "value": 1090,
+   "spread": 593,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 1250.8808197677927,
+   "sim_spread": 797.324157451408,
+   "ratio": 1.147597082355773,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "Cmax",
+   "stat": "mean_sd",
+   "value": 86.9,
+   "spread": 44.8,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 99.44040605184112,
+   "sim_spread": 60.73242794139901,
+   "ratio": 1.144308470101739,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_zhang2021",
+   "group": "QUEST 300 mg Q2W (+600 mg load), steady state",
+   "metric": "Ctrough",
+   "stat": "mean_sd",
+   "value": 70.0,
+   "spread": 40.9,
+   "source": "Zhang 2021 Table 4 (NCT02414854, N=630), mean (SD)",
+   "window": [
+    350,
+    364
+   ],
+   "sim": 74.55364285477341,
+   "sim_spread": 51.70203490002179,
+   "ratio": 1.0650520407824773,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 207,
+   "spread": [
+    113,
+    383
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 158.21019840044966,
+   "sim_spread": [
+    61.675237134424,
+    364.4815723733719
+   ],
+   "ratio": 0.7643004753644911,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "Cmax",
+   "stat": "median_pi",
+   "value": 222,
+   "spread": [
+    126,
+    396
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 173.91989438486644,
+   "sim_spread": [
+    70.37624373762702,
+    391.1028641104914
+   ],
+   "ratio": 0.7834229476795785,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg QW",
+   "metric": "AUC",
+   "stat": "median_pi",
+   "value": 1518,
+   "spread": [
+    851,
+    2738
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    371,
+    378
+   ],
+   "sim": 1228.3225798269414,
+   "sim_spread": [
+    604.0356290773643,
+    2538.8633762661657
+   ],
+   "ratio": 0.809171659965047,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 87,
+   "spread": [
+    39,
+    174
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 64.5253879072574,
+   "sim_spread": [
+    18.053232616274595,
+    166.60070745506889
+   ],
+   "ratio": 0.7416711253707746,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Adults/adolescents >=40 kg, 300 mg Q2W",
+   "metric": "AUC",
+   "stat": "median_pi",
+   "value": 1420,
+   "spread": [
+    719,
+    2655
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 1091.323988764363,
+   "sim_spread": [
+    487.3803865816677,
+    2399.3036603445053
+   ],
+   "ratio": 0.7685380202565937,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 30-<60 kg, 300 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 134,
+   "spread": [
+    64,
+    261
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 153.6883975901688,
+   "sim_spread": [
+    61.20271657746675,
+    327.47372857260365
+   ],
+   "ratio": 1.1469283402251402,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 15-<30 kg, 200 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 156,
+   "spread": [
+    73,
+    314
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 185.00370261431794,
+   "sim_spread": [
+    78.67213649660924,
+    379.4029722946822
+   ],
+   "ratio": 1.1859211706046022,
+   "ok": true
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 15-<30 kg, 300 mg Q4W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 89,
+   "spread": [
+    37,
+    201
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    392
+   ],
+   "sim": 111.89687049171118,
+   "sim_spread": [
+    38.151431310614676,
+    251.37266953337598
+   ],
+   "ratio": 1.2572682077720359,
+   "ok": false
+  },
+  {
+   "model": "dupilumab_nguyen2026",
+   "group": "Children 5-<15 kg, 100 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "median_pi",
+   "value": 149,
+   "spread": [
+    75,
+    278
+   ],
+   "source": "Nguyen 2026 Table S6, median (5th, 95th percentile)",
+   "window": [
+    364,
+    378
+   ],
+   "sim": 163.5848287887112,
+   "sim_spread": [
+    69.9874327147781,
+    332.31828291204937
+   ],
+   "ratio": 1.0978847569712162,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 108,
+   "spread": 32.7,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 105.00189272581791,
+   "sim_spread": 35.73188820391881,
+   "ratio": 0.972239747461277,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 50.8,
+   "spread": 44.2,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 49.635337623394214,
+   "sim_spread": 44.718157097782445,
+   "ratio": 0.9770735752636657,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 78.8,
+   "spread": 35.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 75.0226881112227,
+   "sim_spread": 34.009648705925,
+   "ratio": 0.9520645699393745,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 182,
+   "spread": 43.5,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 175.36777042053575,
+   "sim_spread": 45.57743111046661,
+   "ratio": 0.9635591781348118,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 230,
+   "spread": 39.2,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 223.10069162354347,
+   "sim_spread": 40.59566063346961,
+   "ratio": 0.9700030070588846,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "SC 1200 mg Q4W (SC arm, N=242)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 126,
+   "spread": 51.0,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 123.18523997756661,
+   "sim_spread": 59.08343405087374,
+   "ratio": 0.9776606347425921,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 91.7,
+   "spread": 35.5,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 78.4172487753027,
+   "sim_spread": 29.91515951061074,
+   "ratio": 0.8551499321188952,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 31.9,
+   "spread": 29.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 30.343789375178414,
+   "sim_spread": 35.090704042918894,
+   "ratio": 0.9512159678739315,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 37.7,
+   "spread": 25.3,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 35.866589058443246,
+   "sim_spread": 27.65161084457992,
+   "ratio": 0.9513684100382823,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 92.5,
+   "spread": 34.4,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 92.9052949701758,
+   "sim_spread": 40.25008369270941,
+   "ratio": 1.0043815672451437,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 160,
+   "spread": 27.6,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 135.40112118319712,
+   "sim_spread": 33.6878830956019,
+   "ratio": 0.846257007394982,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W (IV arm, N=245)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 71.5,
+   "spread": 40.1,
+   "source": "FDA review BLA 761381 Table 5, GM (CV%)",
+   "window": [
+    336,
+    350
+   ],
+   "sim": 72.82321410323914,
+   "sim_spread": 48.55008317595096,
+   "ratio": 1.0185064909543935,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_67t",
+   "group": "IV 3 mg/kg Q2W - first-dose peak only",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 91.7,
+   "spread": 35.5,
+   "source": "same Cmax1 value, read as the peak of the first dose only (the app's definition)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 59.21162278628467,
+   "sim_spread": 32.70657169890271,
+   "ratio": 0.645710172151414,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 106,
+   "spread": 46,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 96.80541228491329,
+   "sim_spread": 46.02194534422502,
+   "ratio": 0.9132586064614461,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 54.4,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 41.716990888826054,
+   "sim_spread": 48.73336487213242,
+   "ratio": 0.7668564501622437,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part D 1200 mg Q4W (n=34)",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 79.70386904761905,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 67.60576003193057,
+   "sim_spread": 42.75690376818939,
+   "ratio": 0.8482117723988973,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 57.8,
+   "spread": 31,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 47.69272340568904,
+   "sim_spread": 45.47773140405747,
+   "ratio": 0.8251336229357965,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 43.6,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 34.835233871520614,
+   "sim_spread": 40.491161801929124,
+   "ratio": 0.798973253933959,
+   "ok": false
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part E 600 mg Q2W",
+   "metric": "Cavg",
+   "stat": "gm_cv",
+   "value": 47.19345238095239,
+   "spread": null,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    14
+   ],
+   "sim": 39.08165789821934,
+   "sim_spread": 44.01477180515795,
+   "ratio": 0.8281161035379767,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part B3 960 mg single",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 81.4,
+   "spread": 41,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 76.46833465871458,
+   "sim_spread": 47.678375441572136,
+   "ratio": 0.9394144306967392,
+   "ok": true
+  },
+  {
+   "model": "nivolumab_sc_zhao2025",
+   "group": "8KX Part A 720 mg single",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 54.8,
+   "spread": 51,
+   "source": "FDA review BLA 761381 Table 6, observed NCA, GM (CV%)",
+   "window": [
+    0,
+    28
+   ],
+   "sim": 57.67978430235339,
+   "sim_spread": 47.846647520557624,
+   "ratio": 1.0525508084371058,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1597,
+   "spread": 39.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 1405.2349373521881,
+   "sim_spread": 37.60503024342149,
+   "ratio": 0.8799216890120151,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 18.8,
+   "spread": 55.5,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 13.254004282728783,
+   "sim_spread": 68.0557480181477,
+   "ratio": 0.7050002278047225,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 63.1,
+   "spread": 41.9,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    42
+   ],
+   "sim": 58.85117636113786,
+   "sim_spread": 39.77950643271245,
+   "ratio": 0.9326652355172402,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 2506,
+   "spread": 42.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 2000.4750098607306,
+   "sim_spread": 43.095017673451494,
+   "ratio": 0.7982741459939069,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 33.6,
+   "spread": 57.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 21.491834226853005,
+   "sim_spread": 72.06485380520591,
+   "ratio": 0.6396379234182442,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 790 mg Q6W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 90.1,
+   "spread": 41.6,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    84,
+    126
+   ],
+   "sim": 77.70071832274326,
+   "sim_spread": 40.216815157849595,
+   "ratio": 0.8623831112402138,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 511,
+   "spread": 39.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 474.86085632045115,
+   "sim_spread": 35.03688859084866,
+   "ratio": 0.9292776053237791,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 18.8,
+   "spread": 39.5,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 16.250993843049653,
+   "sim_spread": 37.2130320233645,
+   "ratio": 0.8644145661196624,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 31.5,
+   "spread": 41.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 29.736233933602247,
+   "sim_spread": 38.77046989523487,
+   "ratio": 0.9440074264635634,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1282,
+   "spread": 42.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 1027.4674851190766,
+   "sim_spread": 41.39678119854796,
+   "ratio": 0.8014566966607461,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 47.8,
+   "spread": 47.4,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 35.38291057459487,
+   "sim_spread": 49.10761858587128,
+   "ratio": 0.7402282546986374,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "SC 395 mg Q3W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 72.5,
+   "spread": 42.0,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 60.295935660618895,
+   "sim_spread": 40.526706215841415,
+   "ratio": 0.831668078077502,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 534,
+   "spread": 21.8,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 478.85603810279173,
+   "sim_spread": 22.128380036239587,
+   "ratio": 0.8967341537505463,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 14.3,
+   "spread": 30.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 12.344632316551685,
+   "sim_spread": 33.96398680575095,
+   "ratio": 0.8632610011574604,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - cycle 1",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 64.0,
+   "spread": 19.7,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    0,
+    21
+   ],
+   "sim": 64.65045929024608,
+   "sim_spread": 22.786653120213465,
+   "ratio": 1.010163426410095,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "AUC",
+   "stat": "gm_cv",
+   "value": 1130,
+   "spread": 31.1,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 919.447778964137,
+   "sim_spread": 32.54138791667753,
+   "ratio": 0.8136706008532186,
+   "ok": true
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "Ctrough",
+   "stat": "gm_cv",
+   "value": 36.3,
+   "spread": 41.2,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 27.410781562047053,
+   "sim_spread": 47.69739030631999,
+   "ratio": 0.7551179493676875,
+   "ok": false
+  },
+  {
+   "model": "pembrolizumab_sc_song2025",
+   "group": "IV 200 mg Q3W - steady state",
+   "metric": "Cmax",
+   "stat": "gm_cv",
+   "value": 98.8,
+   "spread": 22.9,
+   "source": "Song 2025 Table 2, model-based GM (CV%)",
+   "window": [
+    105,
+    126
+   ],
+   "sim": 92.6437990584345,
+   "sim_spread": 21.646360948602837,
+   "ratio": 0.9376902738707945,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "Ctrough",
+   "stat": "mean_sd",
+   "value": 14.68,
+   "spread": 8.8,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 15.085012085815624,
+   "sim_spread": 7.74604743324516,
+   "ratio": 1.0275893791427537,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "Cmax",
+   "stat": "mean_sd",
+   "value": 36.5,
+   "spread": 14.92,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 34.5305924428866,
+   "sim_spread": 12.957014010495977,
+   "ratio": 0.9460436285722357,
+   "ok": true
+  },
+  {
+   "model": "canakinumab_sjia",
+   "group": "201 SJIA patients, 4 mg/kg (max 300 mg) Q4W, steady state",
+   "metric": "AUC",
+   "stat": "mean_sd",
+   "value": 696.09,
+   "spread": 326.55,
+   "source": "EMA II/0026 p.23, post hoc simulation, mean (SD)",
+   "window": [
+    336,
+    364
+   ],
+   "sim": 685.9406781571009,
+   "sim_spread": 269.74628647507654,
+   "ratio": 0.9854195264363816,
+   "ok": true
+  }
+ ]
+}

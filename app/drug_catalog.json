@@ -1,0 +1,488 @@
+{
+ "_source": "GY/Simulator/data/PPKPARAMETER.csv - published popPK models of therapeutic monoclonal antibodies (69 drugs, 160 models). Only the drug names and counts are used here; no parameters.",
+ "drugs": [
+  {
+   "drug": "aducanumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "alirocumab",
+   "models": 3,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "amivantamab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "anifrolumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "atezolizumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "avelumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "basiliximab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "belimumab",
+   "models": 3,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "benralizumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "bevacizumab",
+   "models": 6,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "bezlotoxumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "brodalumab",
+   "models": 3,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "canakinumab",
+   "models": 3,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "casirivimab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "cemiplimab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "cetuximab",
+   "models": 3,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "daratumumab",
+   "models": 4,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "denosumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "dostarlimab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "dupilumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "durvalumab",
+   "models": 3,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "eculizumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "elotuzumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "erenumab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "evinacumab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "golimumab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "guselkumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "imdevimab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "inebilizumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "infliximab",
+   "models": 9,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "ipilimumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "isatuximab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "lecanemab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "margetuximab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "mepolizumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "mirikizumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "mogamulizumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "mosunetuzumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "natalizumab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "necitumumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "nimotuzumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "nivolumab",
+   "models": 8,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "obinutuzumab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "ocrelizumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "ofatumumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "olaratumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "panitumumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "pembrolizumab",
+   "models": 3,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "pertuzumab",
+   "models": 3,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "pozelimab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "ramucirumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "raxibacumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "relatlimab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "reslizumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "risankizumab",
+   "models": 5,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "rituximab",
+   "models": 12,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "secukinumab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "siltuximab",
+   "models": 2,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "sutimlimab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "teclistamab",
+   "models": 1,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "teprotumumab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "tezepelumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "tocilizumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "toripalimab",
+   "models": 1,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "tralokinumab",
+   "models": 2,
+   "routes": "IV + SC",
+   "nonlinear": false,
+   "timeDependent": false
+  },
+  {
+   "drug": "trastuzumab",
+   "models": 6,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "tremelimumab",
+   "models": 5,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": true
+  },
+  {
+   "drug": "ustekinumab",
+   "models": 4,
+   "routes": "IV + SC",
+   "nonlinear": true,
+   "timeDependent": false
+  },
+  {
+   "drug": "vedolizumab",
+   "models": 4,
+   "routes": "IV",
+   "nonlinear": true,
+   "timeDependent": false
+  }
+ ]
+}

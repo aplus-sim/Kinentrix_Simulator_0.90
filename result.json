@@ -1,0 +1,638 @@
+{
+  "drug": "pembrolizumab",
+  "brand": "Keytruda",
+  "n": 2000,
+  "dosing": {
+    "dose": 200,
+    "tinf": 0.020833333333333332,
+    "tau": 21,
+    "ndose": 6,
+    "tend": 168
+  },
+  "tiers": {
+    "none": {
+      "label": "공변량 미적용",
+      "only": []
+    },
+    "current": {
+      "label": "현행 (CL_WT, VC_WT, CL_ALB, VC_ALB, CL_SEX, VC_SEX)",
+      "only": [
+        "CL_WT",
+        "VC_WT",
+        "CL_ALB",
+        "VC_ALB",
+        "CL_SEX",
+        "VC_SEX"
+      ]
+    },
+    "upgraded": {
+      "label": "고도화 (CL_WT, VC_WT, CL_ALB, VC_ALB, CL_SEX, VC_SEX)",
+      "only": [
+        "CL_WT",
+        "VC_WT",
+        "CL_ALB",
+        "VC_ALB",
+        "CL_SEX",
+        "VC_SEX"
+      ]
+    }
+  },
+  "REF": {
+    "WT": 76.8,
+    "ALB": 39.6,
+    "SEX": "M"
+  },
+  "APP_DEFAULT": {
+    "WT": 76.8,
+    "ALB": 39.6,
+    "SEX": "F"
+  },
+  "regression": {
+    "appDefault": {
+      "cov": {
+        "WT": 76.8,
+        "ALB": 39.6,
+        "SEX": "F"
+      },
+      "params": {
+        "CL": 0.171296,
+        "Vc": 3.01368,
+        "Vp": 4.06,
+        "Q": 0.795,
+        "__applied": [
+          {
+            "id": "CL_SEX",
+            "factor": 0.848
+          },
+          {
+            "id": "VC_SEX",
+            "factor": 0.866
+          }
+        ]
+      },
+      "metrics": {
+        "cmax": 102.66562691880188,
+        "cmaxSS": 102.66562691880188,
+        "ctrough": 37.96632002293652,
+        "auc": 6351.529064578337,
+        "aucTau": 1104.261147304106
+      }
+    },
+    "reference": {
+      "cov": {
+        "WT": 76.8,
+        "ALB": 39.6,
+        "SEX": "M"
+      },
+      "params": {
+        "CL": 0.202,
+        "Vc": 3.48,
+        "Vp": 4.06,
+        "Q": 0.795,
+        "__applied": []
+      },
+      "metrics": {
+        "cmax": 88.01002420559298,
+        "cmaxSS": 88.01002420559298,
+        "ctrough": 31.718244309798386,
+        "auc": 5491.020423765431,
+        "aucTau": 950.1525000846333
+      }
+    },
+    "tiersIdenticalAtReference": true,
+    "femaleDefaultBias": 0.19698680835269244
+  },
+  "population": {
+    "covariates": {
+      "WT": {
+        "n": 2000,
+        "mean": 79.06685777370913,
+        "sd": 17.169533895588046,
+        "cv": 21.715209607453456,
+        "p5": 54.25397625194726,
+        "median": 77.3025647084686,
+        "p95": 111.11772991780579,
+        "min": 38.829265649417444,
+        "max": 148.9558721987308
+      },
+      "ALB": {
+        "n": 2000,
+        "mean": 39.43550085179755,
+        "sd": 4.44381288704069,
+        "cv": 11.268559523919757,
+        "p5": 32.292511648631084,
+        "median": 39.44204264523654,
+        "p95": 46.761127951720894,
+        "min": 24.862439572797733,
+        "max": 55
+      },
+      "SEX": {
+        "categorical": true,
+        "counts": {
+          "M": 1148,
+          "F": 852
+        }
+      }
+    }
+  },
+  "predictionError": {
+    "none": {
+      "median": 0.3154216089989378,
+      "p95": 1.2737415789064395,
+      "mean": 0.426366384422855
+    },
+    "current": {
+      "median": 0.307750466871647,
+      "p95": 1.1955298588311676,
+      "mean": 0.41015589185836326,
+      "improvementVsNone": 0.0243202808825842
+    },
+    "upgraded": {
+      "median": 0.28385579757709173,
+      "p95": 1.2349898912989385,
+      "mean": 0.40463968167946723,
+      "improvementVsNone": 0.10007498066485465
+    }
+  },
+  "variance": {
+    "covariate": 0.03173244356513686,
+    "iiv": 0.1348804821938182,
+    "total": 0.16661292575895506,
+    "covariateShare": 0.1904560730843016,
+    "byEffect": [
+      {
+        "id": "CL_WT",
+        "cov": "WT",
+        "logVar": 0.015592104631374247,
+        "share": 0.09358280313696614
+      },
+      {
+        "id": "CL_ALB",
+        "cov": "ALB",
+        "logVar": 0.009574148017560326,
+        "share": 0.0574634169224757
+      },
+      {
+        "id": "CL_SEX",
+        "cov": "SEX",
+        "logVar": 0.006650379525271623,
+        "share": 0.03991514760921351
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "기준 환자 (모델 기준값)",
+      "cov": {
+        "name": "기준 환자 (모델 기준값)",
+        "WT": 76.8,
+        "ALB": 39.6,
+        "SEX": "M"
+      },
+      "none": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      },
+      "upgraded": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      }
+    },
+    {
+      "name": "저알부민·저체중 여성 (악액질)",
+      "cov": {
+        "name": "저알부민·저체중 여성 (악액질)",
+        "WT": 52,
+        "ALB": 28,
+        "SEX": "F"
+      },
+      "none": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      },
+      "upgraded": {
+        "params": {
+          "CL": 0.18383030136237052,
+          "Vc": 2.6458710490081234,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": [
+            {
+              "id": "CL_WT",
+              "factor": 0.7981989413470623
+            },
+            {
+              "id": "VC_WT",
+              "factor": 0.8254217811490423
+            },
+            {
+              "id": "CL_ALB",
+              "factor": 1.3444935713934965
+            },
+            {
+              "id": "VC_ALB",
+              "factor": 1.0636423319654562
+            },
+            {
+              "id": "CL_SEX",
+              "factor": 0.848
+            },
+            {
+              "id": "VC_SEX",
+              "factor": 0.866
+            }
+          ]
+        },
+        "metrics": {
+          "cmax": 108.67053984428658,
+          "cmaxSS": 108.67053984428658,
+          "ctrough": 34.439256382703796,
+          "auc": 6052.246490713953,
+          "aucTau": 1046.2233088512253
+        }
+      }
+    },
+    {
+      "name": "고체중 남성",
+      "cov": {
+        "name": "고체중 남성",
+        "WT": 110,
+        "ALB": 42,
+        "SEX": "M"
+      },
+      "none": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      },
+      "upgraded": {
+        "params": {
+          "CL": 0.2364364070483337,
+          "Vc": 4.109586198448006,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": [
+            {
+              "id": "CL_WT",
+              "factor": 1.2307963137022522
+            },
+            {
+              "id": "VC_WT",
+              "factor": 1.1933490201250472
+            },
+            {
+              "id": "CL_ALB",
+              "factor": 0.9509918494106484
+            },
+            {
+              "id": "VC_ALB",
+              "factor": 0.9895810482526931
+            }
+          ]
+        },
+        "metrics": {
+          "cmax": 74.53473544594165,
+          "cmaxSS": 74.53473544594165,
+          "ctrough": 26.72195069718348,
+          "auc": 4752.54622705303,
+          "aucTau": 819.3351502457662
+        }
+      }
+    },
+    {
+      "name": "저알부민 고체중 남성 (최저노출)",
+      "cov": {
+        "name": "저알부민 고체중 남성 (최저노출)",
+        "WT": 110,
+        "ALB": 28,
+        "SEX": "M"
+      },
+      "none": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      },
+      "upgraded": {
+        "params": {
+          "CL": 0.33426914175643324,
+          "Vc": 4.417151940458451,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": [
+            {
+              "id": "CL_WT",
+              "factor": 1.2307963137022522
+            },
+            {
+              "id": "VC_WT",
+              "factor": 1.1933490201250472
+            },
+            {
+              "id": "CL_ALB",
+              "factor": 1.3444935713934965
+            },
+            {
+              "id": "VC_ALB",
+              "factor": 1.0636423319654562
+            }
+          ]
+        },
+        "metrics": {
+          "cmax": 61.88119467098501,
+          "cmaxSS": 61.88119467098501,
+          "ctrough": 16.94997531021451,
+          "auc": 3483.470607347813,
+          "aucTau": 592.3131998782369
+        }
+      }
+    },
+    {
+      "name": "정상알부민 저체중 여성 (최고노출)",
+      "cov": {
+        "name": "정상알부민 저체중 여성 (최고노출)",
+        "WT": 52,
+        "ALB": 42,
+        "SEX": "F"
+      },
+      "none": {
+        "params": {
+          "CL": 0.202,
+          "Vc": 3.48,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": []
+        },
+        "metrics": {
+          "cmax": 88.01002420559298,
+          "cmaxSS": 88.01002420559298,
+          "ctrough": 31.718244309798386,
+          "auc": 5491.020423765431,
+          "aucTau": 950.1525000846333
+        }
+      },
+      "upgraded": {
+        "params": {
+          "CL": 0.1300274854338833,
+          "Vc": 2.461639375879923,
+          "Vp": 4.06,
+          "Q": 0.795,
+          "__applied": [
+            {
+              "id": "CL_WT",
+              "factor": 0.7981989413470623
+            },
+            {
+              "id": "VC_WT",
+              "factor": 0.8254217811490423
+            },
+            {
+              "id": "CL_ALB",
+              "factor": 0.9509918494106484
+            },
+            {
+              "id": "VC_ALB",
+              "factor": 0.9895810482526931
+            },
+            {
+              "id": "CL_SEX",
+              "factor": 0.848
+            },
+            {
+              "id": "VC_SEX",
+              "factor": 0.866
+            }
+          ]
+        },
+        "metrics": {
+          "cmax": 129.0478157141849,
+          "cmaxSS": 129.0478157141849,
+          "ctrough": 50.68788240628103,
+          "auc": 7993.90345268895,
+          "aucTau": 1401.7717395277018
+        }
+      }
+    }
+  ],
+  "scenarioSpread": {
+    "min": 16.94997531021451,
+    "max": 50.68788240628103,
+    "fold": 2.9904398961416274
+  },
+  "bands": {
+    "none": {
+      "n": 2000,
+      "mean": 33.83450182598917,
+      "sd": 14.070811076258153,
+      "cv": 41.5871678815439,
+      "p5": 13.998796196230625,
+      "median": 32.305460016087636,
+      "p95": 58.59541625227332,
+      "min": 3.1959822840016705,
+      "max": 93.82162282770226
+    },
+    "current": {
+      "n": 2000,
+      "mean": 33.91222727017878,
+      "sd": 14.724195562427314,
+      "cv": 43.41854471875179,
+      "p5": 13.45993417983393,
+      "median": 31.941781488146432,
+      "p95": 60.844089210092086,
+      "min": 3.311722618536177,
+      "max": 95.99067282443696
+    },
+    "upgraded": {
+      "n": 2000,
+      "mean": 36.364322761585385,
+      "sd": 16.1561566565174,
+      "cv": 44.428592173822835,
+      "p5": 13.949805949045826,
+      "median": 34.14762206150168,
+      "p95": 65.91013371893806,
+      "min": 3.274733696549797,
+      "max": 107.2134069727897
+    }
+  },
+  "disabled": [
+    {
+      "id": "CL_ADA",
+      "cov": "ADA",
+      "source": "UNSOURCED — pembrolizumab 행의 CL_ADA는 PPKPARAMETER.csv에서 비어 있음",
+      "desc": "항약물항체 양성 시 CL 증가. 스키마에 컬럼이 이미 있고 동급 약물 4종이 값을 갖는데 pembrolizumab만 비어 있다.",
+      "classPrior": {
+        "설명": "같은 라이브러리의 항 PD-(L)1 동급 약물이 보고한 ADA 양성 시 CL 배수. 감도분석 범위 근거로만 쓸 것.",
+        "atezolizumab": 1.159,
+        "avelumab": 1.23,
+        "durvalumab": 1.256,
+        "toripalimab": 1.191,
+        "중앙값": 1.19
+      }
+    },
+    {
+      "id": "CL_BSLD",
+      "cov": "BSLD",
+      "source": "UNSOURCED",
+      "desc": "기저 종양부담(sum of longest diameters). index.html CURATED.pembrolizumab의 note가 '데이터에 있으나 미적용'으로 명시한 5개 중 하나.",
+      "classPrior": null
+    },
+    {
+      "id": "CL_EGFR",
+      "cov": "EGFR",
+      "source": "UNSOURCED",
+      "desc": "신기능. 위 note의 미적용 항목.",
+      "classPrior": null
+    },
+    {
+      "id": "CL_ECOG",
+      "cov": "ECOG",
+      "source": "UNSOURCED",
+      "desc": "ECOG PS. 위 note의 미적용 항목.",
+      "classPrior": null
+    },
+    {
+      "id": "CL_CANCERTYPE",
+      "cov": "CANCERTYPE",
+      "source": "UNSOURCED",
+      "desc": "암종. 위 note의 미적용 항목.",
+      "classPrior": null
+    },
+    {
+      "id": "CL_IPI",
+      "cov": "IPI",
+      "source": "UNSOURCED",
+      "desc": "이필리무맙 전처치 이력. 위 note의 미적용 항목.",
+      "classPrior": null
+    },
+    {
+      "id": "timeVarying",
+      "cov": "TIME",
+      "source": "UNSOURCED",
+      "desc": "시간의존 CL. PPKPARAMETER.csv의 pembrolizumab 3개 모델은 모두 'Time dependency'=0이지만, 같은 라이브러리에서 nivolumab 7모델 중 5개, durvalumab·avelumab·toripalimab이 =1이다. docs/PRD.md는 '시간의존 CL'을 Non-Goal로 명시하고 있어 엔진 자체가 미지원이었다. 구조(sigmoid Emax / exponential)는 covmodel.js에 구현했고, 계수만 채우면 켜진다. Emax<0 = 시간에 따라 CL 감소, T50 = 절반에 도달하는 시간(day).",
+      "classPrior": {
+        "Time dependency=1인 라이브러리 모델 수": 31,
+        "전체 모델 수": 160,
+        "동급(항 PD-(L)1) 중 =1": [
+          "nivolumab(5/7)",
+          "durvalumab(1/3)",
+          "avelumab",
+          "toripalimab",
+          "relatlimab",
+          "tremelimumab",
+          "dostarlimab"
+        ]
+      }
+    }
+  ],
+  "enabled": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.578,
+      "source": "data/extracted_poppk_params.csv — 'Weight exponent on CL (ref 76.8)'"
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.492,
+      "source": "data/extracted_poppk_params.csv — 'Weight exponent on Vc (ref 76.8)'"
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.6,
+      "coef": -0.854,
+      "source": "data/extracted_poppk_params.csv — 'Albumin exponent on CL (ref 39.6)'"
+    },
+    {
+      "id": "VC_ALB",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.6,
+      "coef": -0.178,
+      "source": "data/extracted_poppk_params.csv — 'Albumin exponent on Vc (ref 39.6)'"
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "coef": -0.152,
+      "source": "data/extracted_poppk_params.csv — 'Female effect on CL'"
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "proportional",
+      "coef": -0.134,
+      "source": "data/extracted_poppk_params.csv — 'Female effect on Vc'"
+    }
+  ]
+}

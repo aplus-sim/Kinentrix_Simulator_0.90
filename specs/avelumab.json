@@ -1,0 +1,539 @@
+{
+  "drug": "avelumab",
+  "brand": "Bavencio",
+  "label": "Avelumab (Bavencio) — 2-compartment IV",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": false
+  },
+  "_note": [
+    "Parameters and validation come from different places here, which is the one case this app is",
+    "built for: the Bavencio source pack contains the FDA and EMA reviews and the label - all of",
+    "which report exposures - but neither review prints the sponsor's final parameter table. The",
+    "structural parameters therefore come from the published sponsor analysis recorded in the",
+    "repository library, and everything they are checked against comes from the pack."
+  ],
+  "_source": {
+    "document": "data/PPKPARAMETER.csv — avelumab, doi:10.1002/psp4.12406 (Wilkins et al., the published sponsor population PK analysis)",
+    "table": "the only avelumab model in the library",
+    "subjects": "N = 1827 patients, 10637 concentrations (ELISA)"
+  },
+  "_modelChoice": {
+    "chosen": "The published sponsor analysis in data/PPKPARAMETER.csv (N=1827).",
+    "why": "It is the only avelumab parameter set available with a full covariate list. The two reviews in the source pack describe their models but do not print the estimates in a form that can be applied: the FDA reviewer's own re-analysis (10_FDA_M.pdf Table 47) gives thetas without their reference values or functional forms, and the EMA report (12_FDA_M.pdf p33-34) quotes only the typical volumes.",
+    "howTheAlternativesCompare": {
+      "note": "Run through this engine at 800 mg Q2W and compared with the label's reported values (CL 0.59 L/day, Vss 4.7 L, half-life 6.1 days, accumulation 1.25).",
+      "chosen (library, N=1827)": "CL 0.528, Vss 4.34, t1/2 5.90 d, accumulation 1.23",
+      "FDA reviewer run211 (10_FDA_M.pdf Table 47)": "CL 0.607, Vss 3.98, t1/2 4.83 d, accumulation 1.14",
+      "EMA typical volumes (V1 2.84, V2 1.21) with the label's CL": "Vss 4.05, t1/2 5.36 d, accumulation 1.17",
+      "conclusion": "The library model reproduces the half-life and the accumulation ratio best; every candidate sits below the reported volume of distribution."
+    }
+  },
+  "_sourceConflict": {
+    "ADA": "data/PPKPARAMETER.csv records avelumab's immunogenicity effect as a 1.23-fold multiplier on clearance. The FDA review of the original submission describes the sponsor's model as carrying immunogenicity on V2, not on CL (10_FDA_M.pdf p161). The two are different analyses; the multiplier is kept here because it belongs to the parameter set in use, and the label supports the direction: 'Subjects having at least once a HAHA-positive result show slightly lower trough concentration' (10_FDA_M.pdf p167)."
+  },
+  "limitations": [
+    "The typical volume of distribution comes out at 4.34 L versus the label's 4.7 L (CV 44%), and clearance at 0.528 versus the label's 0.59 L/day (CV 25%) — each 8~10% lower. The parameters come from a later published analysis (N=1827) while the label values come from the original approval analysis (N=1629), so a difference of this size is within the expected range rather than an error.",
+    "In Merkel cell carcinoma, avelumab clearance decreases during treatment — the label gives the maximum decrease as 'approximately 32% (36%)' — but this app has time dependence switched off, because not all of the values needed to apply it are available (see the disabled items).",
+    "The library has no reference albumin for avelumab, so a substitute value was used; the typical parameters depend on that choice.",
+    "Overlaid on the observed curves (EMA report Figure 6, Study 001 first dose), all 9 points at 20 mg/kg fall inside the shaded band, but at 1 and 3 mg/kg the observed concentrations fall much faster than the model after day 2 (at the 336-hour point for 1 mg/kg the model is about 13-fold higher). The text on the same page points to target-mediated drug disposition (TMDD) at low doses, and this linear model has no such term. Low-dose simulations are not reliable."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "Vss",
+      "value": 4.7,
+      "ci": [
+        3.09,
+        7.15
+      ],
+      "unit": "L",
+      "source": "Regulatory/15_FDA_L.pdf 12.3 — 'The mean volume of distribution at steady state after patients received a dose of 10 mg/kg was 4.7 L (coefficient of variation (% CV) of 44%).' Interval = value times exp(+-1 SD on the log scale) for CV 44%. The FDA review adds a much tighter interval around the mean itself (10_FDA_M.pdf p167: geometric mean 4.72 L, 95% CI 4.63-4.82 L for the 10 mg/kg group); the model's 4.34 L sits below that, which is the volume gap noted under limitations. Computed here as Vc + Vp."
+    },
+    {
+      "metric": "thalf",
+      "value": 6.1,
+      "ci": [
+        2.78,
+        13.37
+      ],
+      "unit": "day",
+      "source": "Regulatory/15_FDA_L.pdf 12.3 — 'the terminal half-life (% CV) was 6.1 days (92%)'. Interval = value times exp(+-1 SD on the log scale) for CV 92%, which is very wide because between-patient spread is large. For reference the FDA review gives the geometric mean as 145 h with a 95% CI of 140-151 h, i.e. 5.83-6.29 days (10_FDA_M.pdf p167); the model's 5.90 days falls inside that too."
+    },
+    {
+      "metric": "Accum",
+      "doseMgkg": 10,
+      "value": 1.25,
+      "ci": [1.0, 1.5],
+      "unit": "fold",
+      "source": "Regulatory/15_FDA_L.pdf 12.3 — 'the systemic accumulation was 1.25-fold'; the FDA review derives the same number (10_FDA_M.pdf p167: 'Based on an elimination half-life (t1/2) of 145 h, accumulation ratio is 1.25 for a dosing interval of 336 h'). No interval in the source; +-20% assumed."
+    },
+    {
+      "metric": "AUCtau_ss",
+      "doseMgkg": 10,
+      "value": 1092,
+      "ci": [
+        774,
+        1540
+      ],
+      "unit": "ug*day/mL",
+      "source": "Regulatory/10_FDA_M.pdf p167 — 'AUC at steady-state (AUCss) for the 10 mg/kg dose group had a geometric mean of 26214 mg*h/L (CV 35.4%)', converted to 1092 ug*day/mL by dividing by 24. Interval from the reported CV the same way as above."
+    }
+  ],
+  "baseline": {
+    "CL": 0.528,
+    "Vc": 3.42,
+    "Vp": 0.918,
+    "Q": 0.751
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day"
+  },
+  "baselineSource": "data/PPKPARAMETER.csv — avelumab, doi:10.1002/psp4.12406. Avelumab clears four to five times faster than the other checkpoint antibodies in this app; the EMA report attributes the short half-life to its high isoelectric point (12_FDA_M.pdf p34).",
+  "iiv": {
+    "CL": 24.277,
+    "Vc": 17.919
+  },
+  "iivType": "%CV",
+  "iivSource": "BetaBeta/data/vpop_iiv.csv — avelumab CL_CV 24.277%, V1_CV 17.919% (aggregated over 1 paper). Consistent with the 25% CV on clearance the label reports.",
+  "corr": null,
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 71,
+      "coef": 0.324,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — CL_WT 0.324, size descriptor BW, ref size 71 kg",
+      "desc": "A much flatter weight exponent than the 0.5-0.6 of the other checkpoint antibodies. The label's position is that the resulting differences are not clinically meaningful."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 71,
+      "coef": 0.362,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — VC_WT 0.362, ref size 71 kg"
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 40,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.438,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — CL_ALB -0.438. The ALB reference cell is empty for avelumab, so 40 g/L is substituted: it is the reference albumin the same file records for the anti-PD-(L)1 peers (atezolizumab 40, nivolumab 40, pembrolizumab 39.6), and the Opdualag review centres nivolumab at 4 g/dL.",
+      "desc": "Lower albumin raises clearance, about half as steeply as in pembrolizumab or nivolumab. Baseline albumin is one of the covariates the FDA review lists on clearance in the sponsor's model (10_FDA_M.pdf p161)."
+    },
+    {
+      "id": "VC_ALB",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 40,
+      "refStatus": "SUBSTITUTED",
+      "coef": -0.278,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — VC_ALB -0.278, same substituted reference of 40 g/L."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.15,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — CL_SEX -0.15 with the SEX column set to M.",
+      "levelDerivation": "DERIVED — the library's SEX column names the reference sex and the coefficient applies to the other one. Basis: for pembrolizumab the same file records SEX=M / CL_SEX -0.15 while data/extracted_poppk_params.csv labels that identical number 'Female effect on CL'. The direction agrees with this drug's own review: 'Male patients have lower exposure than female patients' (10_FDA_M.pdf p167), i.e. women clear it more slowly.",
+      "formDerivation": "The library does not record whether the paper wrote the effect as (1+theta) or exp(theta); (1+theta) is used, matching the curated pembrolizumab entry so the drugs stay comparable.",
+      "desc": "CL is 15% lower in women."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.16,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — VC_SEX -0.16 with the SEX column set to M (same derivation as CL_SEX). Sex on V1 is also in the sponsor's covariate list in 10_FDA_M.pdf p161."
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "multiplier",
+      "level": "pos",
+      "coef": 1.23,
+      "enabled": true,
+      "source": "data/PPKPARAMETER.csv — CL_ADA 'x 1.23' for avelumab. See the note on the source conflict: the review of the original submission places immunogenicity on V2 instead.",
+      "desc": "Clearance is 23% higher once anti-drug antibodies are present - the largest ADA effect among the checkpoint antibodies in the repository. The label puts ADA incidence at 8.9% and 8.2% in the two Merkel cell cohorts and at 19% in bladder cancer (15_FDA_L.pdf Table 9)."
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 71,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the Q_WT cell is empty for this model in PPKPARAMETER.csv. The FDA review says the sponsor's model carries acetaminophen premedication and tumour type on Q instead (10_FDA_M.pdf p161), neither of which has a published coefficient here."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 71,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the VP_WT cell is empty for this model in PPKPARAMETER.csv"
+    },
+    {
+      "id": "CL_TUMOR_MCC",
+      "param": "CL",
+      "cov": "TUMOR",
+      "type": "multiplier",
+      "level": "Merkel cell carcinoma",
+      "coef": null,
+      "enabled": false,
+      "source": "Sourced only as an effect size, not as a coefficient — 10_FDA_M.pdf p167 states that Merkel cell carcinoma shows the largest exposure increase of the tumour types tested, 'based on an estimated decrease in clearance of 22.4%'. The model term behind that number is not printed, so it cannot be applied as written.",
+      "desc": "Tumour type on clearance. Worth filling in if the sponsor's parameter table becomes available: at -22.4% it would be one of the larger covariate effects in this app."
+    },
+    {
+      "id": "CL_EGFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 90,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — eGFR appears in the sponsor's model on V2, not on CL (10_FDA_M.pdf p161), and the label concludes there are no clinically meaningful differences in clearance across mild to severe renal impairment."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1.8,
+    "source": "PARTLY SOURCED — the pieces exist but not in a form that can be applied without guessing.",
+    "desc": [
+      "The label states: 'In patients with Merkel cell carcinoma, avelumab clearance decreased over time, with a mean maximal reduction from baseline of",
+      "approximately 32% (CV 36%), which is not considered clinically important. In patients with urothelial carcinoma or renal cell carcinoma, no",
+      "time-dependent change in clearance was observed' (15_FDA_L.pdf 12.3) — the effect differs by indication.",
+      "The FDA reviewer's own time-varying model (10_FDA_M.pdf Table 47, run328) supplies pieces of it:",
+      "MCC_Tmax -0.307, SolidTumor_Tmax -0.197, T50 71, gamma 1.8. -0.307 agrees well with the label's 32%, but",
+      "the table does not state the time unit of T50 — the reviewer's model runs in hours, so read literally,",
+      "half of the change would occur within 3 days, whereas the observed change in exposure unfolds over months.",
+      "Rather than pick a unit arbitrarily, the term is switched off and the numbers are only recorded here.",
+      "Nivolumab in the same app is a case where these coefficients are fully specified."
+    ]
+  },
+  "population": {
+    "_note": "Only the ADA incidence is observed; the rest are assumptions anchored on the model's reference values, as for the other drugs whose source pack carries no covariate distribution table.",
+    "seed": 20260915,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 71,
+        "cv": 27,
+        "min": 35,
+        "max": 180,
+        "source": "ASSUMPTION — CV 27% and the 35-180 kg clamps are assumed (carried over from the pembrolizumab spec). The median is the model's own reference body weight, 71 kg (data/PPKPARAMETER.csv, 'Ref size')."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 40,
+        "sd": 4.5,
+        "min": 20,
+        "max": 55,
+        "source": "ASSUMPTION — the whole distribution is assumed: avelumab has no reference albumin in the library, so the mean is the substituted 40 g/L used by the albumin effects."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.4,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "ASSUMPTION — a female fraction of 40% is assumed, as in the pembrolizumab spec."
+      },
+      "ADA": {
+        "dist": "bernoulli",
+        "p": 0.089,
+        "levels": [
+          "neg",
+          "pos"
+        ],
+        "source": "Regulatory/15_FDA_L.pdf Table 9 — anti-drug antibodies in 8.9% (7/79) of JAVELIN Merkel 200 Part A and 8.2% (9/110) of Part B; 8.9% is used for the Merkel cell population the 800 mg regimen belongs to. In bladder cancer the same table reports 19%."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The only route studied: 'Bavencio is for intravenous infusion only. It must not be administered as an intravenous push or bolus injection' (12_FDA_M.pdf p33)."
+    },
+    "sc": {
+      "supported": false,
+      "source": "Avelumab has no subcutaneous form and no absorption parameters in any source here."
+    }
+  },
+  "regimen": {
+    "dose": 800,
+    "tinf_h": 1,
+    "tau": 14,
+    "ndose": 12,
+    "tend": 224,
+    "source": "Regulatory/15_FDA_L.pdf section 2 — 'Merkel Cell Carcinoma: 800 mg every 2 weeks' and 'Administer BAVENCIO as an intravenous infusion over 60 minutes'. Twelve doses and a 224-day window are display defaults; steady state arrives after about 4 to 6 weeks."
+  },
+  "residualError": {
+    "type": "none",
+    "form": null,
+    "source": "UNSOURCED — data/PPKPARAMETER.csv has no residual error column. The FDA reviewer's own avelumab model (10_FDA_M.pdf Table 47) reports a log-additive error of 0.273, but that belongs to a different parameter set from the one used here, so it is not borrowed."
+  },
+  "regimenPresets": [
+    {
+      "label": "Merkel cell carcinoma, urothelial carcinoma, renal cell carcinoma · adult patients — IV 800 mg every 2 weeks",
+      "dose": 800,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 224,
+      "source": "Regulatory/15_FDA_L.pdf 2.2-2.4 — 'The recommended dosage of BAVENCIO is 800 mg administered as an intravenous infusion over 60 minutes every 2 weeks' (RCC in combination with axitinib).",
+      "tinf_h": 1,
+      "route": "IV"
+    },
+    {
+      "label": "Merkel cell carcinoma, urothelial carcinoma · adult patients — IV 10 mg/kg every 2 weeks (original weight-based dose)",
+      "dose": 10,
+      "unit": "mg/kg",
+      "tau": 14,
+      "ndose": 12,
+      "tend": 224,
+      "source": "Regulatory/10_FDA_M.pdf p161 (BLA 761049) — 'The proposed 10 mg/kg Q2W dosing regimen is justified ...'; the same review notes that 'a flat dosing regimen (800 mg Q2W) would be acceptable as well'. 60-minute infusion as in the current label. The validation rows for accumulation and AUC use this regimen.",
+      "tinf_h": 1,
+      "route": "IV"
+    }
+  ],
+  "observedProfiles": [
+    {
+      "label": "Study 001 · 1 mg/kg first dose (n=4)",
+      "dose": 1,
+      "unit": "mg/kg",
+      "tinf_h": 1,
+      "tau": 14,
+      "ndose": 1,
+      "tend": 15,
+      "route": "IV",
+      "timeScale": "hour",
+      "n": 4,
+      "points": [
+        [
+          0.98,
+          19.722
+        ],
+        [
+          4.15,
+          17.639
+        ],
+        [
+          7.32,
+          16.072
+        ],
+        [
+          12.77,
+          14.919
+        ],
+        [
+          25.48,
+          12.386
+        ],
+        [
+          37.29,
+          10.283
+        ],
+        [
+          49.09,
+          8.697
+        ],
+        [
+          169.91,
+          2.5
+        ],
+        [
+          336.53,
+          0.223
+        ]
+      ],
+      "source": "Regulatory/12_FDA_M.pdf (EMA assessment report EMA/496529/2017) p34, Figure 6 — 'Study EMR100070-001: Serum Avelumab Concentrations Mean (± s.d.) vs. Time following first 1-hour IV Infusion to subjects with solid tumours'. Points digitized by the team (Human/10_P1_h.json, WebPlotDigitizer, log y-axis); only the means are taken, not the SD bars. Subjects per arm from the dose-escalation part of Study 001 (12_FDA_M.pdf p33: 4 at 1 mg/kg, 13 at 3, 15 at 10, 21 at 20 mg/kg). The digitizer file labels the 20 mg/kg series '30'; the figure legend is followed here. The same page notes that trough concentrations rose 'more than proportionally for doses between 1 to 10 mg/kg, likely due to the presence of target mediated drug disposition (TMDD) at these lower dose levels' — which this linear model does not have."
+    },
+    {
+      "label": "Study 001 · 3 mg/kg first dose (n=13)",
+      "dose": 3,
+      "unit": "mg/kg",
+      "tinf_h": 1,
+      "tau": 14,
+      "ndose": 1,
+      "tend": 15,
+      "route": "IV",
+      "timeScale": "hour",
+      "n": 13,
+      "points": [
+        [
+          3.39,
+          84.188
+        ],
+        [
+          5.2,
+          76.709
+        ],
+        [
+          8.38,
+          71.207
+        ],
+        [
+          13.37,
+          62.511
+        ],
+        [
+          22.9,
+          51.898
+        ],
+        [
+          37.42,
+          39.259
+        ],
+        [
+          47.42,
+          37.825
+        ],
+        [
+          169.17,
+          14.644
+        ],
+        [
+          335.9,
+          3.627
+        ]
+      ],
+      "source": "Regulatory/12_FDA_M.pdf (EMA assessment report EMA/496529/2017) p34, Figure 6 — 'Study EMR100070-001: Serum Avelumab Concentrations Mean (± s.d.) vs. Time following first 1-hour IV Infusion to subjects with solid tumours'. Points digitized by the team (Human/10_P1_h.json, WebPlotDigitizer, log y-axis); only the means are taken, not the SD bars. Subjects per arm from the dose-escalation part of Study 001 (12_FDA_M.pdf p33: 4 at 1 mg/kg, 13 at 3, 15 at 10, 21 at 20 mg/kg). The digitizer file labels the 20 mg/kg series '30'; the figure legend is followed here. The same page notes that trough concentrations rose 'more than proportionally for doses between 1 to 10 mg/kg, likely due to the presence of target mediated drug disposition (TMDD) at these lower dose levels' — which this linear model does not have."
+    },
+    {
+      "label": "Study 001 · 10 mg/kg first dose (n=15)",
+      "dose": 10,
+      "unit": "mg/kg",
+      "tinf_h": 1,
+      "tau": 14,
+      "ndose": 1,
+      "tend": 15,
+      "route": "IV",
+      "timeScale": "hour",
+      "n": 15,
+      "points": [
+        [
+          1.24,
+          287.466
+        ],
+        [
+          3.97,
+          282.166
+        ],
+        [
+          7.14,
+          257.099
+        ],
+        [
+          12.58,
+          221.541
+        ],
+        [
+          25.76,
+          198.139
+        ],
+        [
+          37.55,
+          152.7
+        ],
+        [
+          49.83,
+          152.7
+        ],
+        [
+          169.32,
+          61.359
+        ],
+        [
+          337.9,
+          23.317
+        ]
+      ],
+      "source": "Regulatory/12_FDA_M.pdf (EMA assessment report EMA/496529/2017) p34, Figure 6 — 'Study EMR100070-001: Serum Avelumab Concentrations Mean (± s.d.) vs. Time following first 1-hour IV Infusion to subjects with solid tumours'. Points digitized by the team (Human/10_P1_h.json, WebPlotDigitizer, log y-axis); only the means are taken, not the SD bars. Subjects per arm from the dose-escalation part of Study 001 (12_FDA_M.pdf p33: 4 at 1 mg/kg, 13 at 3, 15 at 10, 21 at 20 mg/kg). The digitizer file labels the 20 mg/kg series '30'; the figure legend is followed here. The same page notes that trough concentrations rose 'more than proportionally for doses between 1 to 10 mg/kg, likely due to the presence of target mediated drug disposition (TMDD) at these lower dose levels' — which this linear model does not have."
+    },
+    {
+      "label": "Study 001 · 20 mg/kg first dose (n=21)",
+      "dose": 20,
+      "unit": "mg/kg",
+      "tinf_h": 1,
+      "tau": 14,
+      "ndose": 1,
+      "tend": 15,
+      "route": "IV",
+      "timeScale": "hour",
+      "n": 21,
+      "points": [
+        [
+          1.3,
+          511.789
+        ],
+        [
+          4.47,
+          466.323
+        ],
+        [
+          7.19,
+          432.876
+        ],
+        [
+          13.55,
+          401.828
+        ],
+        [
+          25.36,
+          346.253
+        ],
+        [
+          37.61,
+          282.166
+        ],
+        [
+          50.34,
+          266.847
+        ],
+        [
+          168.47,
+          117.681
+        ],
+        [
+          337.07,
+          51.898
+        ]
+      ],
+      "source": "Regulatory/12_FDA_M.pdf (EMA assessment report EMA/496529/2017) p34, Figure 6 — 'Study EMR100070-001: Serum Avelumab Concentrations Mean (± s.d.) vs. Time following first 1-hour IV Infusion to subjects with solid tumours'. Points digitized by the team (Human/10_P1_h.json, WebPlotDigitizer, log y-axis); only the means are taken, not the SD bars. Subjects per arm from the dose-escalation part of Study 001 (12_FDA_M.pdf p33: 4 at 1 mg/kg, 13 at 3, 15 at 10, 21 at 20 mg/kg). The digitizer file labels the 20 mg/kg series '30'; the figure legend is followed here. The same page notes that trough concentrations rose 'more than proportionally for doses between 1 to 10 mg/kg, likely due to the presence of target mediated drug disposition (TMDD) at these lower dose levels' — which this linear model does not have."
+    }
+  ]
+}

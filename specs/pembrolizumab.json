@@ -1,0 +1,422 @@
+{
+  "drug": "pembrolizumab",
+  "brand": "Keytruda",
+  "label": "Pembrolizumab (Keytruda) — 2-compartment IV",
+  "timeUnit": "day",
+  "concUnit": "mg/L",
+  "structure": {
+    "cmt": 2,
+    "absorption": false
+  },
+  "_note": [
+    "Every entry with enabled=true in baseline/iiv/effects comes from a file inside this repository.",
+    "Entries with enabled=false have their structure implemented but no sourced coefficient yet; they",
+    "stay out of the computation until a value is filled in. covmodel.assertSourced() enforces this."
+  ],
+  "_sourceConflict": {
+    "note": "Two files record the same model (DOI 10.1007/s10928-017-9528-y, N=2195) with different numbers. Needs confirmation.",
+    "data/extracted_poppk_params.csv (curated, used by the app)": {
+      "CL": 0.202,
+      "CL_ALB": -0.854,
+      "CL_SEX": -0.152,
+      "VC_ALB": -0.178
+    },
+    "data/PPKPARAMETER.csv (library)": {
+      "CL": 0.22,
+      "CL_ALB": -0.907,
+      "CL_SEX": -0.15,
+      "VC_ALB": -0.208
+    },
+    "choiceMadeHere": "The curated values, to stay consistent with CURATED.pembrolizumab in index.html"
+  },
+  "_papers": {
+    "note": "What the four Keytruda papers supplied by the user contain from a covariate standpoint. Page numbers follow pdfplumber.",
+    "22_Tomoko_2017 (Freshwater, J Immunother Cancer 5:43)": {
+      "role": "Most useful. Justifies the fixed 200 mg Q3W dose by citing a popPK model.",
+      "coefficientsConfirmed": {
+        "allometricExponentForCL": "0.578 (95% CI 0.481-0.666)  — p4",
+        "allometricExponentForVolumes": "0.492 (95% CI 0.432-0.553)  — p4",
+        "remark": "These match CL_WT 0.578 / VC_WT 0.492 in extracted_poppk_params.csv exactly, confirming that the simulator's Keytruda model descends from this lineage"
+      },
+      "newlyIncorporated": "Q and Vp are also weight-adjusted, with the same exponents as CL and Vc respectively (p3). This was missing from the existing model and has been added as Q_WT / VP_WT.",
+      "modelForm": "X = X_TV * (WT/MedianWT)^alpha * exp(eta)  — p3",
+      "weightDistribution": "median 77.2 kg, range 35.7-209.5 kg — p4 (reflected in the population block)",
+      "namedButWithoutCoefficients": "sex, baseline eGFR, baseline albumin, prior ipilimumab, cancer type, baseline ECOG PS — all stated only as 'retained in the popPK model as identified in [4]' with no values given (p3)",
+      "negativeFinding": "Clearance did not differ meaningfully across cancer types (p5)"
+    },
+    "21_Longoria_2016": {
+      "role": "Review / label summary. No popPK table.",
+      "valuesConfirmed": "CL geometric mean 0.2 L/day (CV 37%), terminal half-life 27 days (CV 38%), accumulation 2.2-fold, steady state by 19 weeks — p4",
+      "negativeFindings": [
+        "'Age (range 15-94 years), gender, race, and tumor burden were found to have no clinically important effect on clearance.' — p4",
+        "'Patients with mild (GFR 60-90, n=937) or moderate (GFR 30-60, n=201) renal impairment have no clinically important difference in clearance compared to patients with normal renal function (GFR >=90, n=1027).' — p4"
+      ],
+      "implication": "On this evidence there is no reason to add tumor burden, age, race or renal function as covariates. Sex is called not clinically important, yet a coefficient does exist in the model — meaning the effect size is small."
+    },
+    "20_Shimizu_2016": {
+      "role": "Phase 1 in Japanese patients with advanced solid tumors. NCA, not popPK.",
+      "valuesConfirmed": "CL 2.46 mL/day/kg (CV 45%, 2 mg/kg, n=3) / 2.93 (CV 56%, 10 mg/kg, n=7); Vz 65.3 (21%) / 76.5 (34%) mL/kg — p5",
+      "covariates": "None. Covariate analysis is impossible at n=10. ADA was not detected.",
+      "usefulness": "Only as external validity — checking whether the Japanese subgroup falls within the model's predicted range."
+    },
+    "30_Hutchins_2020": {
+      "role": "Nonclinical — cynomolgus monkey toxicology / PK.",
+      "covariates": "None. Unrelated to the human covariate model.",
+      "remark": "The +- signs in the CL table are broken into (cid:5), which hampers automated extraction."
+    },
+    "conclusion": "Only two covariates can be newly enabled from these four papers: Q_WT and VP_WT. For the rest (albumin, sex, eGFR, ECOG, cancer type, IPI) Tomoko lists the names but gives no coefficients, so obtaining them requires reference [4], Ahamadi M et al. 'Model-based characterization of the pharmacokinetics of pembrolizumab' (CPT Pharmacometrics Syst Pharmacol 2017)."
+  },
+  "reportedChecks": [
+    {
+      "metric": "thalf",
+      "value": 27,
+      "ci": [
+        22,
+        32
+      ],
+      "unit": "day",
+      "source": "21_Longoria_2016.pdf p4 — 'the terminal half-life is 27 days (CV: 38%)'. The source gives a CV rather than a CI, so the interval is set arbitrarily at about +-20% (the pass/fail mark is indicative only)."
+    },
+    {
+      "metric": "Accum",
+      "doseMgkg": 2,
+      "value": 2.2,
+      "ci": [
+        2.0,
+        2.4
+      ],
+      "unit": "fold",
+      "source": "21_Longoria_2016.pdf p4 — 'the systemic accumulation is 2.2-fold' (Q3W repeat dosing). No CI in the source; +-10% assumed."
+    }
+  ],
+  "regressionCheck": {
+    "cmax": 103,
+    "ctrough": 38,
+    "tol": 1.0,
+    "cov": {
+      "WT": 76.8,
+      "ALB": 39.6,
+      "SEX": "F"
+    },
+    "source": "docs/tracker.md 2026-07-21 — 'Cmax 103, Ctrough 38 (consistent with clinical data)'. Condition: the app's default screen, whose sex select defaults to Female."
+  },
+  "bandNote": {
+    "fixed": "Under this setting the band matches the width of the 90% prediction intervals in FDA Table 5 to within 0.87~1.15-fold.",
+    "sampled": "Under this setting the shaded band widens 1.1~1.4-fold and the median rises by 5~8% — the intervals in FDA Table 5 appear to reflect IIV only, with covariates fixed at their medians. Turn this option off when comparing with the source.",
+    "source": "Measured for the pembrolizumab specs in this repository (covariate/analysis.js output). It says nothing about any other drug, which is why it lives in the spec."
+  },
+  "baseline": {
+    "CL": 0.202,
+    "Vc": 3.48,
+    "Vp": 4.06,
+    "Q": 0.795
+  },
+  "baselineUnits": {
+    "CL": "L/day",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day"
+  },
+  "baselineSource": "data/extracted_poppk_params.csv (drug=pembrolizumab)",
+  "iiv": {
+    "CL": 38,
+    "Vc": 21
+  },
+  "iivType": "%CV",
+  "iivSource": "data/extracted_poppk_params.csv — IIV_CL 38, IIV_Vc 21",
+  "corr": null,
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.578,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Weight exponent on CL (ref 76.8)'",
+      "desc": "Body-weight power model, the standard form for mAb allometry."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.492,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Weight exponent on Vc (ref 76.8)'"
+    },
+    {
+      "id": "Q_WT",
+      "param": "Q",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.578,
+      "enabled": true,
+      "source": "22_Tomoko_2017.pdf p3 — 'Two additional parameters (Q and V_P) ... were also adjusted for WT, using the same values for the exponents as for CL and Vc, respectively.'",
+      "desc": "Q takes the same exponent as CL (0.578). The previous model applied no weight scaling to Q — an omission relative to what the paper states."
+    },
+    {
+      "id": "VP_WT",
+      "param": "Vp",
+      "cov": "WT",
+      "type": "power",
+      "ref": 76.8,
+      "coef": 0.492,
+      "enabled": true,
+      "source": "22_Tomoko_2017.pdf p3 — same sentence. Vp takes the same exponent as Vc (0.492).",
+      "desc": "Vp takes the same exponent as Vc. The previous model applied no weight scaling to Vp.",
+      "corroboration": "The third pembrolizumab model in data/PPKPARAMETER.csv (DOI 10.1016/j.xphs.2018.10.064) reports VP_WT 0.543 / Q_WT 0.555 — the same pattern (VP close to the VC exponent, Q close to the CL exponent)."
+    },
+    {
+      "id": "CL_ALB",
+      "param": "CL",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.6,
+      "coef": -0.854,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Albumin exponent on CL (ref 39.6)'",
+      "desc": "The largest exponent on CL in this model. Lower albumin raises CL (a proxy for catabolic state)."
+    },
+    {
+      "id": "VC_ALB",
+      "param": "Vc",
+      "cov": "ALB",
+      "type": "power",
+      "ref": 39.6,
+      "coef": -0.178,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Albumin exponent on Vc (ref 39.6)'"
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.152,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Female effect on CL'",
+      "desc": "CL is 15.2% lower in females. Kept in the (1+coef) form used by CURATED in index.html."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "proportional",
+      "level": "F",
+      "coef": -0.134,
+      "enabled": true,
+      "source": "data/extracted_poppk_params.csv — 'Female effect on Vc'"
+    },
+    {
+      "id": "CL_ADA",
+      "param": "CL",
+      "cov": "ADA",
+      "type": "multiplier",
+      "level": 1,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED — the CL_ADA cell for pembrolizumab is empty in PPKPARAMETER.csv",
+      "classPrior": {
+        "note": "CL multipliers on ADA positivity reported by anti-PD-(L)1 peers in the same library. Use only as a basis for a sensitivity range.",
+        "atezolizumab": 1.159,
+        "avelumab": 1.23,
+        "durvalumab": 1.256,
+        "toripalimab": 1.191,
+        "median": 1.19
+      },
+      "desc": "Increased CL when anti-drug antibodies are present. The schema already has the column and four peer drugs carry values, but pembrolizumab alone is blank."
+    },
+    {
+      "id": "CL_BSLD",
+      "param": "CL",
+      "cov": "BSLD",
+      "type": "power",
+      "ref": null,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED",
+      "desc": "Baseline tumor burden (sum of longest diameters). One of the five items the note on CURATED.pembrolizumab in index.html flags as 'present in data but not applied'."
+    },
+    {
+      "id": "CL_EGFR",
+      "param": "CL",
+      "cov": "EGFR",
+      "type": "power",
+      "ref": null,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED",
+      "desc": "Renal function. One of the not-applied items in the note above."
+    },
+    {
+      "id": "CL_ECOG",
+      "param": "CL",
+      "cov": "ECOG",
+      "type": "categorical",
+      "level": 1,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED",
+      "desc": "ECOG performance status. One of the not-applied items in the note above."
+    },
+    {
+      "id": "CL_CANCERTYPE",
+      "param": "CL",
+      "cov": "CANCERTYPE",
+      "type": "categorical",
+      "level": null,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED",
+      "desc": "Cancer type. One of the not-applied items in the note above."
+    },
+    {
+      "id": "CL_IPI",
+      "param": "CL",
+      "cov": "IPI",
+      "type": "categorical",
+      "level": 1,
+      "coef": null,
+      "enabled": false,
+      "source": "UNSOURCED",
+      "desc": "Prior ipilimumab treatment. One of the not-applied items in the note above."
+    }
+  ],
+  "timeVarying": {
+    "enabled": false,
+    "param": "CL",
+    "type": "sigmoid_emax",
+    "Emax": null,
+    "T50": null,
+    "gamma": 1,
+    "source": "UNSOURCED",
+    "desc": [
+      "Time-varying CL. All 3 pembrolizumab models in PPKPARAMETER.csv have 'Time dependency'=0, whereas",
+      "in the same library 5 of 7 nivolumab models, as well as durvalumab, avelumab and toripalimab, have =1.",
+      "docs/PRD.md listed 'time-dependent CL' as a non-goal, so the engine did not support it at all.",
+      "The structure (sigmoid Emax / exponential) is implemented in covmodel.js; only the coefficients are missing.",
+      "With Emax<0, CL decreases over time; T50 is the time (days) to reach half of that change."
+    ],
+    "classEvidence": {
+      "libraryModelsWithTimeDependency": 31,
+      "totalModels": 160,
+      "peersWithTimeDependency (anti-PD-(L)1)": [
+        "nivolumab(5/7)",
+        "durvalumab(1/3)",
+        "avelumab",
+        "toripalimab",
+        "relatlimab",
+        "tremelimumab",
+        "dostarlimab"
+      ]
+    }
+  },
+  "tiers": {
+    "current": [
+      "CL_WT",
+      "VC_WT",
+      "CL_ALB",
+      "VC_ALB",
+      "CL_SEX",
+      "VC_SEX"
+    ]
+  },
+  "population": {
+    "_note": "Covariate distributions for the virtual population. These are assumptions rather than observed data and are labelled as such in the report.",
+    "seed": 20260907,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 77.2,
+        "cv": 27,
+        "min": 35.7,
+        "max": 209.5,
+        "source": "22_Tomoko_2017.pdf p4 — '...distribution of body weight, with a median of 77.2 kg and a range of 35.7-209.5 kg' (weight distribution of the virtual patients sampled from the popPK analysis population)",
+        "cvDerivation": "DERIVED — the paper gives only a median and a range, no SD or CV. Assuming log-normality and treating the reported min/max as roughly +-3.3 SD at N~2195 gives sigma~0.268, i.e. CV~27%. The min/max are used directly as clamps. The CV therefore carries an assumption."
+      },
+      "ALB": {
+        "dist": "normal",
+        "mean": 39.6,
+        "sd": 4.5,
+        "min": 20,
+        "max": 55,
+        "source": "ASSUMPTION — the mean is the model's reference albumin of 39.6 g/L; SD 4.5 is assumed."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.4,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "ASSUMPTION — a female fraction of 40% is assumed."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "source": "The only route studied: 200 mg every 3 weeks as a 30-minute infusion."
+    },
+    "sc": {
+      "supported": false,
+      "source": "No absorption rate or bioavailability for pembrolizumab exists anywhere in this repository. A subcutaneous pembrolizumab product was approved in 2025 (with berahyaluronidase alfa); adding it here needs that product's own population PK source."
+    }
+  },
+  "regimen": {
+    "dose": 200,
+    "tinf_h": 0.5,
+    "tau": 21,
+    "ndose": 6,
+    "tend": 168,
+    "source": "data/regimen.csv — pembrolizumab 200 mg q21day IV, 0.5 h infusion (approved regimen)"
+  },
+  "residualError": {
+    "type": "none",
+    "form": null,
+    "source": "UNSOURCED — data/extracted_poppk_params.csv, the source of this spec, records no residual error for pembrolizumab."
+  },
+  "regimenPresets": [
+    {
+      "label": "Advanced solid tumours · adult patients — IV 200 mg every 3 weeks",
+      "dose": 200,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 6,
+      "tend": 168,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — 'Melanoma: 200 mg every 3 weeks or 400 mg every 6 weeks' (the same pair is listed for every adult indication) and 'Administer KEYTRUDA as an intravenous infusion over 30 minutes after dilution. (2.4)'.",
+      "tinf_h": 0.5,
+      "route": "IV"
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 400 mg every 6 weeks",
+      "dose": 400,
+      "unit": "mg",
+      "tau": 42,
+      "ndose": 4,
+      "tend": 210,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — '... or 400 mg every 6 weeks'; infusion over 30 minutes.",
+      "tinf_h": 0.5,
+      "route": "IV"
+    },
+    {
+      "label": "Advanced solid tumours · paediatric patients — IV 2 mg/kg (max 200 mg) every 3 weeks",
+      "dose": 2,
+      "unit": "mg/kg",
+      "tau": 21,
+      "ndose": 6,
+      "tend": 168,
+      "source": "keytruda_drive/Regulatory/14_FDA_L.pdf Highlights — 'Melanoma: ... 2 mg/kg (up to 200 mg) every 3 weeks for pediatrics'.",
+      "tinf_h": 0.5,
+      "route": "IV",
+      "maxDose": 200,
+      "note": "The model was fitted to adult data; paediatric body weights are an extrapolation."
+    }
+  ]
+}

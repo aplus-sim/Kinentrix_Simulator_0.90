@@ -1,0 +1,584 @@
+{
+  "drug": "nivolumab",
+  "brand": "Opdivo Qvantig",
+  "label": "Nivolumab SC (Opdivo Qvantig) — FDA CheckMate-67T model · 2-compartment SC/IV · time-varying CL",
+  "timeUnit": "day",
+  "concUnit": "ug/mL",
+  "structure": {
+    "cmt": 2,
+    "absorption": true
+  },
+  "_note": "The model behind the SC approval: fitted to CheckMate-67T (2L clear-cell RCC, SC 1200 mg Q4W vs IV 3 mg/kg Q2W) with priors from the pooled model. Converted from hours to days.",
+  "_source": {
+    "document": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908)",
+    "table": "Table 2 (parameters), Table 1 (population), Table 5 (exposures); label 12.3",
+    "subjects": "487 patients with 2L clear-cell RCC (245 IV, 242 SC), 3734 samples; estimated with NONMEM $PRIOR"
+  },
+  "limitations": [
+    "Between-subject variability on Emax (the magnitude of CL decrease over time) (ω² 0.0572) is omitted because the engine does not support it.",
+    "The model was fitted only to second-line renal cell carcinoma patients, so it has no tumour-type term. Its eGFR effect (0.306) is also larger than in the pooled models (0.14~0.17).",
+    "The IV comparator's 'Cmax1' is read as the maximum over the first 28-day cycle (two IV doses), which is how the source's number is reproduced; the steady-state IV Cmax runs about 15% below the reported GM.",
+    "The validation values are patient geometric means, so they are compared against a single representative patient (median weight and eGFR, PS ≥1, male).",
+    "Time units were converted from hours (h) to days: CL and Q ×24, T50 ÷24, ka ×24."
+  ],
+  "reportedChecks": [
+    {
+      "metric": "CL",
+      "at": "steady",
+      "value": 0.197,
+      "ci": [
+        0.119,
+        0.326
+      ],
+      "unit": "L/day",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 12.3 — 'steady-state clearance (CV%) of 8.2 mL/h' (53.9%) = 0.197 L/day. Reference subject (80 kg, eGFR 90); interval from the CV."
+    },
+    {
+      "metric": "Vss",
+      "value": 6.8,
+      "ci": [
+        5.216,
+        8.866
+      ],
+      "unit": "L",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 12.3 — volume of distribution at steady state 6.8 L (27%); FDA recommended the IV-label value (FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.60). Interval from the CV."
+    },
+    {
+      "metric": "thalf",
+      "value": 25,
+      "ci": [
+        12.5,
+        49.8
+      ],
+      "unit": "day",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 12.3 — 'elimination half-life is 25 days (78%)'. Computed from the late (steady-state) parameters. Interval from the CV."
+    },
+    {
+      "metric": "Accum",
+      "dose": 1200,
+      "tau": 28,
+      "value": 2.3,
+      "ci": [1.84, 2.76],
+      "unit": "fold",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 12.3 — accumulation ratio 2.3 at 1200 mg Q4W; 'Steady state was achieved by 16 weeks.' No interval; +-20% assumed."
+    }
+  ],
+  "baseline": {
+    "CL": 0.2592,
+    "Vc": 4.25,
+    "Vp": 2.67,
+    "Q": 0.7488,
+    "ka": 0.2952,
+    "F": 0.788
+  },
+  "baselineUnits": {
+    "CL": "L/day (0.0108 L/h x 24)",
+    "Vc": "L",
+    "Vp": "L",
+    "Q": "L/day (0.0312 L/h x 24)",
+    "ka": "1/day (0.0123 /h x 24)",
+    "F": "fraction (logit IIV)"
+  },
+  "baselineSource": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — CL0 0.0108 L/h (RSE 1.51%), VC 4.25 L, Q 0.0312 L/h, VP 2.67 L, KA 0.0123 /h, F1 0.788. Reference subject: 'weighing 80 kg, EGFR of 90 mL/min/1.73 m2, 65 year old male with PS = 0'.",
+  "iivGroups": [
+    {
+      "params": [
+        "CL"
+      ],
+      "omega2": 0.135,
+      "cv": 38.0,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZCL 0.135 (SD 0.367)."
+    },
+    {
+      "params": [
+        "Vc"
+      ],
+      "omega2": 0.0827,
+      "cv": 29.4,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZVC 0.0827 (0.288)."
+    },
+    {
+      "params": [
+        "Vp"
+      ],
+      "omega2": 0.211,
+      "cv": 48.4,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZVP 0.211 (0.459)."
+    },
+    {
+      "params": [
+        "ka"
+      ],
+      "omega2": 0.211,
+      "cv": 48.4,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZKA 0.211 (0.459)."
+    },
+    {
+      "params": [
+        "F"
+      ],
+      "omega2": 0.615,
+      "transform": "logit",
+      "cv": null,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — F1 0.615 (0.784), on the logit scale (Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) File S1: 'LOGITF1=LOG(TVF1/(1-TVF1))+ETA')."
+    }
+  ],
+  "iivCorr": [
+    {
+      "a": 0,
+      "b": 1,
+      "rho": 0.374,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZCL:ZVC 0.0395 (corr 0.374)."
+    },
+    {
+      "a": 3,
+      "b": 4,
+      "rho": 0.207,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — ZKA:F1 0.0744 (corr 0.207)."
+    }
+  ],
+  "iivType": "omega^2 (variance); F on the logit scale",
+  "iivNote": "Emax IIV (additive, omega^2 0.0572) is not applied.",
+  "corr": null,
+  "residualError": {
+    "type": "proportional",
+    "form": "proportional",
+    "prop": 0.157,
+    "cv": 15.7,
+    "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'Proportional [-] q 10 0.157'."
+  },
+  "effects": [
+    {
+      "id": "CL_WT",
+      "param": "CL",
+      "cov": "WT",
+      "type": "power",
+      "ref": 80,
+      "coef": 0.644,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'CLWTB q11 0.644' (RSE 15.1%); reference 80 kg (Table 2 note 1)."
+    },
+    {
+      "id": "CL_GFR",
+      "param": "CL",
+      "cov": "GFR",
+      "type": "power",
+      "ref": 90,
+      "coef": 0.306,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'CLGFR q12 0.306' (RSE 15.8%); reference eGFR 90. About twice the eGFR effect of the pooled models (0.14-0.17)."
+    },
+    {
+      "id": "CL_SEX",
+      "param": "CL",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.149,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'CLSEX q13 -0.149' (RSE 31.3%), exp(theta) if female."
+    },
+    {
+      "id": "CL_PS",
+      "param": "CL",
+      "cov": "PS",
+      "type": "categorical",
+      "level": "1+",
+      "coef": 0.122,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'CLPS q14 0.122' (RSE 26.3%), exp(theta) if PS >= 1."
+    },
+    {
+      "id": "VC_WT",
+      "param": "Vc",
+      "cov": "WT",
+      "type": "power",
+      "ref": 80,
+      "coef": 0.525,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'VCWTB q15 0.525' (RSE 17.8%)."
+    },
+    {
+      "id": "VC_SEX",
+      "param": "Vc",
+      "cov": "SEX",
+      "type": "categorical",
+      "level": "F",
+      "coef": -0.228,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'VCSEX q16 -0.228' (RSE 17.8%)."
+    },
+    {
+      "id": "F_SEX",
+      "param": "F",
+      "cov": "SEX",
+      "type": "multiplier",
+      "level": "F",
+      "coef": 0.942,
+      "enabled": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — 'F1SEX q19 0.942' (RSE 4.44%), multiplies typical F before the logit transform (Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) File S1 code)."
+    }
+  ],
+  "timeVarying": {
+    "enabled": true,
+    "param": "CL",
+    "type": "exp_sigmoid_emax",
+    "Emax": -0.26,
+    "T50": 58.75,
+    "gamma": 3.39,
+    "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — CLEMAX -0.260 (RSE 5.69%), CLT50 1.41E+03 h = 58.75 days, CLHILL 3.39. Form from Zhao et al. 2025, CPT Pharmacometrics Syst Pharmacol 14:2107-2117 (doi:10.1002/psp4.70120, PMC12706396) File S1: 'CL_TIME = EXP(EMAX*TIME**HILL/(T50**HILL+TIME**HILL))'.",
+    "desc": [
+      "CL(t) = CL0 * exp(-0.260 * t^3.39 / (58.75^3.39 + t^3.39)): maximum decrease 23% (exp(-0.26) = 0.771), half reached at about day 59."
+    ]
+  },
+  "population": {
+    "_note": "Observed: the SC arm of CheckMate-67T (2L clear-cell RCC).",
+    "seed": 20260918,
+    "covariates": {
+      "WT": {
+        "dist": "lognormal",
+        "median": 76.5,
+        "cv": 23.4,
+        "min": 35,
+        "max": 153,
+        "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 1 (PDF p.187), CheckMate-67T SC arm (N=242) — weight mean 77.7 (SD 18.2), median 76.5, range 35-153 kg."
+      },
+      "GFR": {
+        "dist": "normal",
+        "mean": 64.9,
+        "sd": 19.9,
+        "min": 24.4,
+        "max": 124,
+        "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 1 (PDF p.187), CheckMate-67T SC arm (N=242) — eGFR mean 64.9 (SD 19.9), median 63, range 24.4-124 mL/min/1.73 m2."
+      },
+      "SEX": {
+        "dist": "bernoulli",
+        "p": 0.347,
+        "levels": [
+          "M",
+          "F"
+        ],
+        "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 1 (PDF p.187), CheckMate-67T SC arm (N=242) — 34.7% female."
+      },
+      "PS": {
+        "dist": "bernoulli",
+        "p": 0.587,
+        "levels": [
+          "0",
+          "1+"
+        ],
+        "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 1 (PDF p.187), CheckMate-67T SC arm (N=242) — PS 0 41.3%, 1 52.1%, 2 6.6%; the model separates 0 from 1 or worse."
+      }
+    },
+    "correlations": []
+  },
+  "routes": {
+    "iv": {
+      "supported": true,
+      "tinf_h": 0.5,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — fitted to both arms of CheckMate-67T (IV 3 mg/kg Q2W, 30-min infusion)."
+    },
+    "sc": {
+      "supported": true,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 2 (PDF pp.188-189): CA20967T final popPK model — first-order absorption, no lag; SC with rHuPH20 (hyaluronidase)."
+    }
+  },
+  "regimen": {
+    "dose": 1200,
+    "tinf_h": 0,
+    "tau": 28,
+    "ndose": 13,
+    "tend": 364,
+    "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 1200 mg (with hyaluronidase 20,000 units) every 4 weeks; the CheckMate-67T regimen."
+  },
+  "regimenPresets": [
+    {
+      "label": "Advanced solid tumours · adult patients — SC 1200 mg every 4 weeks (Opdivo Qvantig)",
+      "dose": 1200,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 13,
+      "tend": 364,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 1200 mg (with hyaluronidase 20,000 units) every 4 weeks; the CheckMate-67T regimen."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — SC 600 mg every 2 weeks (Opdivo Qvantig)",
+      "dose": 600,
+      "unit": "mg",
+      "tau": 14,
+      "ndose": 26,
+      "tend": 364,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 1 — 600 mg every 2 weeks."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients, with chemotherapy — SC 900 mg every 3 weeks (Opdivo Qvantig)",
+      "dose": 900,
+      "unit": "mg",
+      "tau": 21,
+      "ndose": 17,
+      "tend": 357,
+      "route": "SC",
+      "source": "OPDIVO QVANTIG US label, BLA 761381, revised 12/2024 Table 2 — 900 mg every 3 weeks in combination; approved through simulation bridging (FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.54)."
+    },
+    {
+      "label": "Advanced renal cell carcinoma · adult patients — IV 3 mg/kg every 2 weeks (CheckMate-67T comparator arm)",
+      "dose": 3,
+      "unit": "mg/kg",
+      "tau": 14,
+      "ndose": 26,
+      "tend": 364,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.185 — the IV arm of CheckMate-67T, 3 mg/kg every 2 weeks."
+    },
+    {
+      "label": "Advanced solid tumours · adult patients — IV 480 mg every 4 weeks (approved IV regimen)",
+      "dose": 480,
+      "unit": "mg",
+      "tau": 28,
+      "ndose": 13,
+      "tend": 364,
+      "route": "IV",
+      "tinf_h": 0.5,
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) p.72 — the IV comparator for 1200 mg SC Q4W in the simulated tumour-type comparisons."
+    }
+  ],
+  "covariateChecksNote": "CheckMate-67T exposures (FDA review Table 5), each compared with one typical 67T patient; SC and IV arms both.",
+  "covariateChecks": [
+    {
+      "group": "SC 1200 mg Q4W — first dose",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 108,
+      "ci": [
+        78.5,
+        148.5
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMAX1 (SC) 108 (32.7%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "SC 1200 mg Q4W — first dose",
+      "metric": "Ctrough_first",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 50.8,
+      "ci": [
+        33.3,
+        77.5
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMIND28 (SC) 50.8 (44.2%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "SC 1200 mg Q4W — first dose",
+      "metric": "Cavg_first",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 78.8,
+      "ci": [
+        55.8,
+        111.3
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CAVGD28 (SC) 78.8 (35.6%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "SC 1200 mg Q4W — steady state",
+      "metric": "Cavg_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 182,
+      "ci": [
+        120.0,
+        276.0
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CAVGSS (SC) 182 (43.5%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "SC 1200 mg Q4W — steady state",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 230,
+      "ci": [
+        157.6,
+        335.7
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMAXSS (SC) 230 (39.2%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "SC 1200 mg Q4W — steady state",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 28,
+      "value": 126,
+      "ci": [
+        77.9,
+        203.8
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMINSS (SC) 126 (51.0%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 1200
+    },
+    {
+      "group": "IV 3 mg/kg Q2W (control arm)",
+      "metric": "Cmax_first",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "IV",
+      "tau": 14,
+      "value": 91.7,
+      "ci": [
+        65.0,
+        129.4
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMAX1 (IV) 91.7 (35.5%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV. Read over day 0-28 (two IV doses), the first 28-day cycle: the independent population re-simulation (validation/VALIDATION_REPORT.md) reproduces 91.7 only with this reading (ratio 0.86), not as the peak of the first dose alone (0.65).",
+      "doseMgkg": 3,
+      "tinf_h": 0.5,
+      "window": 28
+    },
+    {
+      "group": "IV 3 mg/kg Q2W (control arm)",
+      "metric": "Cavg_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "IV",
+      "tau": 14,
+      "value": 92.5,
+      "ci": [
+        66.2,
+        129.2
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CAVGSS (IV) 92.5 (34.4%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "doseMgkg": 3,
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 3 mg/kg Q2W (control arm)",
+      "metric": "Cmax_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "IV",
+      "tau": 14,
+      "value": 160,
+      "ci": [
+        122.0,
+        209.8
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMAXSS (IV) 160 (27.6%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "doseMgkg": 3,
+      "tinf_h": 0.5
+    },
+    {
+      "group": "IV 3 mg/kg Q2W (control arm)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "IV",
+      "tau": 14,
+      "value": 71.5,
+      "ci": [
+        48.6,
+        105.2
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): CMINSS (IV) 71.5 (40.1%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "doseMgkg": 3,
+      "tinf_h": 0.5
+    },
+    {
+      "group": "SC 600 mg Q2W (simulated)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 14,
+      "value": 157,
+      "ci": [
+        100.8,
+        244.6
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): (simulated, Table 5 PDF p.204) CMINSS for 600 mg SC Q2W 157 (46.6%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 600
+    },
+    {
+      "group": "SC 900 mg Q3W (simulated)",
+      "metric": "Ctrough_ss",
+      "cov": {
+        "WT": 76.5,
+        "GFR": 63,
+        "PS": "1+"
+      },
+      "route": "SC",
+      "tau": 21,
+      "value": 141,
+      "ci": [
+        88.8,
+        223.8
+      ],
+      "unit": "ug/mL",
+      "source": "FDA Multi-disciplinary Review BLA 761381/761429 (OPDIVO QVANTIG, Reference ID 5502908) Table 5 (PDF p.42/p.204): model-based individual exposures in CheckMate-67T (2L RCC), geometric mean (CV%): (simulated, Table 5 PDF p.204) CMINSS for 900 mg SC Q3W 141 (48.8%). The source value is the geometric mean over patients; the check uses a typical 67T patient: median weight 76.5 kg and median eGFR 63 of the SC arm, PS 1 or worse (58.7%), male (65.3%) (Table 1, PDF p.187). Interval = GM x exp(+-SD_log) from the CV.",
+      "dose": 900
+    }
+  ]
+}
