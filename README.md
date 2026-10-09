@@ -244,9 +244,10 @@ Kinentrix_Simulator_0.90/
 
 Create `specs/<model>.json` with `structure`, `baseline`, `effects[]`, `population` and
 `regimen`, each carrying its `source`, then run `node app/build.js`. No code changes are needed:
-there is no per-drug branch anywhere in the engine. The fullest worked example is
-[`specs/pembrolizumab_sc_song2025.json`](specs/pembrolizumab_sc_song2025.json), which exercises
-every feature above; the forms a spec may use are listed under **Model forms supported**.
+there is no per-drug branch anywhere in the engine. The spec reference — covariate forms,
+variability, routes, regimen presets and validation targets — is in
+[`app/README.md`](app/README.md); the fullest worked example is
+[`specs/pembrolizumab_sc_song2025.json`](specs/pembrolizumab_sc_song2025.json).
 
 ---
 

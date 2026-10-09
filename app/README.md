@@ -1,135 +1,189 @@
-# Keytruda PopPK Simulator — 스펙 주도 단일 HTML 앱
+# App and spec reference
 
-공변량 스펙(JSON) 하나로 약물이 정의되는 시뮬레이터. 현재 Keytruda(pembrolizumab) 1종,
-모델 2개가 들어 있고 **약물 추가는 코드 수정 없이 JSON 파일 추가로 끝난다.**
-
-기존 `GY/Simulator/index.html`(69종 라이브러리 앱)과는 별개다. 그쪽은 손대지 않았다.
+How the single-file app is built and how a model is written. The product-level description is in
+the [repository README](../README.md); this file is for whoever edits a spec or the UI.
 
 ---
 
-## 실행
-
-```
-covariate/app/keytruda_simulator.html   ← 더블클릭
-```
-
-CDN·fetch·외부 파일이 하나도 없다(빌드 시 전부 인라인). 인터넷 없이 열린다.
-
----
-
-## 다시 빌드하기
-
-스펙이나 엔진을 고친 뒤:
+## Build
 
 ```bash
-node covariate/app/build.js
+node app/build.js                                  # -> app/keytruda_simulator.html
+node app/build.js --only pembrolizumab             # one drug only
+node app/build.js --out ../dist/kinentrix.html     # different output path
 ```
 
-옵션:
+`build.js` fills four placeholders in `template.html`:
 
-```bash
-node covariate/app/build.js --only pembrolizumab          # 특정 약물만 포함
-node covariate/app/build.js --out ../../dist/keytruda.html # 출력 경로 지정
-```
+| Placeholder | Filled with |
+|---|---|
+| `__MODULES__` | `covmodel.js` + `vpop.js` + `pksim.js`, concatenated (they are UMD, so they attach to `window`) |
+| `__SPECS__` | every `specs/*.json`, as one object |
+| `__CATALOG__` | `app/drug_catalog.json` — the 69 library antibodies, names and counts only |
+| `__FONTS__` | `app/fonts.css` — Inter and Geist as base64 woff2 |
 
-빌드가 하는 일: `template.html` + `covmodel.js`·`vpop.js`·`pksim.js` + `specs/*.json`
-→ 단일 HTML. 스펙에서 `_`로 시작하는 문서용 키는 빼서 크기를 줄인다(`_source`만 남긴다 — 화면에 출처를 띄우므로).
+Keys beginning with `_` are documentation and are dropped to keep the file small; `_source`
+survives, because the app shows it. The result references nothing outside itself — no CDN, no
+`fetch`, no font server — so it opens offline by double-click.
+
+**Editing a spec without rebuilding leaves the app on the previous numbers.** The built file is
+committed, so it must be rebuilt in the same change as the spec.
 
 ---
 
-## 약물 추가 절차
+## Screen map
 
-1. `covariate/specs/<약물>.json` 작성
-2. `node covariate/app/build.js`
-3. 끝. 드롭다운에 뜬다.
+| Area | Contents |
+|---|---|
+| 1. Drug – Model | Built from the specs. Drugs with no spec appear greyed out from the catalogue. The model's structure and source are shown beneath |
+| 2. Dosing Regimen | Indication presets from `regimenPresets`; route switch; dose, infusion time, loading dose, interval, number of doses, simulation end |
+| 3. Covariates | Only the covariates that an **enabled** effect actually uses. Continuous ones get a number box, categorical ones a select |
+| 4. Run | Monte-Carlo band, per-subject covariate sampling, residual error, no-covariate overlay, semi-log, N, and the two CSV exports |
+| Concentration–Time Profile | Inline SVG: typical curve and the 5–95% band |
+| Model validation | Values the source reported separately, recomputed and marked ✓ / ✗ |
+| Parameters | θ, covariate effects, η IIV and residual error, each with its source |
+| Folded away | Effects switched off (no sourced coefficient) and the list of assumptions |
 
-**코드는 건드리지 않는다.** 공변량 종류에 제한이 없다 — IgG처럼 기존 앱에 없던 공변량도
-JSON에 한 줄 추가하면 입력칸이 자동 생성되고 계산에 들어간다.
+---
 
-같은 `drug` 값을 가진 스펙이 여러 개면 "모델(출처)" 드롭다운으로 골라 비교할 수 있다
-(현재 Keytruda가 그렇다 — FDA n=476 / Freshwater N=2195).
+## Writing a spec
 
-### 최소 스펙
+A model is one file in `specs/`. The minimum:
 
 ```json
 {
   "drug": "nivolumab",
-  "label": "Nivolumab — 2-compartment IV (출처 표기)",
+  "label": "Nivolumab — 2-compartment IV · <source>",
   "timeUnit": "day", "concUnit": "mg/L",
   "structure": { "cmt": 2, "absorption": false },
   "baseline": { "CL": 0.199, "Vc": 3.63, "Vp": 2.78, "Q": 0.799 },
-  "baselineSource": "…",
+  "baselineSource": "<document, table, page>",
   "iiv": { "CL": 30, "Vc": 20 },
   "effects": [
-    { "id":"CL_WT", "param":"CL", "cov":"WT", "type":"power",
-      "ref":80, "coef":0.498, "enabled":true, "source":"…" }
+    { "id": "CL_WT", "param": "CL", "cov": "WT", "type": "power",
+      "ref": 80, "coef": 0.498, "enabled": true, "source": "<document, table>" }
   ],
   "population": {
     "seed": 1,
-    "covariates": { "WT": {"dist":"lognormal","median":80,"cv":22,"source":"ASSUMPTION — …"} }
+    "covariates": { "WT": { "dist": "lognormal", "median": 80, "cv": 22, "source": "<...>" } }
   },
-  "regimen": { "dose":240, "tinf_h":0.5, "tau":14, "ndose":6, "tend":168, "source":"…" }
+  "regimen": { "dose": 240, "tinf_h": 0.5, "tau": 14, "ndose": 6, "tend": 168, "source": "<...>" }
 }
 ```
 
-선택 항목: `iivGroups`(eta 공유), `reportedChecks`(자체 검증), `residualError`,
-`timeVarying`, `tiers.current`, `corr`.
+Several specs may share a `drug`; they then appear together in the **Model (source)** list.
+
+### Covariate relationships (`effects[].type`)
+
+| type | Form | Typical use |
+|---|---|---|
+| `power` | `P *= (x/ref)^coef` | body weight, albumin |
+| `exponential` | `P *= exp(coef*(x-ref))` | continuous linear predictor |
+| `proportional` | `P *= (1+coef)` for that level | "female −15.2%" |
+| `categorical` | `P *= exp(coef)` for that level | the usual NONMEM categorical |
+| `multiplier` | `P *= coef` for that level | library entries such as `CL_ADA "x 1.23"` |
+
+`proportional` and `categorical` differ for the same coefficient (`1−0.152 = 0.848` versus
+`exp(−0.152) = 0.859`), so the spec must record which form the paper used.
+
+### Variability
+
+- `iiv` — %CV per parameter, the simple case.
+- `iivGroups` — omega² on the log scale; groups may overlap, and a parameter in two groups gets
+  both etas. `transform: "logit"` keeps a bounded parameter such as F inside 0–1.
+- `iivCorr` — `[{a, b, rho, source}]` correlates the etas of two groups.
+- `residualError` — displayed, and added to the band only when the viewer switches it on.
+
+### Routes
+
+`structure.absorption` says which route the source fitted. `routes.iv.tinf_h` and
+`routes.sc` (`ka`, `F`) let the other route be offered; the app marks a route the source never
+covered. SC dosing sets the infusion time to zero — the depot's `ka` governs the rise.
+
+### Time-varying clearance
+
+```
+sigmoid_emax      CL(t) = CL0 * (1 + Emax * t^g / (T50^g + t^g))
+exponential       CL(t) = CL0 * (1 + Emax * (1 - exp(-kdes*t)))
+exp_sigmoid_emax  CL(t) = CL0 * exp(Emax * t^g / (T50^g + t^g))
+```
+
+Without a `timeVarying` block the engine takes the constant-clearance path.
+
+### Regimens and patient groups
+
+- `regimenPresets` — one entry per label regimen: `dose`, `unit` (`mg` / `mg/kg`), `loadDose`,
+  `maxDose`, `tau`, `ndose`, `tend`, `tinf_h`, `route`, `wtRange`, `cov`, `note`, `source`.
+  The first entry is the screen default. Labels follow one grammar:
+  *indication · patient group — route, dose, interval*.
+- `populationPresets` — the patient groups a source reports separately. `covariates` overrides
+  part of `population.covariates`; `cov` moves the on-screen covariate inputs. Choosing a group
+  switches per-subject sampling on.
+- A covariate whose distribution is `fixed` (tumour type, product, age band) is a switch, not a
+  spread: the on-screen value is used for every subject.
+
+### Validation targets
+
+Values a source reports separately from its parameter table go in two lists:
+
+- `reportedChecks` — computed for the reference subject (every covariate at its reference).
+- `covariateChecks` — computed for a subject moved off the reference, which tests the covariate
+  term itself. Rows sharing a `group` appear under one heading.
+
+```json
+{ "group": "Gout — body weight 93 kg", "metric": "Accum", "cov": { "WT": 93 },
+  "dose": 150, "tau": 84, "value": 1.1, "ci": [0.88, 1.32], "unit": "fold",
+  "source": "13_FDA_L.pdf 12.3 — ... No interval in the source; +-20% assumed." }
+```
+
+Metrics: `CL` (`"at": "steady"` for late in treatment), `CLratio`, `Vss`, `thalf`, `thalf_eff`,
+`Cmax_first`, `Ctrough_first`, `Cavg_first`, `AUC_first`, `Cmax_ss`, `Ctrough_ss`, `Cavg_ss`,
+`AUCtau_ss`, `AUCratio_ss`, `Accum`. A row may set its own `dose` or `doseMgkg`, `tau`, `tinf_h`,
+`route` and `window` (for a first-cycle maximum).
+
+**`ci` is the pass interval**, and the rule is fixed: the source's own interval where it reports
+one, otherwise ±20%, with the assumption written into `source`. Of the 155 checks, 53 use the
+±20% fallback.
 
 ---
 
-## 화면 구성
+## Rules the design keeps
 
-| 영역 | 내용 |
+**An unsourced coefficient does not run.** Every effect carries `source` and `enabled`; if
+`enabled` is true while `source` starts with `UNSOURCED`, `covmodel.assertSourced()` throws.
+Coefficients that are known to exist but have no published value stay in the spec, disabled, so
+the gap is visible rather than silently absent.
+
+**A substituted reference value is labelled.** Where a review wrote `median(WGT)` without the
+number and another source supplied it, the covariate is marked `refStatus: "SUBSTITUTED"` and the
+input box carries a warning.
+
+**Assumptions are not mixed with data.** A population distribution whose `source` starts with
+`ASSUMPTION` is listed separately in the assumptions table.
+
+**The seed is fixed.** The same spec and the same N give the same virtual subjects every time, so
+a number in a report does not move between runs.
+
+---
+
+## Reading the band
+
+The Monte-Carlo band shows **inter-individual variability only** unless residual error is
+switched on. Turning on per-subject covariate sampling **widens** it — that is the real
+population spread, and it is correct. What narrows with covariates is the prediction error for
+one patient whose covariates are known, which `report.js` shows, not this band.
+
+---
+
+## Related files
+
+| Path | Role |
 |---|---|
-| 1. 약물 / 모델 | 스펙에서 자동 생성. 모델 출처·구조를 그 자리에 표시 |
-| 2. 용법 | 스펙 `regimen`의 승인 용법이 기본값. 출처 문구도 함께 |
-| 3. 공변량 | **켜져 있는 effect가 실제로 쓰는 공변량만** 입력칸 생성. 연속형=숫자, 범주형=select |
-| 4. 실행 | Monte-Carlo 밴드, 공변량 환자별 샘플링, 공변량 미적용 곡선 겹쳐보기, semi-log |
-| 농도–시간 | 인라인 SVG. 5–95% 밴드 + 중앙값 + typical |
-| 모델 검증 | 원문이 파라미터 표와 **따로** 보고한 값(반감기·Vss)과 대조해 ✓/✗ |
-| 파라미터 | θ 구조 / 공변량 / η IIV / 잔차오차를 출처와 함께 |
-| 접기 | 꺼둔 항목(계수 출처 없음) · 가정 목록(관측 아님) |
-
----
-
-## 설계에서 지킨 것
-
-**출처 없는 계수는 켜지지 않는다.** 모든 effect가 `source` + `enabled`를 갖고,
-`enabled:true`인데 `source`가 `UNSOURCED`로 시작하면 `covmodel.assertSourced()`가
-예외를 던진다. 계수를 모르는 공변량도 구조는 스펙에 남겨, 무엇이 비어 있는지가 화면에 보인다.
-
-**대체한 기준값을 표시한다.** FDA 리뷰가 `median(WGT)`를 기호로만 쓰고 숫자를 안 실어
-다른 출처 값으로 대체한 항목은 `refStatus:"SUBSTITUTED"`로 표시되고, 공변량 입력칸에
-"ref 대체값" 경고가 붙는다.
-
-**가정과 데이터를 섞지 않는다.** 모집단 분포의 `source`가 `ASSUMPTION`으로 시작하면
-"가정 목록" 표에서 주황색으로 나온다. 현재 Keytruda는 체중·성별은 출처가 있고
-알부민·IgG 분포는 가정이다.
-
-**시드가 고정돼 있다.** 같은 스펙·같은 N이면 몇 번을 돌려도 같은 가상환자가 나온다.
-보고서 숫자가 실행할 때마다 달라지지 않게 하기 위함이다.
-
----
-
-## 주의 — 밴드 해석
-
-Monte-Carlo 밴드는 **개체간 변동(IIV)만** 반영한다. 잔차오차(측정 노이즈)는 포함하지 않는다.
-FDA 스펙은 잔차오차 30.1%를 파라미터 표에 표시만 하고 밴드에는 넣지 않는다.
-
-그리고 **공변량을 환자별로 샘플링하면 밴드가 넓어진다.** 실제 모집단 변동을 재현하기
-때문이며 정상이다. 좁아지는 것은 "공변량을 아는 특정 환자 한 명"의 예측오차이고,
-그건 이 앱이 아니라 `covariate/report.js`가 보여준다.
-
----
-
-## 관련 파일
-
-| 경로 | 역할 |
-|---|---|
-| `covariate/covmodel.js` | 공변량 엔진 (5가지 관계식, 공유 eta, 시간의존 CL) |
-| `covariate/vpop.js` | 가상 모집단 샘플러 (시드 고정) |
-| `covariate/pksim.js` | RK4 시뮬레이션 엔진 (`index.html`에서 이식) |
-| `covariate/specs/*.json` | 약물 정의 — **여기만 추가하면 약물이 늘어난다** |
-| `covariate/report.js` | 티어 비교 리포트(HTML) 생성 |
-| `covariate/compare.js` | 같은 비교를 콘솔로 |
-| `covariate/vpatients.js` | 가상환자 CSV를 CLI로 |
+| `covmodel.js` | Covariate engine — the five relationship forms, shared and correlated etas, time-varying CL |
+| `vpop.js` | Virtual population sampler, seeded |
+| `pksim.js` | RK4 simulation engine: infusion, depot, Michaelis–Menten, loading dose |
+| `specs/*.json` | Model definitions — **adding a file adds a model** |
+| `app/drug_catalog.json` | The 69 library antibodies shown greyed out |
+| `tools/make_fonts.py` | Rebuilds `app/fonts.css` for the characters the app can draw |
+| `report.js` · `compare.js` | Tier comparison as HTML and on the console |
+| `vpatients.js` | Virtual-subject CSV from the command line |
