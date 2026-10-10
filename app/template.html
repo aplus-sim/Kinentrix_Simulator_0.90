@@ -30,8 +30,17 @@ __FONTS__
        font:14px/1.6 'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;}
   header{padding:12px 22px;border-bottom:1px solid var(--line);background:var(--card);
          display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  /* KINENTRIX wordmark (assets/kinentrix_wordmark.png), redrawn as theme-aware text */
-  header .brand{display:block;height:62px;width:auto;flex:none;overflow:visible}
+  /* the lockup: the dark-theme file in dark mode, the light-theme file otherwise */
+  header .brand{display:block;height:62px;width:auto;flex:none}
+  header .brand.dark-only{display:none}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) header .brand.light-only{display:none}
+    :root:not([data-theme="light"]) header .brand.dark-only{display:block}
+  }
+  :root[data-theme="dark"] header .brand.light-only{display:none}
+  :root[data-theme="dark"] header .brand.dark-only{display:block}
+  :root[data-theme="light"] header .brand.light-only{display:block}
+  :root[data-theme="light"] header .brand.dark-only{display:none}
   /* Geist is the display face: page title, section headings and the logo wordmark */
   header h1 .ver{font:600 11px/1 'Inter',sans-serif;letter-spacing:.02em;vertical-align:middle;
     padding:3px 7px;margin-left:7px;border-radius:5px;background:var(--accent);color:#fff}
@@ -118,60 +127,10 @@ __FONTS__
 </style>
 
 <header>
-  <svg class="brand" viewBox="0 0 390 262" role="img" aria-label="KINENTRIX" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <radialGradient id="kxDome" cx="195" cy="122" r="190" gradientTransform="translate(0 86) scale(1 .3)" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#dbe8ff" stop-opacity="1"/>
-        <stop offset=".18" stop-color="#2f6dff" stop-opacity=".95"/>
-        <stop offset=".62" stop-color="#1340a8" stop-opacity=".55"/>
-        <stop offset="1" stop-color="#08224f" stop-opacity="0"/>
-      </radialGradient>
-      <linearGradient id="kxFade" x1="0" y1="118" x2="0" y2="180" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#fff" stop-opacity="1"/>
-        <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-      </linearGradient>
-      <mask id="kxDomeMask"><rect width="390" height="262" fill="url(#kxFade)"/></mask>
-      <linearGradient id="kxRim" x1="12" y1="0" x2="378" y2="0" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
-        <stop offset=".3" stop-color="#2f6dff"/>
-        <stop offset=".5" stop-color="#eaf2ff"/>
-        <stop offset=".7" stop-color="#2f6dff"/>
-        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="kxSpike" x1="0" y1="4" x2="0" y2="118" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
-        <stop offset=".55" stop-color="#6f9dff"/>
-        <stop offset="1" stop-color="#f2f7ff"/>
-      </linearGradient>
-      <linearGradient id="kxSpikeDown" x1="0" y1="118" x2="0" y2="176" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#f2f7ff"/>
-        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="kxFlare" x1="140" y1="0" x2="250" y2="0" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#2f6dff" stop-opacity="0"/>
-        <stop offset=".5" stop-color="#f2f7ff"/>
-        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
-      </linearGradient>
-      <radialGradient id="kxCore" cx="195" cy="118" r="22" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#ffffff"/>
-        <stop offset=".35" stop-color="#9fc0ff" stop-opacity=".9"/>
-        <stop offset="1" stop-color="#2f6dff" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <!-- lit dome under the horizon, fading downwards -->
-    <path d="M12 170 Q195 66 378 170 L378 182 L12 182 Z" fill="url(#kxDome)" mask="url(#kxDomeMask)"/>
-    <!-- horizon rim and a faint outer line -->
-    <path d="M12 170 Q195 66 378 170" fill="none" stroke="url(#kxRim)" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M40 160 Q195 72 350 160" fill="none" stroke="#eaf2ff" stroke-opacity=".35" stroke-width=".9"/>
-    <!-- star: long vertical ray, short ray below, horizontal flare, glowing core -->
-    <path d="M195 4 L197.4 110 L195 120 L192.6 110 Z" fill="url(#kxSpike)"/>
-    <path d="M193.6 118 L195 176 L196.4 118 Z" fill="url(#kxSpikeDown)"/>
-    <path d="M140 118 L195 116.6 L250 118 L195 119.4 Z" fill="url(#kxFlare)"/>
-    <circle cx="195" cy="118" r="22" fill="url(#kxCore)"/>
-    <!-- wordmark: letters on the brand ink token, the X on the brand blue -->
-    <text x="14" y="250" textLength="362" lengthAdjust="spacing" font-size="42" font-weight="500"
-          font-family="'Geist','Inter',sans-serif" fill="var(--brand-ink)">KINENTRI<tspan fill="var(--brand-accent)">X</tspan></text>
-  </svg>
+  <!-- Official KINENTRIX lockup (assets/kinentrix_lockup_*.png), inlined at build time.
+       Two files, one per theme: the light one has navy lettering, the dark one pale. -->
+  <img class="brand light-only" src="__LOGO_LIGHT__" alt="KINENTRIX" width="381" height="225">
+  <img class="brand dark-only" src="__LOGO_DARK__" alt="" aria-hidden="true" width="381" height="225">
   <div>
     <h1>__TITLE__ <span class="ver">v0.90</span></h1>
     <p>HUMAN PK SIMULATION FOR ANTIBODY THERAPEUTICS</p>

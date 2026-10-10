@@ -49,6 +49,11 @@ const MODULES = ['covmodel.js', 'vpop.js', 'pksim.js']
 const drugs = [...new Set(Object.values(specs).map(s => s.drug))];
 const title = 'KINENTRIX Simulator';
 
+// base64 data URI for a file in ../assets
+const dataUri = (name) =>
+  'data:image/png;base64,' +
+  fs.readFileSync(path.join(DIR, '..', 'assets', name)).toString('base64');
+
 let html = fs.readFileSync(path.join(DIR, 'template.html'), 'utf8');
 html = html
   .replace(/__TITLE__/g, title)
@@ -58,6 +63,9 @@ html = html
   // sourced models (names and counts only - no parameters)
   // the two embedded faces (Inter for the interface, Geist for headings), base64 woff2;
   // regenerate with tools/make_fonts.py after changing the on-screen text
+  // the official logo files, inlined so the single file stays self-contained
+  .replace('__LOGO_LIGHT__', () => dataUri('kinentrix_lockup_light.png'))
+  .replace('__LOGO_DARK__', () => dataUri('kinentrix_lockup_dark.png'))
   .replace('__FONTS__', () => fs.readFileSync(path.join(DIR, 'fonts.css'), 'utf8').trim())
   .replace('__CATALOG__', () => fs.readFileSync(path.join(DIR, 'drug_catalog.json'), 'utf8').trim());
 
