@@ -61,7 +61,7 @@ for marketed antibodies — and checks itself against the numbers those sources 
 ├────────────────────┤     ├────────────────────┤     ├────────────────────┤     ├────────────────────┤
 │ Drug and published │     │ Covariate effects  │     │ RK4 integration of │     │ Concentration-time │
 │  model             │     │  applied to CL, Vc,│     │  the regimen       │     │  chart with band   │
-│ Route (IV / SC)    │ ──▶ │  Vp, Q, ka, F      │ ──▶ │ N virtual subjects │ ──▶ │ Cmax, Ctrough, AUC │
+│ Route (IV / SC)    │ ──▶│  Vp, Q, ka, F      │ ──▶ │ N virtual subjects │ ──▶│ Cmax, Ctrough, AUC │
 │ Regimen            │     │ Time-varying CL    │     │  from the model's  │     │ Model validation   │
 │ Covariates         │     │ Michaelis–Menten   │     │  own IIV           │     │ CSV export         │
 └────────────────────┘     └────────────────────┘     └────────────────────┘     └────────────────────┘
